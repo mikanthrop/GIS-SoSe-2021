@@ -1,22 +1,29 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Kontakt</title>
 </head>
+
 <body>
     <header>
         <nav>
             <ul>
-                <li><a href="../Kapitel_1.2/Portfolio.html" title="Hier sehen Sie einen Auszug aus meinen bisherigen Projekten.">Portfolio</a></li>
-                <li><a href="../Kapitel_1.2/Person.html" title="Hier erfahren Sie mehr über die Person hinter dieser Website.">Über mich</a></li>
+                <li><a href="../Kapitel_1.2/Portfolio.html"
+                        title="Hier sehen Sie einen Auszug aus meinen bisherigen Projekten.">Portfolio</a></li>
+                <li><a href="../Kapitel_1.2/Person.html"
+                        title="Hier erfahren Sie mehr über die Person hinter dieser Website.">Über mich</a></li>
             </ul>
         </nav>
     </header>
     <main>
         <h1>Kontakt</h1>
+        <p>
+            <b>Adresse:</b> Wunderland hinter der weißen Birke
+        </p>
         <p>
             <b>E-Mail:</b> marie.vera.monika.cleppien@hs-furtwangen.de
         </p>
@@ -25,20 +32,49 @@
         </p>
         <p>
             <b>Soziale Netzwerke:</b>
-            <ol>
-                <li>Facebook: Du denkst, das geht dich eh nichts an.</li>
-                <li>Instagram: Ist doch gut, dass wir darüber geredet ham.</li>
-                <li>Twitter: Fang schon mal zu beten an.</li>
-                <li>Snapchat: Sonst siehst 'n Leben lang dieselben Tapeten an.</li>
-                <li>WhatsApp: Geh du mal ran, ich kann grad nicht.</li>
-                <li>Telegram: Kann nicht sein, den kenn ich nicht.</li>
-                <li>Signal: Kenn ich aber kann ich nicht.</li>
-                <li>Line: Kenn ich aber sag ich nicht.</li>
+        <ol>
+            <li>Facebook: Du denkst, das geht dich eh nichts an.</li>
+            <li>Instagram: Ist doch gut, dass wir darüber geredet ham.</li>
+            <li>Twitter: Fang schon mal zu beten an.</li>
+            <li>Snapchat: Sonst siehst 'n Leben lang dieselben Tapeten an.</li>
+            <li>WhatsApp: Geh du mal ran, ich kann grad nicht.</li>
+            <li>Telegram: Kann nicht sein, den kenn ich nicht.</li>
+            <li>Signal: Kenn ich aber kann ich nicht.</li>
+            <li>Line: Kenn ich aber sag ich nicht.</li>
             </ul>
-        </p>
+            </p>
+            <hr>
+            <h1>Was Witziges</h1>
+            <video height="400">
+                <source src="/Kapitel_1/Kapitel_1.2/shooketh.mp4" type="video/mp4" loop autoplay> 
+            </video>
     </main>
+    <hr>
     <footer>
+        <h1>Newsletter</h1>
+        <p>
+            Tragen Sie sich hier in diesen total echten Newsletter ein, um immer angeschrieben zu werden, wenn sich
+            irgendetwas auf diesen Seiten tut.
+        </p>
+        <form action="">
+            <fieldset>
+                <label for="user">Name:</label>
+                <input type="text" id="user" required><br>
+                <!--Fragen, warum das name="" in seinem input steht-->
+                <label for="email">E-Mail Adresse:</label>
+                <input type="text" id="email" required>
+            </fieldset>
+            <fieldset>
+                <label for="hmm">Ich erkläre mich damit einverstanden, dass ...</label> <br>
+                <input type="radio" name="agreementGroup" id="agreeYes"> <label for="agreeYes">... ich über alles
+                    informiert werde, was an dieser Seite geändert wird, und dass ich die Rundmails, die einmal im
+                    Quartal versendet werden, erhalte.</label> <br>
+                <input type="radio" name="agreementGroup" id="agreeNo"> <label for="agreeNo">... ich die Rundmails, die
+                    einmal im Quartal versendet werden, erhalte.</label>
+            </fieldset>
+        </form>
 
     </footer>
 </body>
+
 </html>
