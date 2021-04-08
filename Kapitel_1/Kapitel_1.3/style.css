@@ -1,3 +1,5 @@
+
+/*elements*/
 body {
     color: black;
     background-image: url("bg.png");
@@ -10,48 +12,99 @@ body {
 }
 ul {
     list-style-type:none;
-    border: 0.2em solid rgb(32, 99, 165);
 }
-nav a{
-    text-decoration:none;
-    color:linen;
-}
-tableOfContentsBold {
-    color: black;
-    text-align: left;
-    padding-left: 1em;
-    font-style: bold;
-}
-tableOfContentItalics {
-    color: black;
-    text-align: left;
-    padding-left: 1em;
-    font-style: italic; 
-}
-tableOfContentsNorm {
-    color: black;
-    text-align: left;
-    padding-left: 1em;
-}
-#Inhalt {
-    text-align: left;
-    font-size:large;
-    font-weight: bolder;
+ol{
+    list-style-type:none;
+    text-align:left;
 }
 nav{
-    margin: 0em 2em 2em 2em;
-    border-right-width: 1em;
+    margin: 0em 0em 2em 0em;
     padding: 1em 1em 1.2em 1em;
     text-align: right;
-    position:sticky;
     background-color: rgb(32, 99, 165);
 }
 h1,h2,h3,h4,h5{
     color:rgb(139, 151, 25);
     margin-top: 1.5em;
+    font-style:underline;
 }
 a {
     color:rgb(32, 99, 165);
     text-decoration:none;
     padding-bottom:0.2em;
+}
+
+/*more specific elements*/
+nav a{
+    text-decoration:none;
+    color:linen;
+}
+
+/*tables*/
+table{
+    background-color:rgb(120, 147, 173);
+    color:linen;
+}
+th{
+    background:rgb(32, 99, 165);
+    padding: .5em .5em .7em .5em;
+}
+.nummer{
+    color: linen;
+    background-color:rgb(32, 99, 165);
+}
+td{
+    padding: .5em .5em .7em .5em;
+    color: black;
+}
+table, th, td{
+    border: .05em solid  rgb(139, 151, 25);
+}
+
+/* css classes*/
+.inline{
+    display:inline;
+}
+.tableOfContents {
+    color: rgb(32, 99, 165);
+}
+.bold {
+    font-weight: bold;
+    padding-left:1em;
+}
+.italics {
+    font-style: italic; 
+    padding-left: 2em;
+}
+.norm {
+    font-size: small;
+    padding-left: 3em;
+}
+.sticky{
+    position: -webkit-sticky;
+    position:sticky;
+    top:0;
+}
+.border {
+    border: .2em solid rgb(32, 99, 165);
+}
+.width {
+    width: 30%;
+    text-align:left;
+}
+.section {
+    border-bottom: .1em double black;
+}
+.lightSection {
+    border-bottom: .05em solid grey;
+}
+
+/*ids*/
+#Inhalt {
+    text-align: left;
+    font-size:large;
+    font-weight: bolder;
+}
+#Socials {
+    border:none;
 }
