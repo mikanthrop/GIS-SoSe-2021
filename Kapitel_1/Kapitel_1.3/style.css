@@ -35,9 +35,6 @@ p{
 
 
 /* css classes*/
-.inline{
-    display:inline;
-}
 .tableOfContents {
     color: rgb(32, 99, 165);
 }
@@ -58,9 +55,6 @@ p{
     top:0; 
     right:0;
     width:100%;
-}
-.white{
-    color:linen;
 }
 .border {
     border: .2em solid rgb(32, 99, 165);
@@ -139,7 +133,7 @@ th{
     background:rgb(32, 99, 165);
     padding: .5em .5em .7em .5em;
 }
-.nummer{
+.number{
     color: linen;
     background-color:rgb(32, 99, 165);
     font-weight: bold;
