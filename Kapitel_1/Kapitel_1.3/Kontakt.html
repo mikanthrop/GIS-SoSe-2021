@@ -7,15 +7,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kontakt</title>
     <link rel="stylesheet" href="../Kapitel_1.3/style.css">
+    <script src="https://kit.fontawesome.com/bdd370a5a2.js" crossorigin="anonymous"></script>
 </head>
 
-<body>
+<body id="Kontakt">
     <header>
-        <nav class="sticky">
-            <a href="../Kapitel_1.3/Portfolio.html" class="inline"
-                title="Hier sehen Sie einen Auszug aus meinen bisherigen Projekten.">Portfolio |</a>
-            <a href="../Kapitel_1.3/Person.html" class="inline"
+        <nav class="fixed white">
+            <a href="../Kapitel_1.3/Portfolio.html" class="inline" id="nav1"
+                title="Hier sehen Sie einen Auszug aus meinen bisherigen Projekten.">Portfolio</a>
+            <a href="../Kapitel_1.3/Person.html" class="inline" id="nav2"
                 title="Hier erfahren Sie mehr über die Person hinter dieser Website.">Über mich</a>
+            <a href="../Kapitel_1.3/Kontakt.html" class="inline" id="nav3"
+                title="Hier erfahren Sie, wie Sie mich kontaktieren können.">Kontakt</a>
         </nav>
     </header>
     <main>
@@ -31,8 +34,17 @@
             <b>Handynummer:</b> Nein, ich schreibe hier nicht meine richtige Nummer hin.
         </p>
         <p>
-            <b>Soziale Netzwerke:</b>
-        <ul id="#Socials">
+            <h3>Soziale Netzwerke:</h3>
+        </p>
+        <p>
+            <a href="https://steamcommunity.com/profiles/76561199032955466/"><i class="fab fa-steam fa-3x"></i></a>
+            <a href="https://open.spotify.com"><i class="fab fa-spotify fa-3x"></i></a>
+            <a href="https://www.youtube.com/channel/UC3xZNSXpVwev7mh0BkF9iXA"><i class="fab fa-youtube fa-3x"></i></a>
+            <a href="https://discord.com/"><i class="fab fa-discord fa-3x"><i class="icon"> orz#0473</i></i></a>
+        </p>
+            <!--
+            <i class="icon"> mikanthrop#2997</i>    
+                <ul id="#Socials">
             <li class="inline">Facebook: Du denkst, das geht dich eh nichts an.</li>
             <li class="inline">Instagram: Ist doch gut, dass wir darüber geredet ham.</li>
             <li class="inline">Twitter: Fang schon mal zu beten an.</li>
@@ -41,9 +53,11 @@
             <li class="inline">Telegram: Kann nicht sein, den kenn ich nicht.</li>
             <li class="inline">Signal: Kenn ich aber kann ich nicht.</li>
             <li class="inline">Line: Hab ich aber sag ich nicht.</li>
-        </ul>
-            <hr>
-            <h1>Was Witziges</h1>
+        </ul>-->
+            <div class="section">
+
+            </div>
+            <h2>Was Witziges</h2>
             <video height="320" controls loop preload="auto">
                 <source src="shooketh.mp4" type="video/mp4">
                 <source src="shooketh.3gp" type="video/3gp">
@@ -52,19 +66,23 @@
             <p>
                 Gezogen von <a href="https://tenor.com/view/funny-animals-lol-dog-cake-big-eyes-gif-12360942">Tenor</a>
             </p>
-            <hr>
-            <h1>Newsletter</h1>
+            <div class="section">
+
+            </div>
+            <h2>Newsletter</h2>
             <p>
                 Tragen Sie sich hier in diesen total echten Newsletter ein, um immer angeschrieben zu werden, wenn sich
                 irgendetwas auf diesen Seiten tut.
             </p>
             <form action="../Kapitel_1.2/Kontakt.html">
                 <fieldset>
-                    <label for="user">Name:</label>
-                    <input type="text" id="user" required><br>
+                    <label for="lastName">Nachname:</label>
+                    <input type="text" id="lastName" placeholder="Nachname" required><br>
+                    <label for="name">Vorname:</label>
+                    <input type="text" id="name" placeholder="Vorname" required><br>
                     <!--Fragen, warum das name="" in seinem input steht-->
-                    <label for="email">E-Mail Adresse:</label>
-                    <input type="text" id="email" required>
+                    <label for="email">E-Mail:</label>
+                    <input type="text" id="email" placeholder="E-Mail" required>
                 </fieldset>
                 <fieldset>
                     <label>Ich erkläre mich damit einverstanden, dass ...</label> <br>
@@ -78,12 +96,10 @@
                     </button>                        
                 </fieldset>
             </form>
-            <hr>
             <p>
                 <a href="#Top">Zurück zum Anfang</a>
             </p>
     </main>
-    <hr>
     <footer>
 
     </footer>
