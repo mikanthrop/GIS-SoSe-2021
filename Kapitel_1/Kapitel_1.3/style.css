@@ -12,33 +12,30 @@ body {
 }
 ul {
     list-style-type:none;
+    display: inline-block;
 }
 ol{
     list-style-type:none;
     text-align:left;
+    line-height:130%;
 }
-nav{
-    margin: auto;
-    padding: 1em 1em 1.2em 1em;
-    text-align: right;
-    background-color: rgb(32, 99, 165);
-}
+
 h1,h2,h3,h4,h5{
     color:rgb(139, 151, 25);
-    margin-top: 1.5em;
+    margin-top: 1.6em;
 }
 a {
     color:rgb(32, 99, 165);
     text-decoration:none;
-    padding:1em 1em 1.2em 1em;
+}
+p{
+    padding-bottom:.4em;
+    margin-bottom:1em;
+    line-height:136%;
 }
 
 
 /*more specific elements*/
-nav a{
-    text-decoration:none;
-    color:linen;
-}
 a:hover{
     color:rgb(112, 10, 69);
 }
@@ -60,7 +57,7 @@ a:hover{
 }
 .norm {
     font-size: small;
-    padding-left: 3em;
+    padding-left: 3.5em;
 }
 .fixed{
     position:fixed;
@@ -74,6 +71,7 @@ a:hover{
 .border {
     border: .2em solid rgb(32, 99, 165);
     border-collapse:collapse;
+    padding: .5em;
 }
 .width {
     width: 30%;
@@ -89,10 +87,10 @@ a:hover{
     border-bottom: .05em solid rgb(179, 177, 177);
     margin-top:2em;
 }
-.icon{
-    font-size: medium;
-    font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif;
-    text-align: center;
+.current {
+    background-color:rgb(139, 151, 25);
+    border-radius: 3px;
+    border-bottom-color:linen;
 }
 
 
@@ -108,15 +106,6 @@ a:hover{
     margin-bottom:1.5em;
     font-size:xx-large;
     font-weight:bold;
-}
-#nav2{
-    border-left: .1em solid linen;
-    border-right: .1em solid linen;
-}
-#Portfolio #nav1 a,
-#Person #nav2 a,
-#Kontakt #nav3 a{
-    background-color:rgb(112, 10, 69);
 }
 
 
@@ -164,4 +153,27 @@ td{
 table, th, td{
     border: .2em solid  rgb(139, 151, 25);
     border-collapse: collapse;
+}
+
+/*navigation bar*/
+nav{
+    height:3.2em;
+    padding-right: 1em;
+    background-color: rgb(32, 99, 165);
+}
+nav ul{
+    float:right; 
+}
+nav ul li{
+    display: inline-block;
+    margin:0em 1em;
+}
+nav ul li a{
+    color:linen;
+    padding:1em;
+    border-radius:5px;
+}
+nav a:hover{
+    color:rgb(112, 10, 69);
+    background-color: rgb(71, 133, 194);
 }
