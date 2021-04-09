@@ -8,7 +8,7 @@ body {
     text-align: center;
     width: 800px;
     margin: auto;
-    margin-top:5em;
+    margin-top:0;
 }
 ul {
     list-style-type:none;
@@ -19,7 +19,6 @@ ol{
     text-align:left;
     line-height:130%;
 }
-
 h1,h2,h3,h4,h5{
     color:rgb(139, 151, 25);
     margin-top: 1.6em;
@@ -34,11 +33,6 @@ p{
     line-height:136%;
 }
 
-
-/*more specific elements*/
-a:hover{
-    color:rgb(112, 10, 69);
-}
 
 /* css classes*/
 .inline{
@@ -72,6 +66,8 @@ a:hover{
     border: .2em solid rgb(32, 99, 165);
     border-collapse:collapse;
     padding: .5em;
+    margin:auto;
+    margin-bottom:1em;
 }
 .width {
     width: 30%;
@@ -87,10 +83,8 @@ a:hover{
     border-bottom: .05em solid rgb(179, 177, 177);
     margin-top:2em;
 }
-.current {
-    background-color:rgb(139, 151, 25);
-    border-radius: 3px;
-    border-bottom-color:linen;
+.padding{
+    padding-left:0.3em;
 }
 
 
@@ -100,14 +94,15 @@ a:hover{
     font-size:large;
     font-weight: bolder;
 }
-#Top{
+
+
+/*more specific elements*/
+a:hover{
     color:rgb(112, 10, 69);
-    margin-top: 1.5em;
-    margin-bottom:1.5em;
-    font-size:xx-large;
-    font-weight:bold;
 }
 
+
+/*BIGGER RELATED BLOCKS OF CSS*/
 
 /*form*/
 input[type=text]{
@@ -115,11 +110,13 @@ input[type=text]{
     border-radius:5px;
     padding:.3em .5em .3em .5em;
     margin: .2em .2em .4em .2em;
+    width:40%;
 }
 button{
     background-color: rgb(32, 99, 165);
     border-radius: 5px;
     color:linen;
+    margin-top:1em;
 }
 fieldset{
     border-radius:10px;
@@ -127,6 +124,7 @@ fieldset{
 }
 label{
     color:grey;
+    margin:1em 1em 1em 0em;
 }
 button:hover{
     background-color:rgb(112, 10, 69);
@@ -174,6 +172,38 @@ nav ul li a{
     border-radius:5px;
 }
 nav a:hover{
+    background-color: rgb(112, 10, 69);
+    color: linen;
+}
+.current {
+    color:rgb(139, 151, 25);
+}
+
+/*pictureHeader*/
+.backgroundHeader{
+    height:290px;
+    width:800px;
+    background-image:url(../Kapitel_1.3/mountain\ header.png);
+    background-repeat:no-repeat;
+    background-size:cover;
+    border-end-end-radius: 290px;
+    border-end-start-radius: 290px;
+    margin-bottom:2em;
+}
+#Top{
     color:rgb(112, 10, 69);
-    background-color: rgb(71, 133, 194);
+    margin-top: 30px;
+    margin-bottom:.2em;
+    padding:50px 0px 10px 0px;
+    font-size:48px;
+    font-weight:bold;
+}
+.backgroundHeader a:hover{  
+    color:rgb(139, 151, 25);
+}
+.backgroundHeader p{
+    font-size:18px;
+    width:450px;
+    margin:auto;
+    margin-bottom:.5em;
 }
