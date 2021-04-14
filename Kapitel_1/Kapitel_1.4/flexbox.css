@@ -1,0 +1,152 @@
+/*for desktop*/
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    background-image: url("bg.png");
+}
+
+main * {
+    padding-left: 15px;
+}
+
+nav>ul {
+    list-style-type: none;
+}
+
+a {
+    text-decoration: none;
+    color: rgb(32, 99, 165);
+}
+
+header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(32, 99, 165);
+    padding: 20px 50px 16px 70px;
+}
+
+header h2 {
+    text-transform: uppercase;
+    font-size: 35px;
+    color: linen;
+}
+
+header nav {
+    display: flex;
+    align-items: center;
+}
+
+header nav li {
+    margin: 0 15px;
+    display: inline-block;
+}
+
+header nav li:first-child {
+    margin-left: 0;
+}
+
+header nav li:last-child {
+    margin-right: 0;
+}
+
+header nav li>a {
+    color: linen;
+    padding: 10px;
+}
+
+header nav li>a:hover {
+    background-color: rgb(66, 115, 165);
+    border-radius: 5px;
+}
+
+.backgroundHeader {
+    height: 300px;
+    width: 100%;
+    background-image: url(../Kapitel_1.3/mountain\ header.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-end-end-radius: 300px;
+    border-end-start-radius: 300px;
+    margin-bottom: 2em;
+}
+
+#Top {
+    color: rgb(112, 10, 69);
+    margin: absolute;
+    margin-top: 30px;
+    margin-bottom: .2em;
+    padding: 50px 0px 10px 0px;
+    font-size: 48px;
+    font-weight: bold;
+}
+
+.backgroundHeader a:hover {
+    color: rgb(139, 151, 25);
+}
+
+.backgroundHeader p {
+    font-size: 18px;
+    width: 450px;
+    margin: auto;
+    margin-bottom: .5em;
+}
+
+ol {
+    list-style-type: none;
+    text-align: left;
+    line-height: 130%;
+}
+
+.section {
+    border-bottom: .12em solid black;
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+
+.lightSection {
+    border-bottom: .05em solid grey;
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
+}
+
+.lighterSection {
+    border-bottom: .05em solid rgb(179, 177, 177);
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+@media screen and (max-width: 1024px) and (min-width:600px) {
+    header {
+        padding: 15px 30px 11px 50px;
+    }
+    header h2 {
+        font-size: 28px;
+    }
+    body {
+        font-size: 90%;
+    }
+    video {
+        width: 80%;
+    }
+}
+
+@media screen and (max-width:600px) {
+    header {
+        flex-direction: column;
+    }
+    header h2 {
+        font-size: 20px;
+    }
+}
