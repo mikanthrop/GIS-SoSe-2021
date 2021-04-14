@@ -1,0 +1,222 @@
+
+/*elements*/
+body {
+    display: grid;
+    color: black;
+    background-image: url("bg.png");
+    font-size: medium;
+    font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif;
+    text-align: center;
+    width: 800px;
+    margin:auto;
+    margin-top:0;
+}
+ul {
+    list-style-type:none;
+    display: inline-block;
+}
+ol{
+    list-style-type:none;
+    text-align:left;
+    line-height:130%;
+}
+h1,h2,h3,h4,h5{
+    color:rgb(139, 151, 25);
+    margin-top: 1.6em;
+}
+a {
+    color:rgb(32, 99, 165);
+    text-decoration:none;
+}
+p{
+    padding-bottom:.4em;
+    margin-bottom:1em;
+    line-height:136%;
+}
+
+
+/* css classes*/
+.tableOfContents {
+    color: rgb(32, 99, 165);
+}
+.bold {
+    font-weight: bold;
+    padding-left:1em;
+}
+.italics {
+    font-style: italic; 
+    padding-left: 2em;
+}
+.norm {
+    font-size: small;
+    padding-left: 3.5em;
+}
+.fixed{
+    position:fixed;
+    top:0; 
+    right:0;
+    width:100%;
+}
+.border {
+    border: .2em solid rgb(32, 99, 165);
+    border-collapse:collapse;
+    padding: .5em;
+    margin:auto;
+    margin-bottom:1em;
+}
+.width {
+    width: 30%;
+}
+.section {
+    border-bottom: .15em solid black;
+}
+.lightSection {
+    border-bottom: .05em solid grey;
+    margin-top:2em;
+}
+.lighterSection {
+    border-bottom: .05em solid rgb(179, 177, 177);
+    margin-top:2em;
+}
+.padding{
+    padding-left:0.3em;
+}
+
+
+/*ids*/
+#Inhalt {
+    text-align: left;
+    font-size:large;
+    font-weight: bolder;
+}
+
+
+/*more specific elements*/
+a:hover{
+    color:rgb(112, 10, 69);
+}
+
+
+/*BIGGER RELATED BLOCKS OF CSS*/
+
+/*form*/
+input[type=text]{
+    background-color:rgb(179, 177, 177);
+    border-radius:5px;
+    padding:.3em .5em .3em .5em;
+    margin: .2em .2em .4em .2em;
+    width:40%;
+}
+button{
+    background-color: rgb(32, 99, 165);
+    border-radius: 5px;
+    color:linen;
+    margin-top:1em;
+}
+fieldset{
+    border-radius:10px;
+    border:.1em solid rgb(139, 151, 25);
+}
+label{
+    color:grey;
+    margin:1em 1em 1em 0em;
+}
+button:hover{
+    background-color:rgb(112, 10, 69);
+}
+
+/*tables*/
+table{
+    
+    color:linen;
+}
+th{
+    background:rgb(32, 99, 165);
+    padding: .5em .5em .7em .5em;
+}
+.number{
+    color: linen;
+    background-color:rgb(32, 99, 165);
+    font-weight: bold;
+}
+td{
+    padding: .5em .5em .7em .5em;
+    color: black;
+}
+table, th, td{
+    border: .2em solid  rgb(139, 151, 25);
+    border-collapse: collapse;
+}
+
+/*navigation bar*/
+nav{
+    height:3.2em;
+    padding-right: 1em;
+    background-color: rgb(32, 99, 165);
+    z-index:1;
+}
+nav ul{
+    float:right; 
+}
+nav ul li{
+    display: inline-block;
+    margin:0em 1em;
+}
+nav ul li a{
+    color:linen;
+    padding:1em;
+    border-radius:5px;
+}
+nav a:hover{
+    background-color: rgb(112, 10, 69);
+    color: linen;
+}
+.current {
+    color:rgb(139, 151, 25);
+}
+
+/*pictureHeader*/
+.backgroundHeader{
+    height:290px;
+    width:800px;
+    background-image:url(../Kapitel_1.3/mountain\ header.png);
+    background-repeat:no-repeat;
+    background-size:cover;
+    border-end-end-radius: 290px;
+    border-end-start-radius: 290px;
+    margin-bottom:2em;
+}
+#Top{
+    color:rgb(112, 10, 69);
+    margin-top: 30px;
+    margin-bottom:.2em;
+    padding:50px 0px 10px 0px;
+    font-size:48px;
+    font-weight:bold;
+}
+.backgroundHeader a:hover{  
+    color:rgb(139, 151, 25);
+}
+.backgroundHeader p{
+    font-size:18px;
+    width:450px;
+    margin:auto;
+    margin-bottom:.5em;
+}
+
+@media screen and (max-width: 1024px) and (min-width:600px){
+    body{
+        width:95%;
+        font-size:90%;
+    }
+    video{
+        width:80%;
+    }
+}
+@media screen and (max-width:600px) {
+    body{
+        margin-left:5px;
+        margin-right:3px;
+    }
+    
+}
