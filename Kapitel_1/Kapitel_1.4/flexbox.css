@@ -16,8 +16,9 @@
         line-height: 1.4em;
     }
     
-    main * {
+    main {
         padding-left: 15px;
+        padding-right: 10px;
     }
     
     nav>ul {
@@ -30,7 +31,7 @@
     }
     
     header {
-        position: absolute;
+        position: fixed;
         top: 0;
         left: 0;
         z-index: 1;
@@ -51,7 +52,7 @@
     header nav {
         display: flex;
         align-items: center;
-        justify-content: flex-end;
+        justify-content: space-around;
     }
     
     header nav li {
@@ -91,24 +92,21 @@
     .backgroundHeader {
         height: 300px;
         width: 100%;
+        text-align: center;
         background-image: url(../Kapitel_1.3/mountain\ header.png);
         background-repeat: no-repeat;
         background-size: cover;
         border-end-end-radius: 50%;
         border-end-start-radius: 50%;
-        margin: auto;
         margin-bottom: 2em;
         display: flex;
-        flex-flow: column wrap;
+        flex-flow: column nowrap;
         align-items: center;
-        justify-content: center;
     }
     
     #Top {
         color: rgb(112, 10, 69);
-        margin-top: 25px;
-        margin-bottom: .5em;
-        padding: 50px 0px 10px 0px;
+        margin-top: 100px;
         font-size: 48px;
         font-weight: bold;
     }
@@ -120,16 +118,12 @@
     .backgroundHeader p {
         font-size: 18px;
         width: 50%;
-        margin-bottom: .9em;
         text-align: center;
+        margin-top: 20px;
     }
     
     .backgroundHeader.flex {
         flex-flow: column wrap;
-    }
-    
-    .fa {
-        font-size: 30px;
     }
     
     ol {
@@ -156,6 +150,16 @@
         margin-bottom: 1em;
     }
     
+    body p {
+        padding-bottom: 7px;
+    }
+    
+    .fab {
+        font-size: 50px;
+        padding-left: .2em;
+        padding-right: .2em;
+    }
+    
     @media screen and (max-width: 1024px) {
         body {
             font-size: 90%;
@@ -169,11 +173,12 @@
         .backgroundHeader {
             height: 270px;
         }
-        h1 #Top {
-            font-size: 28px;
+        .backgroundHeader p {
+            margin-top: 2%;
         }
-        .backgroundHeader i .flex {
-            size: 50%;
+        #Top {
+            font-size: 30px;
+            margin-top: 12%;
         }
         video {
             width: 80%;
@@ -181,23 +186,71 @@
     }
     
     @media screen and (max-width:600px) {
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 1.2em;
+        }
         header {
             flex-direction: column;
             padding: 10px 7px;
         }
         header h2 {
             font-size: 20px;
+            padding-bottom: 5px;
         }
         header nav li {
             margin: 0 7px;
+        }
+        header nav li>a {
+            padding: 5px;
         }
         .backgroundHeader {
             height: 200px;
         }
         h1#Top {
             font-size: 22px;
+            margin-top: 14%;
         }
-        .fa {
-            font-size: 200em;
+        .backgroundHeader p {
+            font-size: 90%;
+            width: 80%;
+        }
+        .fab {
+            font-size: 20px;
+            padding-left: .5em;
+            padding-right: .5em;
+        }
+    }
+    
+    @media screen and (max-width: 315px) {
+        header {
+            flex-direction: column;
+            padding: 6px 3px;
+        }
+        header h2 {
+            font-size: 15px;
+            padding-bottom: 5px;
+        }
+        header nav li {
+            margin: 0 5px;
+        }
+        header nav li>a {
+            padding: 4px;
+        }
+        .backgroundHeader {
+            height: 170px;
+            text-align: center;
+        }
+        h1#Top {
+            font-size: 22px;
+            padding: 20%;
+        }
+        .backgroundHeader p {
+            font-size: 80%;
+            line-height: 1.2em;
+            ;
+        }
+        .fab {
+            font-size: 1em;
         }
     }
