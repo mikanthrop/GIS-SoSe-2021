@@ -8,63 +8,54 @@
     <meta name="description" content="Alles, was es über mich zu wissen gibt und was ich bereit bin, preiszugeben." />
     <meta name="date" content="20.03.2021" />
     <title>Über mich</title>
-    <link rel="stylesheet" href="../Kapitel_1.4/style.css">
+    <link rel="stylesheet" href="../Kapitel_1.4/flexbox.css">
     <script src="https://kit.fontawesome.com/bdd370a5a2.js" crossorigin="anonymous"></script>
 </head>
 
 <body id="Person">
     <header>
-        <nav class="fixed">
+        <h2 id="logo">Mvmc</h2>
+        <nav>
             <ul>
-            <li><a href="../Kapitel_1.4/Portfolio.html" 
-                title="Hier sehen Sie einen Auszug aus meinen bisherigen Projekten.">Portfolio</a></li>
-            <li><a href="../Kapitel_1.4/Person.html" class="current"
-                title="Hier erfahren Sie mehr über die Person hinter dieser Website.">Über mich</a></li>
-            <li><a href="../Kapitel_1.4/Kontakt.html"
-                title="Hier erfahren Sie, wie Sie mich kontaktieren können.">Kontakt</a></li>
+                <li><a href="../Kapitel_1.4/Portfolio.html" class="current" title="Hier sehen Sie einen Auszug aus meinen bisherigen Projekten.">Portfolio</a></li>
+                <li><a href="../Kapitel_1.4/Person.html" title="Hier erfahren Sie mehr über die Person hinter dieser Website.">Über mich</a></li>
+                <li><a href="../Kapitel_1.4/Kontakt.html" title="Hier erfahren Sie, wie Sie mich kontaktieren können.">Kontakt</a></li>
             </ul>
         </nav>
     </header>
-    <main>
-        <div class="backgroundHeader">
-            <h1 id="Top">Hallo Findender</h1>
-            <p>
-                Willkommen auf meiner kleinen Webseite. Als Belohnung darfst du hier gleich weiter suchen.
-            </p>
-            <a href="https://steamcommunity.com/profiles/76561199032955466/"><i class="fab fa-steam fa-3x"></i></a> 
-            <a href="https://www.youtube.com/channel/UC3xZNSXpVwev7mh0BkF9iXA"><i class="fab fa-youtube fa-3x padding"></i></a> 
-            <a href="https://discord.com/"><i class="fab fa-discord fa-3x padding"></i><i> orz#0473</i></a> 
-        </div>
-        <h1>Das bin ich</h1>
-        <img src="Marie_beim_Streichen.jpg"
-            alt="Ein Mädchen mit braunen Haaren und Brille zieht eine Grimasse und schaut verrückt in die Kamera"
-            width="300" height="400" />
+    <div class="backgroundHeader">
+        <h1 id="Top">Hallo Findender</h1>
         <p>
-            ... wie ich mein Zimmer in Furtwangen streiche, das ich kurz danach abgegeben habe. Nach Furtwangen bin ich
-            vor einem Jahr gezogen, um mit meinem Studium an der dortigen Hochschule zu beginnen. Das ist wegen Corona
-            nix geworden. Jetzt wohne ich wieder zuhause in Uffhofen, einem winzigen Kaff in Rheinland-Pfalz bei meinen
-            Eltern. Mein Studium hatte ich mir ein wenig anders vorgestellt.
+            Willkommen auf meiner kleinen Webseite. Als Belohnung darfst du hier gleich weiter suchen.
+        </p>
+        <div class="flex">
+            <a href="https://steamcommunity.com/profiles/76561199032955466/"><i class="fab fa-steam"></i></a>
+            <a href="https://www.youtube.com/channel/UC3xZNSXpVwev7mh0BkF9iXA"><i
+                class="fab fa-youtube"></i></a>
+            <a href="https://discord.com/"><i class="fab fa-discord"></i><i> orz#0473</i></a>
+        </div>
+    </div>
+    <main>
+        <h1>Das bin ich</h1>
+        <img src="Marie_beim_Streichen.jpg" alt="Ein Mädchen mit braunen Haaren und Brille zieht eine Grimasse und schaut verrückt in die Kamera" width="300" height="400" />
+        <p>
+            ... wie ich mein Zimmer in Furtwangen streiche, das ich kurz danach abgegeben habe. Nach Furtwangen bin ich vor einem Jahr gezogen, um mit meinem Studium an der dortigen Hochschule zu beginnen. Das ist wegen Corona nix geworden. Jetzt wohne ich wieder
+            zuhause in Uffhofen, einem winzigen Kaff in Rheinland-Pfalz bei meinen Eltern. Mein Studium hatte ich mir ein wenig anders vorgestellt.
         </p>
 
         <h3 id="Steckbrief">Wer ist ich?</h3>
         <p>
-            Ich, das ist Marie Cleppien, eine 20-jährige Rheinland-Pfälzerin, die keinen Strotz Dialekt kann. Meine
-            Freizeit verbringe ich gerne mit Videospielen, früher beschränkt auf Konsolenspiele, mittlerweile hat sich
-            mein Horizont aber auch auf Computerspiele erweitert (danke Steam dafür) und ich bereue nichts. Ansonsten
-            lese ich gerne und schreibe ab und zu, wenn mich mein Studium lässt, auch gerne
-            eigene Geschichten. Oder fange sie zumindest an. Ansonsten bin ich sehr gut im Zuhören, ich kann okay kochen
-            (es hat bisher noch niemanden umgebracht) und bin handwerklich so mittelmäßig bis unterdurchschnittlich begabt.
+            Ich, das ist Marie Cleppien, eine 20-jährige Rheinland-Pfälzerin, die keinen Strotz Dialekt kann. Meine Freizeit verbringe ich gerne mit Videospielen, früher beschränkt auf Konsolenspiele, mittlerweile hat sich mein Horizont aber auch auf Computerspiele
+            erweitert (danke Steam dafür) und ich bereue nichts. Ansonsten lese ich gerne und schreibe ab und zu, wenn mich mein Studium lässt, auch gerne eigene Geschichten. Oder fange sie zumindest an. Ansonsten bin ich sehr gut im Zuhören, ich kann
+            okay kochen (es hat bisher noch niemanden umgebracht) und bin handwerklich so mittelmäßig bis unterdurchschnittlich begabt.
         </p>
 
         <h3 id="Studium">Was mache ich sonst mit meiner Zeit?</h3>
         <p>
-            Ich studiere Medieninformatik im Bachelor an der <a href="https://www.hs-furtwangen.de">Hochschule Furtwangen</a> und befinde mich im Moment in meinem
-            2B-Semester. Die Hochschule selbst habe ich ingesamt erst zweimal betreten, und häufig von außen gesehen.
-            Aber ich will mich nicht über das Fernstudium beschweren. Wenn ich so höre, was andere Studenten und Schüler
-            erzählen, dann bin ich richtig froh über den derzeitigen Zustand an der HFU. Und in alfaview muss man nicht
-            in der ersten Reihe sitzen, um alles, was der Prof sagt, mitzubekommen. Ansonsten hab ich echt tolle Leute
-            bei mir im Studiengang, mit denen ich mich wirklich gut verstehe und worüber ich sehr froh bin. Nur das mit
-            dem Treffen müssen wir wohl auf einen Zeitpunkt in der Zukunft legen.
+            Ich studiere Medieninformatik im Bachelor an der <a href="https://www.hs-furtwangen.de">Hochschule Furtwangen</a> und befinde mich im Moment in meinem 2B-Semester. Die Hochschule selbst habe ich ingesamt erst zweimal betreten, und häufig von
+            außen gesehen. Aber ich will mich nicht über das Fernstudium beschweren. Wenn ich so höre, was andere Studenten und Schüler erzählen, dann bin ich richtig froh über den derzeitigen Zustand an der HFU. Und in alfaview muss man nicht in der
+            ersten Reihe sitzen, um alles, was der Prof sagt, mitzubekommen. Ansonsten hab ich echt tolle Leute bei mir im Studiengang, mit denen ich mich wirklich gut verstehe und worüber ich sehr froh bin. Nur das mit dem Treffen müssen wir wohl auf
+            einen Zeitpunkt in der Zukunft legen.
         </p>
         <hr>
         <h2>10 Lieblingspokémon</h2>
@@ -97,8 +88,7 @@
                     <td class="number">3</td>
                     <td>Evoli</td>
                     <td>Normal</td>
-                    <td>Unglaublich niedlich und hat je nach Entwicklung unterschiedliche Typen, die man selbst
-                        bestimmen kann. Außerdem niedlich. Hab ich schon erwähnt, dass es niedlich ist?</td>
+                    <td>Unglaublich niedlich und hat je nach Entwicklung unterschiedliche Typen, die man selbst bestimmen kann. Außerdem niedlich. Hab ich schon erwähnt, dass es niedlich ist?</td>
                 </tr>
                 <tr>
                     <td class="number">4</td>
@@ -129,8 +119,8 @@
                     <td class="number">8</td>
                     <td>Chevrumm</td>
                     <td>Pflanze</td>
-                    <td>Ich mag Ziegen und ich mag Typ Pflanze. Außerdem konnte man in irgendeinem Teil auf den Dingern
-                        reiten.</td>
+                    <td>Ich mag Ziegen und ich mag Typ Pflanze. Außerdem konnte man in irgendeinem Teil auf den Dingern reiten.
+                    </td>
                 </tr>
                 <tr>
                     <td class="number">9</td>
@@ -142,8 +132,8 @@
                     <td class="number">10</td>
                     <td>Rihorn</td>
                     <td>Boden+Gestein</td>
-                    <td>Auch auf diesen Viechern konnte man reiten. Und irgendwie mag ich hier unbeholfenes, kantiges
-                        Äußere.</td>
+                    <td>Auch auf diesen Viechern konnte man reiten. Und irgendwie mag ich hier unbeholfenes, kantiges Äußere.
+                    </td>
                 </tr>
 
             </tbody>

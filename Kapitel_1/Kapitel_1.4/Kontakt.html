@@ -6,33 +6,34 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kontakt</title>
-    <link rel="stylesheet" href="../Kapitel_1.4/style.css">
+    <link rel="stylesheet" href="../Kapitel_1.4/flexbox.css">
     <script src="https://kit.fontawesome.com/bdd370a5a2.js" crossorigin="anonymous"></script>
 </head>
 
 <body id="Kontakt">
     <header>
-        <nav class="fixed">
+        <h2 id="logo">Mvmc</h2>
+        <nav>
             <ul>
-                <li><a href="../Kapitel_1.4/Portfolio.html"
-                        title="Hier sehen Sie einen Auszug aus meinen bisherigen Projekten.">Portfolio</a></li>
-                <li><a href="../Kapitel_1.4/Person.html"
-                        title="Hier erfahren Sie mehr über die Person hinter dieser Website.">Über mich</a></li>
-                <li><a href="../Kapitel_1.4/Kontakt.html" class="current"
-                        title="Hier erfahren Sie, wie Sie mich kontaktieren können.">Kontakt</a></li>
+                <li><a href="../Kapitel_1.4/Portfolio.html" class="current" title="Hier sehen Sie einen Auszug aus meinen bisherigen Projekten.">Portfolio</a></li>
+                <li><a href="../Kapitel_1.4/Person.html" title="Hier erfahren Sie mehr über die Person hinter dieser Website.">Über mich</a></li>
+                <li><a href="../Kapitel_1.4/Kontakt.html" title="Hier erfahren Sie, wie Sie mich kontaktieren können.">Kontakt</a></li>
             </ul>
         </nav>
     </header>
-    <main>
-        <div class="backgroundHeader">
-            <h1 id="Top">Hallo Findender</h1>
-            <p>
-                Willkommen auf meiner kleinen Webseite. Als Belohnung darfst du hier gleich weiter suchen.
-            </p>
-            <a href="https://steamcommunity.com/profiles/76561199032955466/"><i class="fab fa-steam fa-3x"></i></a> 
-            <a href="https://www.youtube.com/channel/UC3xZNSXpVwev7mh0BkF9iXA"><i class="fab fa-youtube fa-3x padding"></i></a> 
-            <a href="https://discord.com/"><i class="fab fa-discord fa-3x padding"></i><i> orz#0473</i></a> 
+    <div class="backgroundHeader">
+        <h1 id="Top">Hallo Findender</h1>
+        <p>
+            Willkommen auf meiner kleinen Webseite. Als Belohnung darfst du hier gleich weiter suchen.
+        </p>
+        <div class="flex">
+            <a href="https://steamcommunity.com/profiles/76561199032955466/"><i class="fab fa-steam"></i></a>
+            <a href="https://www.youtube.com/channel/UC3xZNSXpVwev7mh0BkF9iXA"><i
+                class="fab fa-youtube"></i></a>
+            <a href="https://discord.com/"><i class="fab fa-discord"></i><i> orz#0473</i></a>
         </div>
+    </div>
+    <main>
         <h1>Kontakt</h1>
         <p>
             <b>Adresse:</b> Hinter den 3, 00000 Weißbirken, Wunderland<br>
@@ -61,8 +62,7 @@
         </div>
         <h2>Newsletter</h2>
         <p>
-            Tragen Sie sich hier in diesen total echten Newsletter ein, um immer angeschrieben zu werden, wenn sich
-            irgendetwas auf diesen Seiten tut.
+            Tragen Sie sich hier in diesen total echten Newsletter ein, um immer angeschrieben zu werden, wenn sich irgendetwas auf diesen Seiten tut.
         </p>
         <form action="../Kapitel_1.4/Kontakt.html">
             <fieldset>
