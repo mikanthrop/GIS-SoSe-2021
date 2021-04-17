@@ -25,10 +25,13 @@
     a {
         text-decoration: none;
         color: rgb(32, 99, 165);
+        transition: all, .8s;
     }
     
     a:hover {
         color: rgb(112, 10, 69);
+        transform: scale3d(1.15, 1.15, 1.15);
+        font-size: 1.1em;
     }
     /*navigation bar*/
     
@@ -54,6 +57,13 @@
         font-size: 35px;
         color: linen;
         padding: 8px 0 5px 0;
+        transition: all .5s;
+    }
+    
+    #logo:hover {
+        font-size: 42px;
+        transform: scale3d(1.2);
+        transform: rotate(360deg);
     }
     
     header nav {
@@ -291,14 +301,6 @@
         width: 100%;
     }
     
-    button {
-        background-color: rgb(32, 99, 165);
-        border-radius: 5px;
-        color: linen;
-        margin-top: 1em;
-        padding: 5px 10px;
-    }
-    
     fieldset {
         border-radius: 10px;
         border: .1em solid rgb(139, 151, 25);
@@ -310,8 +312,19 @@
         margin: 1em 1em 1em 0em;
     }
     
+    button {
+        background-color: rgb(32, 99, 165);
+        border-radius: 5px;
+        color: linen;
+        margin-top: 1em;
+        padding: 5px 10px;
+        transition: padding .5s;
+        transition-timing-function: ease-out;
+    }
+    
     button:hover {
         background-color: rgb(112, 10, 69);
+        padding: 7px 12px;
     }
     
     @media screen and (max-width: 1024px) {
