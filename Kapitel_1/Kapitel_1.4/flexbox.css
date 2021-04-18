@@ -305,18 +305,27 @@
     }
     /*kontakt page specific styling*/
     
+    .flex.form {
+        margin: auto;
+        flex-flow: column nowrap;
+        align-items: center;
+        margin: auto;
+    }
+    
     input[type=text] {
         background-color: rgb(179, 177, 177);
         border-radius: 5px;
         padding: .5em .8em;
         margin: .2em .2em;
-        width: 100%;
+        width: 60%;
     }
     
     fieldset {
         border-radius: 10px;
         border: .1em solid rgb(139, 151, 25);
         padding: 10px;
+        width: 70%;
+        text-align: left;
     }
     
     label {
@@ -386,6 +395,10 @@
     @media screen and (max-width:600px) {
         body {
             line-height: 1.4em;
+        }
+        main {
+            padding-left: 2px;
+            padding-right: 2px;
         }
         header {
             flex-direction: column;
