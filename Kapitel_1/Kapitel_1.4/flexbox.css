@@ -352,12 +352,19 @@
         body {
             font-size: 90%;
         }
+        main {
+            padding-left: 5px;
+            padding-right: 5px;
+        }
         header {
             padding: 15px 30px 11px 30px;
         }
         header #logo {
             font-size: 28px;
             padding: 0 0 5px 0;
+        }
+        #logo:hover {
+            font-size: 35px;
         }
         .backgroundHeader {
             height: 270px;
@@ -390,6 +397,12 @@
         video {
             width: 100%;
         }
+        fieldset {
+            width: 100%;
+        }
+        input[type=text] {
+            width: inherit;
+        }
     }
     
     @media screen and (max-width:600px) {
@@ -407,6 +420,9 @@
         header #logo {
             font-size: 20px;
             padding: 0 0 10px 0;
+        }
+        #logo:hover {
+            font-size: 28px;
         }
         header nav li {
             margin: 0 7px;
@@ -441,9 +457,6 @@
         }
         .width {
             width: 250px;
-        }
-        video {
-            width: 100%;
         }
     }
     /*@media screen and (max-width: 315px) {
