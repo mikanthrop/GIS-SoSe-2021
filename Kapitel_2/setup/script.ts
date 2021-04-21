@@ -1,1 +1,1 @@
-console.log("Hallo Welt");
+console.log("Hallo Lukas, Andi und Norbert. Ihr seid cool.");
