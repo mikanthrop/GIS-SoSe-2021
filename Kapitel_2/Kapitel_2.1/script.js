@@ -144,5 +144,177 @@ var Aufgabe5;
     console.log(max(1, 9));
     console.log(max(7, 6.9));
     console.log(max(4, 4));
+    //c)
+    function addUpToHundred() {
+        let index = 1;
+        let sum = 0;
+        while (index <= 100) {
+            sum += index;
+            index += 1;
+        }
+        console.log(sum);
+    }
+    addUpToHundred();
+    // d)
+    function randoNumber() {
+        for (let index = 0; index < 10; index++) {
+            console.log(Math.random());
+        }
+    }
+    randoNumber();
+    //e)
+    function factorial(_n) {
+        let sum = 0;
+        for (let index = 1; index <= _n; index++) {
+            sum += index;
+        }
+        return sum;
+    }
+    console.log(factorial(7));
+    //f) 
+    function leapyears() {
+        for (let index = 1900; index <= 2021; index += 4) {
+            if (index % 400 == 0) {
+                console.log("leapyear " + index);
+            }
+            else if (index % 100 == 0) {
+                console.log("not a leapyear: " + index);
+            }
+            else if (index % 4 == 0 && index % 100 != 0) {
+                console.log("leapyear " + index);
+            }
+        }
+    }
+    leapyears();
 })(Aufgabe5 || (Aufgabe5 = {}));
+//Aufgabe 6 - Mehr Schleifen und Funktionen
+var Aufgabe6;
+(function (Aufgabe6) {
+    //a
+    let hashtag = "";
+    for (let index = 0; index < 7; index++) {
+        console.log(hashtag += "#");
+    }
+    //b 
+    function fizzNumbers() {
+        for (let index = 1; index <= 100; index++) {
+            if (index % 5 == 0 && index % 3 != 0) {
+                console.log("Buzz");
+            }
+            else if (index % 3 == 0) {
+                console.log("Fizz");
+            }
+            else {
+                console.log(index);
+            }
+        }
+    }
+    fizzNumbers();
+    //c
+    function fizzBuzzNumbers() {
+        for (let index = 1; index <= 100; index++) {
+            if (index % 5 == 0 && index % 3 != 0) {
+                console.log("Buzz");
+            }
+            else if (index % 3 == 0 && index % 5 != 0) {
+                console.log("Fizz");
+            }
+            else if (index % 15 == 0) {
+                console.log("FizzBuzz");
+            }
+            else {
+                console.log(index);
+            }
+        }
+    }
+    fizzBuzzNumbers();
+    //d 
+    function chessboard8x8() {
+        let board = "";
+        for (let row = 0; row < 8; row++) {
+            for (let index = 0; index < 8; index++) {
+                if (index == 0) {
+                    if (row == 0) {
+                        board += " ";
+                    }
+                    else {
+                        if (row % 2 == 0) {
+                            board += " ";
+                        }
+                        else {
+                            board += "#";
+                        }
+                    }
+                }
+                else {
+                    if (row % 2 != 0) {
+                        if (index % 2 != 0) {
+                            board += " ";
+                        }
+                        else {
+                            board += "#";
+                        }
+                    }
+                    else {
+                        if (index % 2 != 0) {
+                            board += "#";
+                        }
+                        else {
+                            board += " ";
+                        }
+                    }
+                }
+                if (index == 7) {
+                    board += "\n";
+                }
+            }
+        }
+        return board;
+    }
+    console.log(chessboard8x8());
+    // e)
+    function checkerboard(_heightWidth) {
+        let board = "";
+        for (let row = 0; row < _heightWidth; row++) {
+            for (let index = 0; index < _heightWidth; index++) {
+                if (index == 0) {
+                    if (row == 0) {
+                        board += " ";
+                    }
+                    else {
+                        if (row % 2 == 0) {
+                            board += " ";
+                        }
+                        else {
+                            board += "#";
+                        }
+                    }
+                }
+                else {
+                    if (row % 2 != 0) {
+                        if (index % 2 != 0) {
+                            board += " ";
+                        }
+                        else {
+                            board += "#";
+                        }
+                    }
+                    else {
+                        if (index % 2 != 0) {
+                            board += "#";
+                        }
+                        else {
+                            board += " ";
+                        }
+                    }
+                }
+                if (index == _heightWidth - 1) {
+                    board += "\n";
+                }
+            }
+        }
+        return board;
+    }
+    console.log(checkerboard(12));
+})(Aufgabe6 || (Aufgabe6 = {}));
 //# sourceMappingURL=script.js.map
