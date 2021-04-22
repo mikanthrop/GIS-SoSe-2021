@@ -177,13 +177,13 @@ namespace Aufgabe5 {
 
     //e)
     function factorial(_n: number): number {
-        let sum: number = 0;
-        for (let index: number = 1; index <= _n; index++) {
-            sum += index;
+        let sum: number = 1;
+        for (let index: number = 2; index <= _n; index++) {
+            sum *= index;
         }
         return sum;
     }
-    console.log(factorial(7));
+    console.log(factorial(6));
 
     //f) 
     function leapyears(): void {

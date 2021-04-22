@@ -164,13 +164,13 @@ var Aufgabe5;
     randoNumber();
     //e)
     function factorial(_n) {
-        let sum = 0;
-        for (let index = 1; index <= _n; index++) {
-            sum += index;
+        let sum = 1;
+        for (let index = 2; index <= _n; index++) {
+            sum *= index;
         }
         return sum;
     }
-    console.log(factorial(7));
+    console.log(factorial(6));
     //f) 
     function leapyears() {
         for (let index = 1900; index <= 2021; index += 4) {
