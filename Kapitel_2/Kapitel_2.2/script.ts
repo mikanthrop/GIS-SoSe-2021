@@ -48,15 +48,14 @@ namespace Aufgabe2_2 {
     console.log(refinedisEven(-1)); 
     Durch die zusätzliche Verzweigung im else-Statement kann überprüft werden, ob die übergebene Zahl positiv oder negativ ist. Dadurch
     kann auch -1 korrekt gehandhabt werden.*/
-    
+
     //c)
-    interface Student {
+    /*interface Student {
         lastName: string;
         firstName: string;
         studies: string;
         matricNumber: number;
         semester?: number;
-    }
 
     let s1: Student = {lastName: "Nieberg", firstName: "Annika", studies: "Medienkonzeption Bachelor", matricNumber: 192380, semester: 2};
     let s2: Student = {lastName: "Arlington", firstName: "Jayden", studies: "Onlinemedien Bachelor", matricNumber: 298312, semester: 4};
@@ -65,8 +64,111 @@ namespace Aufgabe2_2 {
     let studentArray: Student[] = [s1, s2, s3, {lastName: "Fischer-Pham", firstName: "Paul", studies: "Informatik", matricNumber: 192238}];
     console.log(s2.semester, s3.studies, s1.firstName, studentArray[3].studies, studentArray[2].matricNumber);
 
-    function showInfo(_lastName: string, _firstName: string, _matricNumber: number): void {
-        console.log(_lastName, _firstName, _matricNumber);
+    function showInfo(_generic: Student): void {
+        console.log(_generic.lastName, _generic.firstName, _generic.matricNumber);
     }
     showInfo(s1);
+    showInfo(s2);
+    showInfo(s3);
+    showInfo(studentArray[3]);*/
+
+    class Student {
+        lastName: string;
+        firstName: string;
+        studies: string;
+        matricNumber: number;
+        semester?: number;
+
+        constructor(_ln: string, _fn: string, _studies: string, _matricNumber: number, _semester?: number) {
+            this.lastName = _ln;
+            this.firstName = _fn;
+            this.studies = _studies;
+            this.matricNumber = _matricNumber;
+            this.semester = _semester;
+        }
+
+        showInfo(): void {
+            console.log(this.lastName + ", " + this.firstName + ", " + this.matricNumber);
+        }
+    }
+    let s1: Student = new Student("Diebitz", "Lisa", "MKB", 299109, 1);
+    s1.showInfo();
+
+    // Aufgabe 2 - Arrays     
+    let testArray: number[] = [1, 9, 38, 2.3, 799, 201, -122];
+    let bestArray: number[] = [29, 183, 1.5, 192, -21.3, 92];
+    //let restArray: number[] = [32, 2, -234, 19222, 53.9, 123];
+
+    // a) 
+    function backwards(_forwardsArray: number[]): number[] {
+        let backwardsArray: number[] = [];
+        for (let i: number = _forwardsArray.length - 1; i >= 0; i--) {
+            backwardsArray.push(_forwardsArray[i]);
+        }
+        return backwardsArray;
+    }
+    console.log(backwards(testArray));
+    console.log(backwards(bestArray));
+
+
+    // b)
+    function join(_firstArray: number[], _secondArray: number[]): number[] {
+        let combinedArrays: number[] = _firstArray;
+        for (let i: number = 0; i < _secondArray.length; i++) {
+            combinedArrays.push(_secondArray[i]);
+        }
+        return combinedArrays;
+    }
+    console.log(join(testArray, bestArray));
+
+    // Bonus 
+    /*function joinSeveral(... _numberArrays: number[][]): number[] {
+        let combinedArrays: number[] = _numberArrays[0];
+        for (let indexOverallArray: number = 1; indexOverallArray < _numberArrays.length; indexOverallArray++) {
+            for (let indexIndividualArray: number = 0; indexIndividualArray < _numberArrays[indexOverallArray].length; indexIndividualArray++) {
+                combinedArrays.push(_numberArrays[indexOverallArray][indexIndividualArray]);
+            }
+        }
+        return combinedArrays;
+    }
+    console.log(joinSeveral(testArray, bestArray, restArray));*/
+
+    /* Die Funktion joinSeveral() bringt die Seite und damit meinen Debugger zum Absturz, aufgrund von Speichermangel. Ich gehe daher
+    davon aus, dass sie in der Theorie einigermaßen korrekt programmiert ist, aber zu einem Stack Overflow führt. 
+    Ich wusste auch nicht genau, wie ich meine Idee in Typescript umsetzen soll. Die Idee war folgende:
+    Die Arrays, die als Parameter übergeben werden als einen Array mit lauter Arrays als gespeicherten Variablentypen annehmen. 
+    Dann den großen Array mit der äußeren for-Schleife durchgehen, und damit festlegen, bei welchem Array wir uns befinden. Mit 
+    der inneren for-Schleife wollte ich dann die einzelnen Arrays durchgehen und ihre Stellenwerte im Array combinedArrays speichern.
+    In diesen wollte ich außerdem bereits den ersten Array füllen, sodass dort weniger Rechenleistung verbraucht wird.
+    Mein Hauptproblem war meiner Meinung nach, dass ich nicht wusste, wie ich einen numberArray mit lauter numberArrays deklariere. 
+    Daher habe ich mich der Java-Schreibweise für einen zweidimensionalen Array bedient, was vom Linter keinen Fehler zurückgab.*/
+
+    // c)
+    function split(_longArray: number[], _firstIndex: number, _secondIndex: number): number[] {
+        let arrayInBetween: number[] = [];
+        if (_firstIndex > 0 && _firstIndex < _longArray.length && _secondIndex > 0 && _secondIndex < _longArray.length) {
+            for (let i: number = _firstIndex; i <= _secondIndex; i++) {
+                arrayInBetween.push(_longArray[i]);
+            }
+            return arrayInBetween;
+        } else return null;
+    }
+    console.log(split(bestArray, 2, 9));
+    console.log(split(testArray, 3, 5));
+
+    //Testcode
+    let arr: number[] = [5, 42, 17, 2018, -10, 60, -10010];
+    let arrBack: number[] = backwards(arr);
+    console.log(arr);
+    console.log(arrBack);
+    console.log(join(arr, [15, 9001, -440]));
+    //console.log(join([123, 666, -911], arr, [15, 9001, -440, 1024])); // Bonus b)
+    arr = split(arr, 0, 4);
+    console.log(arr);
+    console.log(split(arr, 1, 2));
+    console.log(split(arr, 2, 0));     // Bonus c)
+    console.log(split(arr, -1, 2));    // Bonus c)
+    console.log(split(arr, 0, 7));     // Bonus c)
+
+
 }
