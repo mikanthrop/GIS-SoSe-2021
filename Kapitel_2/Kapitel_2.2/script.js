@@ -224,11 +224,11 @@ var Aufgabe2_2;
     // b)
     class Rectangle {
         // c)
-        constructor(_xLeft, _yHigh, _xRight, _yLow) {
-            this.xLeft = _xLeft;
-            this.yHigh = _yHigh;
-            this.xRight = _xRight;
-            this.yLow = _yLow;
+        constructor() {
+            this.xLeft = this.createRandoNumberX(700);
+            this.yHigh = this.createRandoNumberY(500);
+            this.xRight = this.createRandoNumberX(700);
+            this.yLow = this.createRandoNumberY(500);
         }
         setLineWidth(_lineWidth) {
             context.lineWidth = _lineWidth;
@@ -250,13 +250,15 @@ var Aufgabe2_2;
             return Math.random() * _canvasHeight;
         }
     }
-    let xLeft = this.createRandoNumberX(700);
-    let yHigh = this.createRandoNumberY(500);
-    let xRight = this.createRandoNumberX(700);
-    let yLow = this.createRandoNumberY(500);
-    return  ?  : ;
+    let rectArray = [];
+    let turnes = 7;
+    context.strokeStyle = "black";
+    for (let i = 0; i <= turnes; i++) {
+        rectArray[i] = new Rectangle();
+        rectArray[i].setLineWidth(i + 1);
+        rectArray[i].drawRect();
+    }
 })(Aufgabe2_2 || (Aufgabe2_2 = {}));
-let firstRectangle = new Rectangle(createRect());
 /*// b)
 interface Rectangle {
     xLeft: number;

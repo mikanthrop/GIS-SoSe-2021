@@ -246,11 +246,12 @@ namespace Aufgabe2_2 {
         yLow: number;
 
         // c)
-        constructor(_xLeft: number, _yHigh: number, _xRight: number, _yLow: number) {
-            this.xLeft = _xLeft;
-            this.yHigh = _yHigh;
-            this.xRight = _xRight;
-            this.yLow = _yLow;
+        constructor() {
+            this.xLeft = this.createRandoNumberX(700);
+            this.yHigh = this.createRandoNumberY(500);
+            this.xRight = this.createRandoNumberX(700);
+            this.yLow = this.createRandoNumberY(500);
+
         }
         setLineWidth(_lineWidth: number): void {
             context.lineWidth = _lineWidth;
@@ -272,17 +273,15 @@ namespace Aufgabe2_2 {
         createRandoNumberY(_canvasHeight: number): number {
             return Math.random() * _canvasHeight;
         }
-        createRect(): ? {
-            let xLeft: number = this.createRandoNumberX(700);
-            let yHigh: number = this.createRandoNumberY(500);
-            let xRight: number = this.createRandoNumberX(700);
-            let yLow: number = this.createRandoNumberY(500);
-            return ?;
-        }
     }
-
-    let firstRectangle: Rectangle = new Rectangle(createRect());
-
+    let rectArray: Rectangle[] = [];
+    let turnes: number = 7;
+    context.strokeStyle = "black";
+    for (let i: number = 0; i <= turnes; i++) {
+        rectArray[i] = new Rectangle();
+        rectArray[i].setLineWidth(i + 1);
+        rectArray[i].drawRect();
+    }
 }
 
 
