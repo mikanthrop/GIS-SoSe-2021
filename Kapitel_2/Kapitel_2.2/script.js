@@ -137,7 +137,7 @@ var Aufgabe2_2;
             return arrayInBetween;
         }
         else
-            return null;
+            return [];
     }
     console.log(split(bestArray, 2, 9));
     console.log(split(testArray, 3, 5));
@@ -154,5 +154,126 @@ var Aufgabe2_2;
     console.log(split(arr, 2, 0)); // Bonus c)
     console.log(split(arr, -1, 2)); // Bonus c)
     console.log(split(arr, 0, 7)); // Bonus c)
+    // Aufgabe 3 - Endlich was visuelles!
+    // a)
+    let canvas = document.getElementById("myCanvas");
+    let context = canvas.getContext("2d");
+    context.lineWidth = 10;
+    // sky
+    context.strokeStyle = "rgb(0, 210, 400)";
+    context.fillStyle = "rgb(0, 210, 400)";
+    context.beginPath();
+    context.moveTo(5, 5);
+    context.lineTo(695, 5);
+    context.lineTo(695, 230);
+    context.lineTo(5, 230);
+    context.closePath();
+    context.stroke();
+    context.fill();
+    // ground
+    context.strokeStyle = "rgb(160, 400, 120)";
+    context.fillStyle = "rgb(160, 400, 120)";
+    context.beginPath();
+    context.moveTo(5, 240);
+    context.lineTo(695, 240);
+    context.lineTo(695, 495);
+    context.lineTo(5, 495);
+    context.closePath();
+    context.stroke();
+    context.fill();
+    // hous
+    context.strokeStyle = "rgb(250, 200, 400)";
+    context.fillStyle = "rgb(250, 200, 400)";
+    context.beginPath();
+    context.moveTo(60, 210);
+    context.lineTo(240, 210);
+    context.lineTo(240, 400);
+    context.lineTo(60, 400);
+    context.closePath();
+    context.stroke();
+    context.fill();
+    // roof
+    context.strokeStyle = "rgb(400, 0, 0)";
+    context.fillStyle = "rgb(400, 0, 0)";
+    context.beginPath();
+    context.moveTo(50, 200);
+    context.lineTo(150, 120);
+    context.lineTo(250, 200);
+    context.closePath();
+    context.stroke();
+    context.fill();
+    // treetrunk
+    context.strokeStyle = "rgb(70, 70, 40)";
+    context.fillStyle = "rgb(70, 70, 40)";
+    context.beginPath();
+    context.moveTo(470, 220);
+    context.lineTo(510, 220);
+    context.lineTo(510, 420);
+    context.lineTo(470, 420);
+    context.closePath();
+    context.stroke();
+    context.fill();
+    // leaves
+    context.strokeStyle = "rgb(0, 400, 0)";
+    context.fillStyle = "rgb(0, 400, 0)";
+    context.beginPath();
+    let circleTree = new Path2D();
+    circleTree.arc(490, 120, 100, 0, 2 * Math.PI);
+    context.stroke(circleTree);
+    context.fill(circleTree);
+    // b)
+    class Rectangle {
+        // c)
+        constructor(_xLeft, _yHigh, _xRight, _yLow) {
+            this.xLeft = _xLeft;
+            this.yHigh = _yHigh;
+            this.xRight = _xRight;
+            this.yLow = _yLow;
+        }
+        setLineWidth(_lineWidth) {
+            context.lineWidth = _lineWidth;
+        }
+        // d)
+        drawRect() {
+            context.beginPath();
+            context.moveTo(this.xLeft, this.yHigh);
+            context.lineTo(this.xRight, this.yHigh);
+            context.lineTo(this.xRight, this.yLow);
+            context.lineTo(this.xLeft, this.yLow);
+            context.closePath();
+            context.stroke();
+        }
+        createRandoNumberX(_canvasWidth) {
+            return Math.random() * _canvasWidth;
+        }
+        createRandoNumberY(_canvasHeight) {
+            return Math.random() * _canvasHeight;
+        }
+    }
+    let xLeft = this.createRandoNumberX(700);
+    let yHigh = this.createRandoNumberY(500);
+    let xRight = this.createRandoNumberX(700);
+    let yLow = this.createRandoNumberY(500);
+    return  ?  : ;
 })(Aufgabe2_2 || (Aufgabe2_2 = {}));
+let firstRectangle = new Rectangle(createRect());
+/*// b)
+interface Rectangle {
+    xLeft: number;
+    yHigh: number;
+    xRight: number;
+    yLow: number;
+}
+
+// c)
+function createRect() {
+    let magnifier: number = 10;
+    let xLeft: number = Math.random() * magnifier;
+    let yHigh: number = Math.random() * magnifier;
+    let xRight: number = Math.random() * magnifier;
+    let yLow: number = Math.random() * magnifier;
+    context.beginPath();
+    moveTo
+    }
+function randomNumber()*/ 
 //# sourceMappingURL=script.js.map
