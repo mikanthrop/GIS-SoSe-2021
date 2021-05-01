@@ -12,6 +12,7 @@ var Aufgabe2_2;
         }
         return currentmin;
     }
+    console.log("Aufgabe2_2 1a)");
     console.log(min(-2, 9, 14, 0, -1, 70, 100023, 3.2, 3, -4));
     // b)
     function isEven(_number) {
@@ -29,6 +30,7 @@ var Aufgabe2_2;
             return isEven(_number);
         }
     }
+    console.log("Aufgabe 2_2 1b)");
     console.log(isEven(50));
     console.log(isEven(75));
     /* für -1 würde die Funktion immer weiter ins Minus zählen, ohne jemals bei 0 oder 1 anzukommen, wodurch es zu einem Stack Overflow
@@ -82,8 +84,14 @@ var Aufgabe2_2;
             console.log(this.lastName + ", " + this.firstName + ", " + this.matricNumber);
         }
     }
-    let s1 = new Student("Diebitz", "Lisa", "MKB", 299109, 1);
-    s1.showInfo();
+    console.log("Aufgabe2_2 1c)");
+    let s1 = new Student("Nieberg", "Annika", "Medienkonzeption Bachelor", 192380, 2);
+    let s2 = new Student("Arlington", "Jayden", "Onlinemedien Bachelor", 298312, 4);
+    let s3 = new Student("Ahorn", "Nora", "Medieninformatik Bachelor", 200318);
+    let studentArray = [s1, s2, s3, new Student("Fischer-Pham", "Paul", "Informatik", 192238)];
+    console.log(s2.semester, s3.studies, s1.firstName, studentArray[3].studies, studentArray[2].matricNumber);
+    let s4 = new Student("Diebitz", "Lisa", "MKB", 299109, 1);
+    s4.showInfo();
     // Aufgabe 2 - Arrays     
     let testArray = [1, 9, 38, 2.3, 799, 201, -122];
     let bestArray = [29, 183, 1.5, 192, -21.3, 92];
@@ -96,6 +104,7 @@ var Aufgabe2_2;
         }
         return backwardsArray;
     }
+    console.log("Aufgabe2_2 2a)");
     console.log(backwards(testArray));
     console.log(backwards(bestArray));
     // b)
@@ -106,6 +115,7 @@ var Aufgabe2_2;
         }
         return combinedArrays;
     }
+    console.log("Aufgabe2_2 2b)");
     console.log(join(testArray, bestArray));
     // Bonus 
     /*function joinSeveral(... _numberArrays: number[][]): number[] {
@@ -130,7 +140,7 @@ var Aufgabe2_2;
     // c)
     function split(_longArray, _firstIndex, _secondIndex) {
         let arrayInBetween = [];
-        if (_firstIndex > 0 && _firstIndex < _longArray.length && _secondIndex > 0 && _secondIndex < _longArray.length) {
+        if (_firstIndex >= 0 && _firstIndex < _longArray.length && _secondIndex >= 0 && _secondIndex < _longArray.length) {
             for (let i = _firstIndex; i <= _secondIndex; i++) {
                 arrayInBetween.push(_longArray[i]);
             }
@@ -139,8 +149,10 @@ var Aufgabe2_2;
         else
             return [];
     }
+    console.log("Aufgabe2_2 2c)");
     console.log(split(bestArray, 2, 9));
     console.log(split(testArray, 3, 5));
+    console.log("vorgegebener Testcode Ausgaben:");
     //Testcode
     let arr = [5, 42, 17, 2018, -10, 60, -10010];
     let arrBack = backwards(arr);
@@ -170,6 +182,17 @@ var Aufgabe2_2;
     context.closePath();
     context.stroke();
     context.fill();
+    //cloud
+    context.strokeStyle = "white";
+    context.fillStyle = "white";
+    context.beginPath();
+    context.moveTo(100, 180);
+    context.bezierCurveTo(100, 80, 200, 50, 200, 150);
+    context.bezierCurveTo(200, 20, 350, 20, 350, 150);
+    context.bezierCurveTo(350, 50, 450, 80, 450, 180);
+    context.closePath();
+    context.stroke();
+    context.fill();
     // ground
     context.strokeStyle = "rgb(160, 400, 120)";
     context.fillStyle = "rgb(160, 400, 120)";
@@ -181,7 +204,7 @@ var Aufgabe2_2;
     context.closePath();
     context.stroke();
     context.fill();
-    // hous
+    // house
     context.strokeStyle = "rgb(250, 200, 400)";
     context.fillStyle = "rgb(250, 200, 400)";
     context.beginPath();
