@@ -1,0 +1,17 @@
+body {
+    margin: 0;
+    padding: 1%;
+    width: 800px;
+    height: 1200px;
+}
+
+button {
+    border-width: 5px;
+    margin: 10px;
+    padding: 20px;
+}
+
+#rectangleSpace {
+    height: 100%;
+    width: 100%;
+}
