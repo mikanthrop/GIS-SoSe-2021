@@ -31,7 +31,7 @@ namespace Kapitelaufgabe2 {
     }
 
     function handlePicDblclick(_event: Event): void {
-        //kann von hier außen ja nicht auf 
+        //kann von hier außen ja nicht auf picture zugreifen
         this.pic
     }
 
