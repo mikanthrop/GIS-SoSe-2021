@@ -30,13 +30,20 @@ namespace Kapitelaufgabe2 {
         else return "nicht vorhanden";
     }
 
+    function handlePicDblclick(_event: Event) {
+        this.pic
+    }
+
     let presentHeadSpace: HTMLElement = document.getElementById("headChoices");
     for (let i: number = 0; i < headArray.length; i++) {
+        //creates overarching div-element
         let flexitem: HTMLDivElement = document.createElement("div");
         presentHeadSpace.appendChild(flexitem);
+        //creates picture whose path is saved as a string
         let pic: HTMLImageElement = document.createElement("img");
         pic.setAttribute("src", headArray[i].picture);
         flexitem.appendChild(pic);
+        //following lines create paragraph elements with info
         let name: HTMLParagraphElement = document.createElement("p");
         name.innerText = "Name: " + headArray[i].name;
         flexitem.appendChild(name);
@@ -49,9 +56,7 @@ namespace Kapitelaufgabe2 {
         let color: HTMLParagraphElement = document.createElement("p");
         color.innerText = "Farbe des Hutes: " + headArray[i].color;
         if (headArray[i].hat == true) flexitem.appendChild(color);
-    }
-
-    function handleClickPicture(_event: Event): void {
-        _event.target
+        //adds eventlistener for doubletapping the pic
+        pic.addEventListener("dblclick", handlePicDblclick);
     }
 }
