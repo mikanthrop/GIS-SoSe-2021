@@ -19,32 +19,41 @@ a {
     color: inherit;
 }
 
-h1 {
-    padding: 10px;
-    margin: 20px;
-    font-size: 40px;
-    text-transform: capitalize;
+p {
+    font-size: 15px;
+}
+
+#info {
+    font-size: 20px;
 }
 
 button {
     margin: 15px;
     padding: 5px 15px;
-    font-size: 20px;
+    font-size: 15px;
     border-radius: 5px;
     border-color: red;
     text-transform: uppercase;
 }
 
-#choices {
+img {
+    margin-top: 20px;
+}
+
+.chosen {
+    border-width: 5px;
+    border-color: red;
+    border-radius: 5px;
+}
+
+#headChoices {
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: row nowrap;
     justify-content: space-around;
     align-items: center;
     margin-top: 20px;
 }
 
-img {
-    margin-top: 20px;
-    border-color: white;
-    border-width: 2px;
+header {
+    margin: 20px;
 }

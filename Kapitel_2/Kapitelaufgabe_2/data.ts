@@ -52,6 +52,7 @@ namespace Kapitelaufgabe2 {
         clothes: true,
         color: "Gelbd"
     };
+    export let bodyArray: Body[] = [body1, body2, body3, body4];
     //feet
     let feet1: Feet = {
         name: "Dagobert Duck",
@@ -77,4 +78,5 @@ namespace Kapitelaufgabe2 {
         shoes: true,
         color: "Rot"
     };
+    export let feetArray: Feet[] = [feet1, feet2, feet3, feet4];
 }

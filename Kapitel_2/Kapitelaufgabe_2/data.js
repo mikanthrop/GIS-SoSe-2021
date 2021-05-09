@@ -54,6 +54,7 @@ var Kapitelaufgabe2;
         clothes: true,
         color: "Gelbd"
     };
+    Kapitelaufgabe2.bodyArray = [body1, body2, body3, body4];
     //feet
     let feet1 = {
         name: "Dagobert Duck",
@@ -79,5 +80,6 @@ var Kapitelaufgabe2;
         shoes: true,
         color: "Rot"
     };
+    Kapitelaufgabe2.feetArray = [feet1, feet2, feet3, feet4];
 })(Kapitelaufgabe2 || (Kapitelaufgabe2 = {}));
 //# sourceMappingURL=data.js.map
