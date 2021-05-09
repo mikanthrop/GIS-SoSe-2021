@@ -30,7 +30,8 @@ namespace Kapitelaufgabe2 {
         else return "nicht vorhanden";
     }
 
-    function handlePicDblclick(_event: Event) {
+    function handlePicDblclick(_event: Event): void {
+        //kann von hier außen ja nicht auf 
         this.pic
     }
 
