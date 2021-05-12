@@ -1,82 +1,81 @@
 namespace Kapitelaufgabe2 {
     //heads
-    let head1: Head = {
-        picture: "../Kapitelaufgabe_2/dagobert-duck.png",
+    export let headArray: APart[] = [
+        {
+        picture: "../Kapitelaufgabe_2/images/head/dagobert_head.png",
         name: "Dagobert Duck",
-        animal: "Ente",
-        hat: true,
-        color: "Schwarz"
-    };
-    let head2: Head = {
-        picture: "../Kapitelaufgabe_2/mickey_mouse.png",
-        name: "Mickey Mouse",
-        animal: "Maus",
-        hat: false
-    };
-    let head3: Head = {
-        picture: "../Kapitelaufgabe_2/goofy.png",
-        name: "Goofy",
-        animal: "Hund",
-        hat: true,
-        color: "Blau"
-    };
-    let head4: Head = {
-        picture: "../Kapitelaufgabe_2/klarabella.png",
-        name: "Klarabella Kuh",
-        animal: "Kuh",
-        hat: false
-    };
-    export let headArray: Head[] = [head1, head2, head3, head4];
+        animal: "Ente"
+        }, 
+        {
+            picture: "../Kapitelaufgabe_2/images/head/mickey_head.png",
+            name: "Mickey Mouse",
+            animal: "Maus"
+        }, 
+        {
+            picture: "../Kapitelaufgabe_2/images/head/goofy_head.png",
+            name: "Goofy",
+            animal: "Hund"
+        }, 
+        {
+            picture: "../Kapitelaufgabe_2/images/head/klarabella_head.png",
+            name: "Klarabella Kuh",
+            animal: "Kuh"
+        }
+    ];
     //bodies
-    let body1: Body = {
-        name: "Dagobert Duck",
-        animal: "Ente",
-        clothes: true,
-        color: "Rot"
-    };
-    let body2: Body = {
-        name: "Mickey Mouse",
-        animal: "Maus",
-        clothes: true, 
-        color: "Rot"
-    };
-    let body3: Body = {
-        name: "Goofy",
-        animal: "Hund",
-        clothes: true,
-        color: "Rot" + ", " + "blau"
-    };
-    let body4: Body = {
-        name: "Klarabella Kuh",
-        animal: "Kuh",
-        clothes: true,
-        color: "Gelbd"
-    };
-    export let bodyArray: Body[] = [body1, body2, body3, body4];
+    export let bodyArray: APart[] = [
+        {
+            picture: "../Kapitelaufgabe_2/images/body/dagobert_body.png",
+            name: "Dagobert Duck",
+            animal: "Ente"
+        }, 
+        {
+            picture: "../Kapitelaufgabe_2/images/body/mickey_body.png",
+            name: "Mickey Mouse",
+            animal: "Maus"
+        }, 
+        {
+            picture: "../Kapitelaufgabe_2/images/body/goofy_body.png",
+            name: "Goofy",
+            animal: "Hund"
+        }, 
+        {
+            picture: "../Kapitelaufgabe_2/images/body/klarabella_body.png",
+            name: "Klarabella Kuh",
+            animal: "Kuh"
+        }
+    ];
     //feet
-    let feet1: Feet = {
-        name: "Dagobert Duck",
-        animal: "Ente",
-        shoes: true,
-        color: "Blau"
+    export let feetArray: APart[] = 
+    [
+        {
+            picture: "../Kapitelaufgabe_2/images/feet/dagobert_feet.png",
+            name: "Dagobert Duck",
+            animal: "Ente"
+        }, 
+        {
+            picture: "../Kapitelaufgabe_2/images/feet/mickey_feet.png",
+            name: "Mickey Mouse",
+            animal: "Maus"
+        }, 
+        {
+            picture: "../Kapitelaufgabe_2/images/feet/goofy_feet.png",
+            name: "Goofy",
+            animal: "Hund"
+        }, 
+        {
+            picture: "../Kapitelaufgabe_2/images/feet/klarabella_feet.png",
+            name: "Klarabella Kuh",
+            animal: "Kuh"
+        }
+    ];
+
+    let allParts: AllParts = {
+        heads: headArray,
+        bodies: bodyArray,
+        feet: feetArray
     };
-    let feet2: Feet = {
-        name: "Mickey Mouse",
-        animal: "Maus",
-        shoes: true,
-        color: "Gelb"
-    };
-    let feet3: Feet = {
-        name: "Goofy",
-        animal: "Hund",
-        shoes: true,
-        color: "Braun"
-    };
-    let feet4: Feet = {
-        name: "Klarabella Kuh",
-        animal: "Kuh",
-        shoes: true,
-        color: "Rot"
-    };
-    export let feetArray: Feet[] = [feet1, feet2, feet3, feet4];
+
+    export let allData: string = JSON.stringify(allParts);
+    let parsedData: AllParts = JSON.parse(allData);
 }
