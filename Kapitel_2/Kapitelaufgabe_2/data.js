@@ -2,84 +2,83 @@
 var Kapitelaufgabe2;
 (function (Kapitelaufgabe2) {
     //heads
-    let head1 = {
-        picture: "../Kapitelaufgabe_2/dagobert-duck.png",
-        name: "Dagobert Duck",
-        animal: "Ente",
-        hat: true,
-        color: "Schwarz"
-    };
-    let head2 = {
-        picture: "../Kapitelaufgabe_2/mickey_mouse.png",
-        name: "Mickey Mouse",
-        animal: "Maus",
-        hat: false
-    };
-    let head3 = {
-        picture: "../Kapitelaufgabe_2/goofy.png",
-        name: "Goofy",
-        animal: "Hund",
-        hat: true,
-        color: "Blau"
-    };
-    let head4 = {
-        picture: "../Kapitelaufgabe_2/klarabella.png",
-        name: "Klarabella Kuh",
-        animal: "Kuh",
-        hat: false
-    };
-    Kapitelaufgabe2.headArray = [head1, head2, head3, head4];
+    let headArray = [
+        {
+            picture: "../Kapitelaufgabe_2/images/head/dagobert_head.png",
+            name: "Dago",
+            animal: "Ente"
+        },
+        {
+            picture: "../Kapitelaufgabe_2/images/head/mickey_head.png",
+            name: "Mic",
+            animal: "Maus"
+        },
+        {
+            picture: "../Kapitelaufgabe_2/images/head/goofy_head.png",
+            name: "Go",
+            animal: "Hund"
+        },
+        {
+            picture: "../Kapitelaufgabe_2/images/head/klarabella_head.png",
+            name: "Klara",
+            animal: "Kuh"
+        }
+    ];
     //bodies
-    let body1 = {
-        name: "Dagobert Duck",
-        animal: "Ente",
-        clothes: true,
-        color: "Rot"
-    };
-    let body2 = {
-        name: "Mickey Mouse",
-        animal: "Maus",
-        clothes: true,
-        color: "Rot"
-    };
-    let body3 = {
-        name: "Goofy",
-        animal: "Hund",
-        clothes: true,
-        color: "Rot" + ", " + "blau"
-    };
-    let body4 = {
-        name: "Klarabella Kuh",
-        animal: "Kuh",
-        clothes: true,
-        color: "Gelbd"
-    };
-    Kapitelaufgabe2.bodyArray = [body1, body2, body3, body4];
+    let bodyArray = [
+        {
+            picture: "../Kapitelaufgabe_2/images/body/dagobert_body.png",
+            name: "bert",
+            animal: "Ente"
+        },
+        {
+            picture: "../Kapitelaufgabe_2/images/body/mickey_body.png",
+            name: "key",
+            animal: "Maus"
+        },
+        {
+            picture: "../Kapitelaufgabe_2/images/body/goofy_body.png",
+            name: "of",
+            animal: "Hund"
+        },
+        {
+            picture: "../Kapitelaufgabe_2/images/body/klarabella_body.png",
+            name: "bella",
+            animal: "Kuh"
+        }
+    ];
     //feet
-    let feet1 = {
-        name: "Dagobert Duck",
-        animal: "Ente",
-        shoes: true,
-        color: "Blau"
+    let feetArray = [
+        {
+            picture: "../Kapitelaufgabe_2/images/feet/dagobert_feet.png",
+            name: " Duck",
+            animal: "Ente"
+        },
+        {
+            picture: "../Kapitelaufgabe_2/images/feet/mickey_feet.png",
+            name: " Mouse",
+            animal: "Maus"
+        },
+        {
+            picture: "../Kapitelaufgabe_2/images/feet/goofy_feet.png",
+            name: "y",
+            animal: "Hund"
+        },
+        {
+            picture: "../Kapitelaufgabe_2/images/feet/klarabella_feet.png",
+            name: " Kuh",
+            animal: "Kuh"
+        }
+    ];
+    let allParts = {
+        heads: headArray,
+        bodies: bodyArray,
+        feet: feetArray
     };
-    let feet2 = {
-        name: "Mickey Mouse",
-        animal: "Maus",
-        shoes: true,
-        color: "Gelb"
-    };
-    let feet3 = {
-        name: "Goofy",
-        animal: "Hund",
-        shoes: true,
-        color: "Braun"
-    };
-    let feet4 = {
-        name: "Klarabella Kuh",
-        animal: "Kuh",
-        shoes: true,
-        color: "Rot"
-    };
-    Kapitelaufgabe2.feetArray = [feet1, feet2, feet3, feet4];
+    Kapitelaufgabe2.jsonHeads = JSON.stringify(headArray);
+    Kapitelaufgabe2.jsonBodies = JSON.stringify(bodyArray);
+    Kapitelaufgabe2.jsonFeet = JSON.stringify(feetArray);
+    Kapitelaufgabe2.allData = JSON.stringify(allParts);
+    let parsedData = JSON.parse(Kapitelaufgabe2.allData);
 })(Kapitelaufgabe2 || (Kapitelaufgabe2 = {}));
 //# sourceMappingURL=data.js.map
