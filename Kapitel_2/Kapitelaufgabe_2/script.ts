@@ -15,11 +15,8 @@ namespace Kapitelaufgabe2 {
         body: APart;
         feet: APart;
     }
+
     let parsedData: AllParts = JSON.parse(allData);
-    let absoluteLinkHead: string = "https://mikanthrop.github.io/GIS-SoSe-2021/Kapitel_2/Kapitelaufgabe_2/head.html";
-    let absoluteLinkBody: string = "https://mikanthrop.github.io/GIS-SoSe-2021/Kapitel_2/Kapitelaufgabe_2/body.html";
-    let absoluteLinkFeet: string = "https://mikanthrop.github.io/GIS-SoSe-2021/Kapitel_2/Kapitelaufgabe_2/feet.html";
-    let absoluteLinkIndex: string = "https://mikanthrop.github.io/GIS-SoSe-2021/Kapitel_2/Kapitelaufgabe_2/index.html";
 
     //creating basic structure header main and footer in the body
     let header: HTMLElement = document.createElement("header");
@@ -97,27 +94,26 @@ namespace Kapitelaufgabe2 {
         } 
     }
 
-    let currentPage: string = window.location.href;
+    function getSubpage(): string {
+        return window.location.pathname.substring(window.location.pathname.lastIndexOf("/") + 1);
+    }
+
+    let currentPage: string = getSubpage();
     console.log(currentPage);
 
-    if (currentPage == "http://127.0.0.1:5500/Kapitel_2/Kapitelaufgabe_2/head.html")
-        console.log("absolute links work");
-    else
-        console.log("absolute links don't work");
-
-    if (currentPage == absoluteLinkHead) {
+    if (currentPage == "head.html") {
         for (let i: number = 0; i < parsedData.heads.length; i++) {
             infoLine.innerText = "Bitte wählen Sie einen Kopf, um Ihren eigenen Entenhausener zusammenzusetzen.";
             createAPart(parsedData.heads[i], "head");
         }
     }
-    if (currentPage == absoluteLinkBody) {
+    if (currentPage == "body.html") {
         for (let i: number = 0; i < parsedData.bodies.length; i++) {
             infoLine.innerText = "Bitte wählen Sie einen Körper, um Ihren eigenen Entenhausener zusammenzusetzen.";
             createAPart(parsedData.bodies[i], "body");
         }
     }
-    if (currentPage == absoluteLinkFeet) {
+    if (currentPage == "feet.html") {
         for (let i: number = 0; i < parsedData.feet.length; i++) {
             infoLine.innerText = "Bitte wählen Sie die Füße, um Ihren eigenen Entenhausener zusammenzusetzen.";
             createAPart(parsedData.feet[i], "feet");
