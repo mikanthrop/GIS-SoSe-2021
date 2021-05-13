@@ -16,10 +16,10 @@ namespace Kapitelaufgabe2 {
         feet: APart;
     }
     let parsedData: AllParts = JSON.parse(allData);
-    /*let absoluteLinkHead: string = "http://127.0.0.1:5500/Kapitel_2/Kapitelaufgabe_2/head.html";
-    let absoluteLinkBody: string = "http://127.0.0.1:5500/Kapitel_2/Kapitelaufgabe_2/body.html";
-    let absoluteLinkFeet: string = "http://127.0.0.1:5500/Kapitel_2/Kapitelaufgabe_2/feet.html";
-    let absoluteLinkIndex: string = "http://127.0.0.1:5500/Kapitel_2/Kapitelaufgabe_2/index.html";*/
+    let absoluteLinkHead: string = "https://mikanthrop.github.io/GIS-SoSe-2021/Kapitel_2/Kapitelaufgabe_2/head.html";
+    let absoluteLinkBody: string = "https://mikanthrop.github.io/GIS-SoSe-2021/Kapitel_2/Kapitelaufgabe_2/body.html";
+    let absoluteLinkFeet: string = "https://mikanthrop.github.io/GIS-SoSe-2021/Kapitel_2/Kapitelaufgabe_2/feet.html";
+    let absoluteLinkIndex: string = "https://mikanthrop.github.io/GIS-SoSe-2021/Kapitel_2/Kapitelaufgabe_2/index.html";
 
     //creating basic structure header main and footer in the body
     let header: HTMLElement = document.createElement("header");
@@ -57,7 +57,7 @@ namespace Kapitelaufgabe2 {
 
 
     function createAPart(_part: APart, _thisPart: string): void {
-        
+
         //creates overarching div-element
         let flexitem: HTMLDivElement = document.createElement("div");
         presentPartSpace.appendChild(flexitem);
@@ -83,7 +83,7 @@ namespace Kapitelaufgabe2 {
         if (_thisPart == "head") button.setAttribute("href", "../Kapitelaufgabe_2/body.html");
         if (_thisPart == "body") button.setAttribute("href", "../Kapitelaufgabe_2/feet.html");
         if (_thisPart == "feet") button.setAttribute("href", "../Kapitelaufgabe_2/index.html");
-       
+
         button.addEventListener("click", handleClickButton);
         flexitem.appendChild(button);
         function handleClickButton(_event: MouseEvent): void {
@@ -96,16 +96,29 @@ namespace Kapitelaufgabe2 {
 
     let currentPage: string = window.location.href;
     console.log(currentPage);
-    
+
     if (currentPage == "http://127.0.0.1:5500/Kapitel_2/Kapitelaufgabe_2/head.html")
         console.log("absolute links work");
-    else 
+    else
         console.log("absolute links don't work");
-    
-        
-    for (let i: number = 0; i < parsedData.heads.length; i++) {
-        infoLine.innerText = "Bitte wählen Sie einen Kopf, um Ihren eigenen Entenhausener zusammenzusetzen.";
-        createAPart(parsedData.heads[i], "head");
+
+    if (currentPage == absoluteLinkHead) {
+        for (let i: number = 0; i < parsedData.heads.length; i++) {
+            infoLine.innerText = "Bitte wählen Sie einen Kopf, um Ihren eigenen Entenhausener zusammenzusetzen.";
+            createAPart(parsedData.heads[i], "head");
+        }
+    }
+    if (currentPage == absoluteLinkBody) {
+        for (let i: number = 0; i < parsedData.bodies.length; i++) {
+            infoLine.innerText = "Bitte wählen Sie einen Körper, um Ihren eigenen Entenhausener zusammenzusetzen.";
+            createAPart(parsedData.bodies[i], "body");
+        }
+    }
+    if (currentPage == absoluteLinkFeet) {
+        for (let i: number = 0; i < parsedData.feet.length; i++) {
+            infoLine.innerText = "Bitte wählen Sie die Füße, um Ihren eigenen Entenhausener zusammenzusetzen.";
+            createAPart(parsedData.feet[i], "feet");
+        }
     }
 
 }
