@@ -91,7 +91,10 @@ namespace Kapitelaufgabe2 {
             sessionStorage.setItem(_thisPart + "Picture", _part.picture);
             sessionStorage.setItem(_thisPart + "Name", _part.name);
             sessionStorage.setItem(_thisPart + "Animal", _part.animal);
-        }
+            if (_thisPart == "head") window.open("../Kapitelaufgabe_2/body.html", "_self");
+            if (_thisPart == "body") window.open("../Kapitelaufgabe_2/feet.html", "_self");
+            if (_thisPart == "feet") window.open("../Kapitelaufgabe_2/index.html", "_self");
+        } 
     }
 
     let currentPage: string = window.location.href;
