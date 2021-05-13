@@ -33,10 +33,10 @@ button {
     font-size: 15px;
     border-radius: 5px;
     border-color: red;
-    text-transform: uppercase;
+    font-weight: bold;
 }
 
-img {
+.displayPic {
     margin-top: 20px;
 }
 
@@ -56,4 +56,11 @@ img {
 
 header {
     margin: 20px;
+}
+
+#displayStoredChoices {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: center;
 }

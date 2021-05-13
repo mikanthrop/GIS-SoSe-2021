@@ -20,21 +20,27 @@ var Kapitelaufgabe2;
     infoLine.setAttribute("style", "fontsize: " + 30 + "px; color: inherit");
     infoLine.setAttribute("id", "info");
     main.appendChild(infoLine);
+    //creating another flexbox which shows the choices pictures so far
     let choicesSoFar = document.createElement("div");
-    infoLine.setAttribute("style", "display: flex, flex-flow: column nowrap, justify-content: flex-start, align-items: center");
+    choicesSoFar.setAttribute("id", "displayStoredChoices");
     main.appendChild(choicesSoFar);
     //creating the space were APart s will be appended to
     let presentPartSpace = document.createElement("div");
     presentPartSpace.setAttribute("id", "Choices");
     main.appendChild(presentPartSpace);
-    function createAPart(_part, _thisPart) {
+    //function for creating a div with all the info in presentPartSpace
+    function createAPart(_part, _bodyPart) {
         //creates overarching div-element
         let flexitem = document.createElement("div");
         presentPartSpace.appendChild(flexitem);
         //creates picture whose path is saved as a string
         let pic = document.createElement("img");
         pic.setAttribute("src", _part.picture);
-        pic.setAttribute("height", 200 + "px");
+        pic.setAttribute("class", "displayPic");
+        if (_bodyPart == "head")
+            pic.setAttribute("height", 200 + "px");
+        if (_bodyPart == "body" || _bodyPart == "feet")
+            pic.setAttribute("width", 200 + "px");
         flexitem.appendChild(pic);
         //following lines create paragraph elements with info
         let name = document.createElement("p");
@@ -45,27 +51,29 @@ var Kapitelaufgabe2;
         flexitem.appendChild(animal);
         let button = document.createElement("button");
         button.innerText = "Ich wähle dich!";
-        button.setAttribute("class", _thisPart);
-        if (_thisPart == "head")
-            button.setAttribute("href", "../Kapitelaufgabe_2/body.html");
-        if (_thisPart == "body")
-            button.setAttribute("href", "../Kapitelaufgabe_2/feet.html");
-        if (_thisPart == "feet")
-            button.setAttribute("href", "../Kapitelaufgabe_2/index.html");
+        button.setAttribute("class", _bodyPart);
         button.addEventListener("click", handleClickButton);
         flexitem.appendChild(button);
         function handleClickButton(_event) {
             console.log(_part);
-            sessionStorage.setItem(_thisPart + "Picture", _part.picture);
-            sessionStorage.setItem(_thisPart + "Name", _part.name);
-            sessionStorage.setItem(_thisPart + "Animal", _part.animal);
-            if (_thisPart == "head")
+            sessionStorage.setItem(_bodyPart + "Picture", _part.picture);
+            sessionStorage.setItem(_bodyPart + "Name", _part.name);
+            sessionStorage.setItem(_bodyPart + "Animal", _part.animal);
+            if (_bodyPart == "head")
                 window.open("../Kapitelaufgabe_2/body.html", "_self");
-            if (_thisPart == "body")
+            if (_bodyPart == "body")
                 window.open("../Kapitelaufgabe_2/feet.html", "_self");
-            if (_thisPart == "feet")
+            if (_bodyPart == "feet")
                 window.open("../Kapitelaufgabe_2/index.html", "_self");
         }
+    }
+    function showChoices() {
+        let headPic = document.createElement("img");
+        let bodyPic = document.createElement("img");
+        let feetPic = document.createElement("img");
+        choicesSoFar.appendChild(headPic);
+        choicesSoFar.appendChild(bodyPic);
+        choicesSoFar.appendChild(feetPic);
     }
     function getSubpage() {
         return window.location.pathname.substring(window.location.pathname.lastIndexOf("/") + 1);
@@ -89,6 +97,14 @@ var Kapitelaufgabe2;
             infoLine.innerText = "Bitte wählen Sie die Füße, um Ihren eigenen Entenhausener zusammenzusetzen.";
             createAPart(parsedData.feet[i], "feet");
         }
+    }
+    if (currentPage == "index.html") {
+        let info1 = document.createElement("p");
+        info1.innerText = "Als Projekt für mein Studium möchte ich auf dieser Webseite den Benutzer einen Entenhausener aus Bildern ausgewählter Figuren zusammenbauen lassen.";
+        main.appendChild(info1);
+        let info2 = document.createElement("p");
+        info2.innerText = "Bitte drücken Sie auf den untenstehenden Button, um zu beginnen.";
+        main.appendChild(info2);
     }
 })(Kapitelaufgabe2 || (Kapitelaufgabe2 = {}));
 //# sourceMappingURL=script.js.map
