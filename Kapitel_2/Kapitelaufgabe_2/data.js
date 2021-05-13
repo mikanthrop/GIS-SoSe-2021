@@ -75,10 +75,6 @@ var Kapitelaufgabe2;
         bodies: bodyArray,
         feet: feetArray
     };
-    Kapitelaufgabe2.jsonHeads = JSON.stringify(headArray);
-    Kapitelaufgabe2.jsonBodies = JSON.stringify(bodyArray);
-    Kapitelaufgabe2.jsonFeet = JSON.stringify(feetArray);
     Kapitelaufgabe2.allData = JSON.stringify(allParts);
-    let parsedData = JSON.parse(Kapitelaufgabe2.allData);
 })(Kapitelaufgabe2 || (Kapitelaufgabe2 = {}));
 //# sourceMappingURL=data.js.map

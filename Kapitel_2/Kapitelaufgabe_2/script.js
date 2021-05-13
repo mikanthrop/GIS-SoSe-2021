@@ -1,9 +1,11 @@
 "use strict";
 var Kapitelaufgabe2;
 (function (Kapitelaufgabe2) {
-    let headArray = JSON.parse(Kapitelaufgabe2.jsonHeads);
-    let bodyArray = JSON.parse(Kapitelaufgabe2.jsonBodies);
-    let feetArray = JSON.parse(Kapitelaufgabe2.jsonFeet);
+    let parsedData = JSON.parse(Kapitelaufgabe2.allData);
+    /*let absoluteLinkHead: string = "http://127.0.0.1:5500/Kapitel_2/Kapitelaufgabe_2/head.html";
+    let absoluteLinkBody: string = "http://127.0.0.1:5500/Kapitel_2/Kapitelaufgabe_2/body.html";
+    let absoluteLinkFeet: string = "http://127.0.0.1:5500/Kapitel_2/Kapitelaufgabe_2/feet.html";
+    let absoluteLinkIndex: string = "http://127.0.0.1:5500/Kapitel_2/Kapitelaufgabe_2/index.html";*/
     //creating basic structure header main and footer in the body
     let header = document.createElement("header");
     document.body.appendChild(header);
@@ -22,6 +24,9 @@ var Kapitelaufgabe2;
     infoLine.setAttribute("style", "fontsize: " + 30 + "px; color: inherit");
     infoLine.setAttribute("id", "info");
     main.appendChild(infoLine);
+    let choicesSoFar = document.createElement("div");
+    infoLine.setAttribute("style", "display: flex, flex-flow: column nowrap, justify-content: flex-start, align-items: center");
+    main.appendChild(choicesSoFar);
     //creating the space were APart s will be appended to
     let presentPartSpace = document.createElement("div");
     presentPartSpace.setAttribute("id", "Choices");
@@ -45,19 +50,30 @@ var Kapitelaufgabe2;
         let button = document.createElement("button");
         button.innerText = "Ich wähle dich!";
         button.setAttribute("class", _thisPart);
-        flexitem.appendChild(button);
+        if (_thisPart == "head")
+            button.setAttribute("href", "../Kapitelaufgabe_2/body.html");
+        if (_thisPart == "body")
+            button.setAttribute("href", "../Kapitelaufgabe_2/feet.html");
+        if (_thisPart == "feet")
+            button.setAttribute("href", "../Kapitelaufgabe_2/index.html");
         button.addEventListener("click", handleClickButton);
+        flexitem.appendChild(button);
         function handleClickButton(_event) {
             console.log(_part);
-            if (button.className == "head")
-                button.setAttribute("href", "../Kapitelaufgabe_2/body.html");
+            sessionStorage.setItem(_thisPart + "Picture", _part.picture);
+            sessionStorage.setItem(_thisPart + "Name", _part.name);
+            sessionStorage.setItem(_thisPart + "Animal", _part.animal);
         }
-    }
-    for (let i = 0; i < headArray.length; i++) {
-        infoLine.innerText = "Bitte wählen Sie einen Kopf, um Ihren eigenen Entenhausener zusammenzusetzen.";
-        createAPart(headArray[i], "head");
     }
     let currentPage = window.location.href;
     console.log(currentPage);
+    if (currentPage == "http://127.0.0.1:5500/Kapitel_2/Kapitelaufgabe_2/head.html")
+        console.log("absolute links work");
+    else
+        console.log("absolute links don't work");
+    for (let i = 0; i < parsedData.heads.length; i++) {
+        infoLine.innerText = "Bitte wählen Sie einen Kopf, um Ihren eigenen Entenhausener zusammenzusetzen.";
+        createAPart(parsedData.heads[i], "head");
+    }
 })(Kapitelaufgabe2 || (Kapitelaufgabe2 = {}));
 //# sourceMappingURL=script.js.map

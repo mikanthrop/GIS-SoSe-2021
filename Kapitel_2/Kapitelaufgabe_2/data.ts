@@ -77,9 +77,6 @@ namespace Kapitelaufgabe2 {
         feet: feetArray
     };
 
-    export let jsonHeads: string = JSON.stringify(headArray);
-    export let jsonBodies: string = JSON.stringify(bodyArray);
-    export let jsonFeet: string = JSON.stringify(feetArray);
     export let allData: string = JSON.stringify(allParts);
-    let parsedData: AllParts = JSON.parse(allData);
+    
 }
