@@ -144,7 +144,7 @@ var Kapitelaufgabe2;
         newStart.addEventListener("click", handleButtonClick);
         main.appendChild(newStart);
         function handleButtonClick(_event) {
-            window.open("../Kapitelaufgabe_2/head.html");
+            window.open("../Kapitelaufgabe_2/head.html", "_self");
         }
     }
 })(Kapitelaufgabe2 || (Kapitelaufgabe2 = {}));

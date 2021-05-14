@@ -191,7 +191,7 @@ namespace Kapitelaufgabe2 {
         main.appendChild(newStart);
 
         function handleButtonClick(_event: MouseEvent): void {
-            window.open("../Kapitelaufgabe_2/head.html");
+            window.open("../Kapitelaufgabe_2/head.html", "_self");
         }
     }
     
