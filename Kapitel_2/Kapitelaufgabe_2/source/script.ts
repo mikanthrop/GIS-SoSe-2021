@@ -71,7 +71,7 @@ namespace Kapitelaufgabe2 {
         pic.setAttribute("src", _part.picture);
         pic.setAttribute("class", "displayPic");
         if (_bodyPart == "head" || _bodyPart == "body") pic.setAttribute("height", 200 + "px");
-        if ( _bodyPart == "feet") pic.setAttribute("width", 200 + "px");
+        if (_bodyPart == "feet") pic.setAttribute("width", 200 + "px");
         flexitem.appendChild(pic);
 
         //following lines create paragraph elements with info
@@ -138,11 +138,12 @@ namespace Kapitelaufgabe2 {
         startButton.innerText = "Los geht's!";
         startButton.addEventListener("click", handleStartButtonClick);
         main.appendChild(startButton);
-        
+
         function handleStartButtonClick(_event: MouseEvent): void {
             window.open("../html/head.html", "_self");
         }
     }
+
 
     if (currentPage == "head.html") {
         for (let i: number = 0; i < parsedData.heads.length; i++) {
@@ -176,7 +177,7 @@ namespace Kapitelaufgabe2 {
 
         name.innerText = "Name: " + sessionStorage.getItem("headName") + sessionStorage.getItem("bodyName") + sessionStorage.getItem("feetName");
         animal.innerText = "Tier: " + sessionStorage.getItem("headAnimal") + "-" + sessionStorage.getItem("bodyAnimal") + "-" + sessionStorage.getItem("feetAnimal");
-    
+
         choicesSoFar.appendChild(name);
         choicesSoFar.appendChild(animal);
 
@@ -194,6 +195,10 @@ namespace Kapitelaufgabe2 {
             window.open("../Kapitelaufgabe_2/head.html", "_self");
         }
     }
-    
+
+
+
+
+
 
 }
