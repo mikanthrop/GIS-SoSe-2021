@@ -1,6 +1,21 @@
 namespace Kapitelaufgabe2 {
 
-    let parsedData: AllParts = JSON.parse("./source/data.json");
+    export let parsedData: AllParts;
+
+    window.addEventListener("load", init);
+
+    function init(): void {
+        getData("../source/data.json");
+    }
+
+    async function getData(_url: RequestInfo): Promise<void> {
+        let response: Response = await fetch(_url);
+        console.log(parsedData);
+        let jsonObj: string = await response.json();
+        console.log(parsedData);
+        parsedData = JSON.parse(JSON.stringify(jsonObj));
+        console.log(parsedData);
+    }
 
     let currentPage: string = getSubpage();
     console.log(currentPage);
@@ -23,7 +38,7 @@ namespace Kapitelaufgabe2 {
     let homeLink: HTMLAnchorElement = document.createElement("a");
     homeLink.innerText = "Build-A-Entenhausener";
     homeLink.setAttribute("style", "padding: " + 20 + "px; margin: " + 5 + "px; font-size: " + 40 + "px; text-transform: capitalize; font-weight: bold");
-    homeLink.setAttribute("href", "../Kapitelaufgabe_2/HTML/index.html");
+    homeLink.setAttribute("href", "../html/index.html");
     header.appendChild(homeLink);
 
     //creating the subtext of the headline for that specific site without anything in it
@@ -68,6 +83,7 @@ namespace Kapitelaufgabe2 {
         animal.innerText = "Tierart: " + _part.animal;
         flexitem.appendChild(animal);
 
+        //creating button and event handler that works on this button only
         let button: HTMLButtonElement = document.createElement("button");
         button.innerText = "Ich wähle dich!";
         button.setAttribute("class", _bodyPart);
@@ -79,9 +95,9 @@ namespace Kapitelaufgabe2 {
             sessionStorage.setItem(_bodyPart + "Picture", _part.picture);
             sessionStorage.setItem(_bodyPart + "Name", _part.name);
             sessionStorage.setItem(_bodyPart + "Animal", _part.animal);
-            if (_bodyPart == "head") window.open("../Kapitelaufgabe_2/HTML/body.html", "_self");
-            if (_bodyPart == "body") window.open("../Kapitelaufgabe_2/HTML/feet.html", "_self");
-            if (_bodyPart == "feet") window.open("../Kapitelaufgabe_2/HTML/finish.html", "_self");
+            if (_bodyPart == "head") window.open("../Kapitelaufgabe_2/body.html", "_self");
+            if (_bodyPart == "body") window.open("../Kapitelaufgabe_2/feet.html", "_self");
+            if (_bodyPart == "feet") window.open("../Kapitelaufgabe_2/finish.html", "_self");
         }
     }
 
@@ -124,7 +140,7 @@ namespace Kapitelaufgabe2 {
         main.appendChild(startButton);
         
         function handleStartButtonClick(_event: MouseEvent): void {
-            window.open("../Kapitelaufgabe_2/HTML/head.html", "_self");
+            window.open("../html/head.html", "_self");
         }
     }
 
@@ -175,7 +191,7 @@ namespace Kapitelaufgabe2 {
         main.appendChild(newStart);
 
         function handleButtonClick(_event: MouseEvent): void {
-            window.open("../Kapitelaufgabe_2/HTML/head.html", "_self");
+            window.open("../Kapitelaufgabe_2/head.html", "_self");
         }
     }
     

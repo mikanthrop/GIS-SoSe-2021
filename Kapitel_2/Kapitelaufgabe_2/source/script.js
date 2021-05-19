@@ -1,7 +1,18 @@
 "use strict";
 var Kapitelaufgabe2;
 (function (Kapitelaufgabe2) {
-    let parsedData = JSON.parse("./source/data.json");
+    window.addEventListener("load", init);
+    function init() {
+        getData("../source/data.json");
+    }
+    async function getData(_url) {
+        let response = await fetch(_url);
+        console.log(Kapitelaufgabe2.parsedData);
+        let jsonObj = await response.json();
+        console.log(Kapitelaufgabe2.parsedData);
+        Kapitelaufgabe2.parsedData = JSON.parse(JSON.stringify(jsonObj));
+        console.log(Kapitelaufgabe2.parsedData);
+    }
     let currentPage = getSubpage();
     console.log(currentPage);
     function getSubpage() {
@@ -18,7 +29,7 @@ var Kapitelaufgabe2;
     let homeLink = document.createElement("a");
     homeLink.innerText = "Build-A-Entenhausener";
     homeLink.setAttribute("style", "padding: " + 20 + "px; margin: " + 5 + "px; font-size: " + 40 + "px; text-transform: capitalize; font-weight: bold");
-    homeLink.setAttribute("href", "../Kapitelaufgabe_2/HTML/index.html");
+    homeLink.setAttribute("href", "../html/index.html");
     header.appendChild(homeLink);
     //creating the subtext of the headline for that specific site without anything in it
     let infoLine = document.createElement("p");
@@ -54,6 +65,7 @@ var Kapitelaufgabe2;
         let animal = document.createElement("p");
         animal.innerText = "Tierart: " + _part.animal;
         flexitem.appendChild(animal);
+        //creating button and event handler that works on this button only
         let button = document.createElement("button");
         button.innerText = "Ich wähle dich!";
         button.setAttribute("class", _bodyPart);
@@ -65,11 +77,11 @@ var Kapitelaufgabe2;
             sessionStorage.setItem(_bodyPart + "Name", _part.name);
             sessionStorage.setItem(_bodyPart + "Animal", _part.animal);
             if (_bodyPart == "head")
-                window.open("../Kapitelaufgabe_2/HTML/body.html", "_self");
+                window.open("../Kapitelaufgabe_2/body.html", "_self");
             if (_bodyPart == "body")
-                window.open("../Kapitelaufgabe_2/HTML/feet.html", "_self");
+                window.open("../Kapitelaufgabe_2/feet.html", "_self");
             if (_bodyPart == "feet")
-                window.open("../Kapitelaufgabe_2/HTML/finish.html", "_self");
+                window.open("../Kapitelaufgabe_2/finish.html", "_self");
         }
     }
     function showChoices() {
@@ -103,27 +115,27 @@ var Kapitelaufgabe2;
         startButton.addEventListener("click", handleStartButtonClick);
         main.appendChild(startButton);
         function handleStartButtonClick(_event) {
-            window.open("../Kapitelaufgabe_2/HTML/head.html", "_self");
+            window.open("../html/head.html", "_self");
         }
     }
     if (currentPage == "head.html") {
-        for (let i = 0; i < parsedData.heads.length; i++) {
+        for (let i = 0; i < Kapitelaufgabe2.parsedData.heads.length; i++) {
             infoLine.innerText = "Bitte wählen Sie einen Kopf, um Ihren eigenen Entenhausener zusammenzusetzen.";
-            createAPart(parsedData.heads[i], "head");
+            createAPart(Kapitelaufgabe2.parsedData.heads[i], "head");
         }
     }
     if (currentPage == "body.html") {
         showChoices();
-        for (let i = 0; i < parsedData.bodies.length; i++) {
+        for (let i = 0; i < Kapitelaufgabe2.parsedData.bodies.length; i++) {
             infoLine.innerText = "Bitte wählen Sie einen Körper, um Ihren eigenen Entenhausener zusammenzusetzen.";
-            createAPart(parsedData.bodies[i], "body");
+            createAPart(Kapitelaufgabe2.parsedData.bodies[i], "body");
         }
     }
     if (currentPage == "feet.html") {
         showChoices();
-        for (let i = 0; i < parsedData.feet.length; i++) {
+        for (let i = 0; i < Kapitelaufgabe2.parsedData.feet.length; i++) {
             infoLine.innerText = "Bitte wählen Sie die Füße, um Ihren eigenen Entenhausener zusammenzusetzen.";
-            createAPart(parsedData.feet[i], "feet");
+            createAPart(Kapitelaufgabe2.parsedData.feet[i], "feet");
         }
     }
     if (currentPage == "finish.html") {
@@ -144,7 +156,7 @@ var Kapitelaufgabe2;
         newStart.addEventListener("click", handleButtonClick);
         main.appendChild(newStart);
         function handleButtonClick(_event) {
-            window.open("../Kapitelaufgabe_2/HTML/head.html", "_self");
+            window.open("../Kapitelaufgabe_2/head.html", "_self");
         }
     }
 })(Kapitelaufgabe2 || (Kapitelaufgabe2 = {}));
