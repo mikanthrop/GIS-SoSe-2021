@@ -64,3 +64,9 @@ header {
     justify-content: flex-start;
     align-items: center;
 }
+
+#ServerMessage {
+    margin-bottom: 15px;
+    font-style: italic;
+    font-size: 17px;
+}
