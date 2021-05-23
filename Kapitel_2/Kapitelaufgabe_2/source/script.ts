@@ -30,7 +30,7 @@ namespace Kapitelaufgabe2 {
         if (displayText.error != undefined) return displayText.error;
         if (displayText.message != undefined) return displayText.message;
         return "Ooops, something went wrong.";
-    }
+    } 
 
     //creating basic structure header main and footer in the body
     let header: HTMLElement = document.createElement("header");
