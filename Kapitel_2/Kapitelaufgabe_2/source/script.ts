@@ -158,7 +158,6 @@ namespace Kapitelaufgabe2 {
             }
         }
 
-
         if (currentPage == "head.html") {
             for (let i: number = 0; i < parsedData.heads.length; i++) {
                 infoLine.innerText = "Bitte wählen Sie einen Kopf, um Ihren eigenen Entenhausener zusammenzusetzen.";
