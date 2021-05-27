@@ -8,7 +8,7 @@
     "main": "index.js",
     "devDependencies": {},
     "scripts": {
-        "start": "./Kapitel_3/Kapitel_3.1/server/server.js"
+        "start": "node ../GIS-SoSe-2021/Kapitel_3/Kapitel_3.1/server/server.js"
     },
     "repository": {
         "type": "git",
