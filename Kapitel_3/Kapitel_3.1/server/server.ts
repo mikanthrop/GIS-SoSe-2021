@@ -15,7 +15,6 @@ export namespace P_3_1Server {
         console.log("Listening");
     }
 
-
     function handleRequest(_request: Http.IncomingMessage, _response: Http.ServerResponse): void {
         console.log("I hear voices!");
         _response.setHeader("content-type", "text/html; charset=utf-8");
