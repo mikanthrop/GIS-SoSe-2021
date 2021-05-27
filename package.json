@@ -1,23 +1,23 @@
 {
-  "dependencies": {
-    "@types/node": "^15.6.1"
-  },
-  "name": "gis-sose-2021",
-  "version": "0.0.1",
-  "description": "something with gis",
-  "main": "index.js",
-  "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mikanthrop/GIS-SoSe-2021.git"
-  },
-  "author": "Marie Cleppien",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/mikanthrop/GIS-SoSe-2021/issues"
-  },
-  "homepage": "https://github.com/mikanthrop/GIS-SoSe-2021#readme"
+    "dependencies": {
+        "@types/node": "^15.6.1"
+    },
+    "name": "gis-sose-2021",
+    "version": "0.0.1",
+    "description": "something with gis",
+    "main": "index.js",
+    "devDependencies": {},
+    "scripts": {
+        "start": "./Kapitel_3/Kapitel_3.1/script.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/mikanthrop/GIS-SoSe-2021.git"
+    },
+    "author": "Marie Cleppien",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/mikanthrop/GIS-SoSe-2021/issues"
+    },
+    "homepage": "https://github.com/mikanthrop/GIS-SoSe-2021#readme"
 }
