@@ -5,7 +5,7 @@ namespace Kapitelaufgabe2 {
     async function getData(_url: RequestInfo): Promise<void> {
         let response: Response = await fetch(_url);
         let jsonObj: string = await response.json();
-        parsedData = JSON.parse(JSON.stringify(jsonObj));
+        parsedData = JSON.parse(jsonObj);
     }
 
     let currentPage: string = getSubpage();
@@ -22,6 +22,7 @@ namespace Kapitelaufgabe2 {
 
     async function getServerAnswer(_url: RequestInfo): Promise<string> {
         let browserCacheData: JSON = JSON.parse(JSON.stringify(sessionStorage));
+        //tslint:disable-next-line: no-any
         let query: URLSearchParams = new URLSearchParams(<any>browserCacheData);
         _url = _url + "?" + query.toString();
         let response: Response = await fetch(_url);
