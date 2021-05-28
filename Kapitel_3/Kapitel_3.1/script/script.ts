@@ -9,7 +9,13 @@ async function handleButtonClick(): Promise<void> {
     let query: URLSearchParams = new URLSearchParams(<any>formData);
     url += "/?" + query.toString();
 
-    let response: Response = await fetch(url);
+    let response: Response = await fetch(url, {method: "get"});
     let loggedResponse: string = await response.text();
     console.log(loggedResponse);
+
+    for (let entry of query) {
+        console.log(entry);
+        console.log("Key: " + entry[0]);
+        console.log("Value: " + entry[1]);
+    }
 }
