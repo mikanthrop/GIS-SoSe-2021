@@ -5,7 +5,7 @@ var Kapitelaufgabe2;
     async function getData(_url) {
         let response = await fetch(_url);
         let jsonObj = await response.json();
-        parsedData = JSON.parse(JSON.stringify(jsonObj));
+        parsedData = JSON.parse(jsonObj);
     }
     let currentPage = getSubpage();
     console.log(currentPage);
@@ -14,6 +14,7 @@ var Kapitelaufgabe2;
     }
     async function getServerAnswer(_url) {
         let browserCacheData = JSON.parse(JSON.stringify(sessionStorage));
+        //tslint:disable-next-line: no-any
         let query = new URLSearchParams(browserCacheData);
         _url = _url + "?" + query.toString();
         let response = await fetch(_url);
