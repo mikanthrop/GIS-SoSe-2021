@@ -39,7 +39,6 @@ var P_3_1Server;
         _response.setHeader("Access-Control-Allow-Origin", "*");
         // als Serverantwort wird die url der Anfrage auf die Seite geschrieben
         _response.write(_request.url);
-        console.log(_request.url);
         // die Serverantwort wird beendet
         _response.end();
     }
