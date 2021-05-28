@@ -1,21 +1,21 @@
-let formData: FormData = new FormData(document.forms[0]);
+namespace Aufgabe_3_2 {
 
-let button: HTMLButtonElement = <HTMLButtonElement>document.getElementById("button");
-button.addEventListener("click", handleButtonClick);
+    let button: HTMLButtonElement = <HTMLButtonElement>document.getElementById("button");
+    button.addEventListener("click", handleButtonClick);
 
-async function handleButtonClick(): Promise<void> {
-    let url: string = "https://gis-server-git-gud.herokuapp.com";
-    //tslint:disable-next-line: no-any
-    let query: URLSearchParams = new URLSearchParams(<any>formData);
-    url += "/?" + query.toString();
+    function handleButtonClick(): void {
+        getServerAnswer("http://localhost:8100");
+        console.log("Button wurde gedrückt.");
+    }
 
-    let response: Response = await fetch(url, {method: "get"});
-    let loggedResponse: string = await response.text();
-    console.log(loggedResponse);
+    async function getServerAnswer(_url: RequestInfo): Promise<void> {
+        let formData: FormData = new FormData(document.forms[0]);
+        //tslint:disable-next-line: no-any
+        let query: URLSearchParams = new URLSearchParams(<any>formData);
+        _url += "?" + query.toString();
 
-    for (let entry of query) {
-        console.log(entry);
-        console.log("Key: " + entry[0]);
-        console.log("Value: " + entry[1]);
+        let response: Response = await fetch(_url);
+        let loggedResponse: string = await response.text();
+        console.log(loggedResponse);
     }
 }
