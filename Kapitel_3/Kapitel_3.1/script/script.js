@@ -4,7 +4,7 @@ var Aufgabe_3_2;
     let button = document.getElementById("button");
     button.addEventListener("click", handleButtonClick);
     function handleButtonClick() {
-        getServerAnswer("http://localhost:8100");
+        getServerAnswer("https://gis-server-git-gud.herokuapp.com");
         console.log("Button wurde gedrückt.");
     }
     async function getServerAnswer(_url) {
@@ -14,7 +14,8 @@ var Aufgabe_3_2;
         _url += "?" + query.toString();
         let response = await fetch(_url);
         let loggedResponse = await response.text();
-        console.log(loggedResponse);
+        sessionStorage.setItem("serveranswer", loggedResponse);
     }
+    console.log("Server sagt: " + sessionStorage.getItem("serveranswer"));
 })(Aufgabe_3_2 || (Aufgabe_3_2 = {}));
 //# sourceMappingURL=script.js.map
