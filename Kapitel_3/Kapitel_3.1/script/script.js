@@ -4,7 +4,7 @@ var Aufgabe_3_2;
     let button = document.getElementById("button");
     button.addEventListener("click", handleButtonClick);
     function handleButtonClick() {
-        getServerAnswer("http://localhost:8100");
+        getServerAnswer("https://gis-server-git-gud.herokuapp.com");
         console.log("Button wurde gedrückt.");
     }
     async function getServerAnswer(_url) {

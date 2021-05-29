@@ -4,7 +4,7 @@ namespace Aufgabe_3_2 {
     button.addEventListener("click", handleButtonClick);
 
     function handleButtonClick(): void {
-        getServerAnswer("http://localhost:8100");
+        getServerAnswer("https://gis-server-git-gud.herokuapp.com");
         console.log("Button wurde gedrückt.");
     }
 
