@@ -1,0 +1,40 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+form {
+    margin: 10px 10px;
+    text-align: center;
+}
+
+fieldset {
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+    align-content: left;
+    width: fit-content;
+}
+
+input {
+    margin: 5px;
+    padding: 3px;
+    border-radius: 5px;
+    width: 200px;
+}
+
+span {
+    margin-top: 20px;
+}
+
+button {
+    margin: 5px;
+    padding: 5px;
+    border-radius: 5px;
+    width: fit-content;
+    border-color: rgb(114, 65, 143);
+    background-color: rgb(240, 240, 240);
+}
