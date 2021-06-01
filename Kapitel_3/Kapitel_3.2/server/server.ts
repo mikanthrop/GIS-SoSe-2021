@@ -33,7 +33,7 @@ export namespace P_3_1Server {
         
         if (url.pathname == "/html") {
             for (let key in url.query) {
-                _response.write("<p>" + key + ": " + url.query[key] + "</p>");
+                _response.write(key + ": " + url.query[key] + "\n");
             }
         }
 

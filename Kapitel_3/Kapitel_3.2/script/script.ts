@@ -25,7 +25,6 @@ namespace Aufgabe_3_2 {
         let response: Response = await fetch(url);
         let displayResponse: string = await response.text();
         htmlAnswer.innerText = displayResponse;
-        document.body.appendChild(htmlAnswer);
         console.log(displayResponse);
         
         // setback of URL to prevent requests with multiple inputs

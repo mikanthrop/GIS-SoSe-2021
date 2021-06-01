@@ -39,3 +39,7 @@ button {
     border-color: rgb(114, 65, 143);
     background-color: rgb(240, 240, 240);
 }
+
+#htmlAnswer {
+    margin: 5px 20px;
+}
