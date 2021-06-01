@@ -24,12 +24,19 @@ export namespace P_3_1Server {
         _response.setHeader("Access-Control-Allow-Origin", "*");
       
         let url: Url.UrlWithParsedQuery = Url.parse(_request.url, true);
-        console.log(_request.url);
         console.log(url);
-        console.log(url.path);
+        console.log("pathname: " + url.pathname);
+        if (url.pathname == "/json") {
+            let jsonString: string = JSON.stringify(url.query);
+            _response.write(jsonString);
+        }
         
-        _response.end();
+        if (url.pathname == "/html") {
+            for (let key in url.query) {
+                _response.write("<p>" + key + ": " + url.query[key] + "</p>");
+            }
+        }
 
-        
+        _response.end();
     }
 }

@@ -22,9 +22,17 @@ var P_3_1Server;
         _response.setHeader("content-type", "text/html; charset=utf-8");
         _response.setHeader("Access-Control-Allow-Origin", "*");
         let url = Url.parse(_request.url, true);
-        console.log(_request.url);
         console.log(url);
-        console.log(url.path);
+        console.log("pathname: " + url.pathname);
+        if (url.pathname == "/json") {
+            let jsonString = JSON.stringify(url.query);
+            _response.write(jsonString);
+        }
+        if (url.pathname == "/html") {
+            for (let key in url.query) {
+                _response.write("<p>" + key + ": " + url.query[key] + "</p>");
+            }
+        }
         _response.end();
     }
 })(P_3_1Server = exports.P_3_1Server || (exports.P_3_1Server = {}));
