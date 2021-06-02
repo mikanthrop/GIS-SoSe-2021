@@ -43,6 +43,7 @@ namespace Aufgabe_3_2 {
 
         let response: Response = await fetch(url);
         let jsonResponse: string = await response.json();
+        htmlAnswer.innerText = "Bitte sehen Sie in der Konsole nach.";
         console.log(jsonResponse);
 
         // setback of URL to prevent requests with multiple inputs

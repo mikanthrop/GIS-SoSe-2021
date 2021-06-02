@@ -34,6 +34,7 @@ var Aufgabe_3_2;
         url += "/json" + "?" + query.toString();
         let response = await fetch(url);
         let jsonResponse = await response.json();
+        htmlAnswer.innerText = "Bitte sehen Sie in der Konsole nach.";
         console.log(jsonResponse);
         // setback of URL to prevent requests with multiple inputs
         getURL();
