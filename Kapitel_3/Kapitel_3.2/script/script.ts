@@ -10,7 +10,8 @@ namespace Aufgabe_3_2 {
     let url: string;
 
     function getURL(): void {
-        url = "http://localhost:8100";
+        url = "https://gis-server-git-gud.herokuapp.com";
+        //url = "http://localhost:8100";
     }
 
     async function handleHTMLButtonClick(): Promise<void> {

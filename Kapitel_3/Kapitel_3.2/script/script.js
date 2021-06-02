@@ -8,7 +8,8 @@ var Aufgabe_3_2;
     let htmlAnswer = document.getElementById("htmlAnswer");
     let url;
     function getURL() {
-        url = "http://localhost:8100";
+        url = "https://gis-server-git-gud.herokuapp.com";
+        //url = "http://localhost:8100";
     }
     async function handleHTMLButtonClick() {
         getURL();
