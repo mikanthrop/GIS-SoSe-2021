@@ -8,7 +8,7 @@
     "main": "index.js",
     "devDependencies": {},
     "scripts": {
-        "start": "node ./Kapitel_3/Kapitel_3.1/server/server.js"
+        "start": "node ./Kapitel_3/Kapitel_3.2/server/server.js"
     },
     "repository": {
         "type": "git",
