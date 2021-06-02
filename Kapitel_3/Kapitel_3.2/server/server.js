@@ -24,16 +24,16 @@ var P_3_1Server;
         let url = Url.parse(_request.url, true);
         console.log(url);
         console.log("pathname: " + url.pathname);
-        // check if pathname ist /json, if so, gimme a jsonstring
-        if (url.pathname == "/json") {
-            let jsonString = JSON.stringify(url.query);
-            _response.write(jsonString);
-        }
         // check if pathname ist /html, if so, please format
         if (url.pathname == "/html") {
             for (let key in url.query) {
                 _response.write(key + ": " + url.query[key] + "\n");
             }
+        }
+        // check if pathname ist /json, if so, gimme a jsonstring
+        if (url.pathname == "/json") {
+            let jsonString = JSON.stringify(url.query);
+            _response.write(jsonString);
         }
         _response.end();
     }
