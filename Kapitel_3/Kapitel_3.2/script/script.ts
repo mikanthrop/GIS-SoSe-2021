@@ -8,21 +8,26 @@ namespace Aufgabe_3_2 {
     jsonButton.addEventListener("click", handleJSONButtonClick);
     let htmlAnswer: HTMLDivElement = <HTMLDivElement>document.getElementById("htmlAnswer");
     let url: string;
+    let query: URLSearchParams;
 
     function getURL(): void {
-        url = "https://gis-server-git-gud.herokuapp.com";
-        //url = "http://localhost:8100";
+        //url = "https://gis-server-git-gud.herokuapp.com";
+        url = "http://localhost:8100";
+    }
+
+    function getFormData(): void {
+        let formData: FormData = new FormData(document.forms[0]);
+        //tslint:disable-next-line: no-any
+        query = new URLSearchParams(<any>formData);
     }
 
     async function handleHTMLButtonClick(): Promise<void> {
         getURL();
+        getFormData();
 
         console.log("HTML-Button wurde gedrückt.");
-        let formData: FormData = new FormData(document.forms[0]);
-        //tslint:disable-next-line: no-any
-        let query: URLSearchParams = new URLSearchParams(<any>formData);
-        url += "/html" + "?" + query.toString();
 
+        url += "/html" + "?" + query.toString();
         let response: Response = await fetch(url);
         let displayResponse: string = await response.text();
         htmlAnswer.innerText = displayResponse;
@@ -34,13 +39,12 @@ namespace Aufgabe_3_2 {
 
     async function handleJSONButtonClick(): Promise<void> {
         getURL();
+        getFormData();
 
         console.log("JSON-Button wurde gedrückt.");
-        let formData: FormData = new FormData(document.forms[0]);
-        //tslint:disable-next-line: no-any
-        let query: URLSearchParams = new URLSearchParams(<any>formData);
+        console.log(query);
+        
         url += "/json" + "?" + query.toString();
-
         let response: Response = await fetch(url);
         let jsonResponse: string = await response.json();
         htmlAnswer.innerText = "Bitte sehen Sie in der Konsole nach.";

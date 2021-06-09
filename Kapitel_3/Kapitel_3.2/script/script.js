@@ -7,16 +7,20 @@ var Aufgabe_3_2;
     jsonButton.addEventListener("click", handleJSONButtonClick);
     let htmlAnswer = document.getElementById("htmlAnswer");
     let url;
+    let query;
     function getURL() {
-        url = "https://gis-server-git-gud.herokuapp.com";
-        //url = "http://localhost:8100";
+        //url = "https://gis-server-git-gud.herokuapp.com";
+        url = "http://localhost:8100";
+    }
+    function getFormData() {
+        let formData = new FormData(document.forms[0]);
+        //tslint:disable-next-line: no-any
+        query = new URLSearchParams(formData);
     }
     async function handleHTMLButtonClick() {
         getURL();
+        getFormData();
         console.log("HTML-Button wurde gedrückt.");
-        let formData = new FormData(document.forms[0]);
-        //tslint:disable-next-line: no-any
-        let query = new URLSearchParams(formData);
         url += "/html" + "?" + query.toString();
         let response = await fetch(url);
         let displayResponse = await response.text();
@@ -27,10 +31,9 @@ var Aufgabe_3_2;
     }
     async function handleJSONButtonClick() {
         getURL();
+        getFormData();
         console.log("JSON-Button wurde gedrückt.");
-        let formData = new FormData(document.forms[0]);
-        //tslint:disable-next-line: no-any
-        let query = new URLSearchParams(formData);
+        console.log(query);
         url += "/json" + "?" + query.toString();
         let response = await fetch(url);
         let jsonResponse = await response.json();
