@@ -1,12 +1,15 @@
 import * as Http from "http";
 import * as Url from "url";
 import * as Mongo from "mongodb";
+import { ParsedUrlQuery } from "querystring";
 export namespace P_3_4Server {
     interface Dataset {
-        [type: string]: string | string[];
+        name: string;
+        email: string;
+        password: string;
     }
 
-    let formdata: Mongo.Collection;
+    let rantData: Mongo.Collection;
 
     let port: number = Number(process.env.PORT);
     if (!port)
@@ -28,8 +31,13 @@ export namespace P_3_4Server {
         let options: Mongo.MongoClientOptions = { useNewUrlParser: true, useUnifiedTopology: true };
         let mongoClient: Mongo.MongoClient = new Mongo.MongoClient(_databaseUrl, options);
         await mongoClient.connect();
-        formdata = mongoClient.db("Kapitel_3_4").collection("FormDataSets");
-        console.log("database connection ", formdata != undefined);
+        rantData = mongoClient.db("Kapitel_3_4").collection("Rants");
+        console.log("database connection ", rantData != undefined);
+        
+        let cursor: Mongo.Cursor = rantData.find();
+        let result: Dataset[] = await cursor.toArray();
+        console.log(result);
+
     }
 
     // gibt aus dass er horcht
@@ -40,34 +48,38 @@ export namespace P_3_4Server {
     function handleRequest(_request: Http.IncomingMessage, _response: Http.ServerResponse): void {
         console.log("I hear voices!");
 
-
         _response.setHeader("Access-Control-Allow-Origin", "*");
 
         let url: Url.UrlWithParsedQuery = Url.parse(_request.url, true);
-        //console.log(url);
+        console.log(url);
         //console.log("pathname: " + url.pathname);
         
-        // check if pathname ist /html, if so, please format
+        // check if pathname ist /saveRant, if so, please format
         if (_request.url) {
-            if (url.pathname == "/html") {
-                _response.setHeader("content-type", "text/html; charset=utf-8");
+            if (url.pathname == "/saveRant") {
+               /* _response.setHeader("content-type", "text/html; charset=utf-8");
                 for (let key in url.query) {
                     _response.write("<p><i>" + key + ": " + url.query[key] + "</i></p>");
-                }
+                }*/
+                storeData(url.query);
             }
             
             // check if pathname ist /json, if so, gimme a jsonstring
-            if (url.pathname == "/json") {
-                _response.setHeader("content-type", "application/json");
+            if (url.pathname == "/show") {
+                _response.setHeader("content-type", "text/html; charset=utf-8");
                 let jsonString: string = JSON.stringify(url.query);
                 _response.write(jsonString);
             }
-            storeData(url.query);
+            
         }
         _response.end();
     }
 
-    function storeData(_data: Dataset): void {
-        formdata.insert(_data);
+    function storeData(_url: ParsedUrlQuery): void {
+        rantData.insertOne(_url);
+    }
+
+    function showData(_dbName: Mongo.Db, _colName: Mongo.Collection): void {
+        let colObjects: any = _dbName._colName.find();
     }
 }

@@ -6,7 +6,7 @@ const Url = require("url");
 const Mongo = require("mongodb");
 var P_3_4Server;
 (function (P_3_4Server) {
-    let formdata;
+    let rantData;
     let port = Number(process.env.PORT);
     if (!port)
         port = 8100;
@@ -24,8 +24,11 @@ var P_3_4Server;
         let options = { useNewUrlParser: true, useUnifiedTopology: true };
         let mongoClient = new Mongo.MongoClient(_databaseUrl, options);
         await mongoClient.connect();
-        formdata = mongoClient.db("Kapitel_3_4").collection("FormDataSets");
-        console.log("database connection ", formdata != undefined);
+        rantData = mongoClient.db("Kapitel_3_4").collection("Rants");
+        console.log("database connection ", rantData != undefined);
+        let cursor = rantData.find();
+        let result = await cursor.toArray();
+        console.log(result);
     }
     // gibt aus dass er horcht
     function handleListen() {
@@ -35,28 +38,31 @@ var P_3_4Server;
         console.log("I hear voices!");
         _response.setHeader("Access-Control-Allow-Origin", "*");
         let url = Url.parse(_request.url, true);
-        //console.log(url);
+        console.log(url);
         //console.log("pathname: " + url.pathname);
-        // check if pathname ist /html, if so, please format
+        // check if pathname ist /saveRant, if so, please format
         if (_request.url) {
-            if (url.pathname == "/html") {
-                _response.setHeader("content-type", "text/html; charset=utf-8");
-                for (let key in url.query) {
-                    _response.write("<p><i>" + key + ": " + url.query[key] + "</i></p>");
-                }
+            if (url.pathname == "/saveRant") {
+                /* _response.setHeader("content-type", "text/html; charset=utf-8");
+                 for (let key in url.query) {
+                     _response.write("<p><i>" + key + ": " + url.query[key] + "</i></p>");
+                 }*/
+                storeData(url.query);
             }
             // check if pathname ist /json, if so, gimme a jsonstring
-            if (url.pathname == "/json") {
-                _response.setHeader("content-type", "application/json");
+            if (url.pathname == "/show") {
+                _response.setHeader("content-type", "text/html; charset=utf-8");
                 let jsonString = JSON.stringify(url.query);
                 _response.write(jsonString);
             }
-            storeData(url.query);
         }
         _response.end();
     }
-    function storeData(_data) {
-        formdata.insert(_data);
+    function storeData(_url) {
+        rantData.insertOne(_url);
+    }
+    function showData(_dbName, _colName) {
+        let colObjects = _dbName._colName.find();
     }
 })(P_3_4Server = exports.P_3_4Server || (exports.P_3_4Server = {}));
 //# sourceMappingURL=server.js.map
