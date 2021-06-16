@@ -2,11 +2,11 @@
 
 namespace Aufgabe_3_4 {
 
-    let htmlButton: HTMLButtonElement = <HTMLButtonElement>document.getElementById("html");
-    htmlButton.addEventListener("click", handleHTMLButtonClick);
-    let jsonButton: HTMLButtonElement = <HTMLButtonElement>document.getElementById("json");
-    jsonButton.addEventListener("click", handleJSONButtonClick);
-    let htmlAnswer: HTMLDivElement = <HTMLDivElement>document.getElementById("htmlAnswer");
+    let htmlButton: HTMLButtonElement = <HTMLButtonElement>document.getElementById("saveRant");
+    htmlButton.addEventListener("click", handleSaveButtonClick);
+    let jsonButton: HTMLButtonElement = <HTMLButtonElement>document.getElementById("showRants");
+    jsonButton.addEventListener("click", handleShowButtonClick);
+    let htmlAnswer: HTMLDivElement = <HTMLDivElement>document.getElementById("Rants");
     let url: string;
     let query: URLSearchParams;
 
@@ -21,15 +21,15 @@ namespace Aufgabe_3_4 {
         query = new URLSearchParams(<any>formData);
     }
 
-    async function handleHTMLButtonClick(): Promise<void> {
+    async function handleSaveButtonClick(): Promise<void> {
         getURL();
         getFormData();
 
-        console.log("HTML-Button wurde gedrückt.");
+        console.log("Save-Button wurde gedrückt.");
 
-        url += "/html" + "?" + query.toString();
+        url += "/saveRant" + "?" + query.toString();
         let response: Response = await fetch(url);
-        let displayResponse: string = await response.text();
+        let displayResponse: string = await response.json();
         htmlAnswer.innerText = displayResponse;
         console.log(displayResponse);
         
@@ -37,20 +37,16 @@ namespace Aufgabe_3_4 {
         getURL();
     }
 
-    async function handleJSONButtonClick(): Promise<void> {
+    async function handleShowButtonClick(): Promise<void> {
         getURL();
-        getFormData();
 
-        console.log("JSON-Button wurde gedrückt.");
+        console.log("Show-Button wurde gedrückt.");
         console.log(query);
         
-        url += "/json" + "?" + query.toString();
+        url += "/show" + "?";
         let response: Response = await fetch(url);
-        let jsonResponse: string = await response.json();
-        htmlAnswer.innerText = "Bitte sehen Sie in der Konsole nach.";
-        console.log(jsonResponse);
-
-        // setback of URL to prevent requests with multiple inputs
-        getURL();
+        let displayResponse: string = await response.json();
+        htmlAnswer.innerText = displayResponse;
+        console.log(displayResponse);
     }
 }

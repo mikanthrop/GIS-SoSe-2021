@@ -1,11 +1,11 @@
 "use strict";
 var Aufgabe_3_4;
 (function (Aufgabe_3_4) {
-    let htmlButton = document.getElementById("html");
-    htmlButton.addEventListener("click", handleHTMLButtonClick);
-    let jsonButton = document.getElementById("json");
-    jsonButton.addEventListener("click", handleJSONButtonClick);
-    let htmlAnswer = document.getElementById("htmlAnswer");
+    let htmlButton = document.getElementById("saveRant");
+    htmlButton.addEventListener("click", handleSaveButtonClick);
+    let jsonButton = document.getElementById("showRants");
+    jsonButton.addEventListener("click", handleShowButtonClick);
+    let htmlAnswer = document.getElementById("Rants");
     let url;
     let query;
     function getURL() {
@@ -17,30 +17,27 @@ var Aufgabe_3_4;
         //tslint:disable-next-line: no-any
         query = new URLSearchParams(formData);
     }
-    async function handleHTMLButtonClick() {
+    async function handleSaveButtonClick() {
         getURL();
         getFormData();
-        console.log("HTML-Button wurde gedrückt.");
-        url += "/html" + "?" + query.toString();
+        console.log("Save-Button wurde gedrückt.");
+        url += "/saveRant" + "?" + query.toString();
         let response = await fetch(url);
-        let displayResponse = await response.text();
+        let displayResponse = await response.json();
         htmlAnswer.innerText = displayResponse;
         console.log(displayResponse);
         // setback of URL to prevent requests with multiple inputs
         getURL();
     }
-    async function handleJSONButtonClick() {
+    async function handleShowButtonClick() {
         getURL();
-        getFormData();
-        console.log("JSON-Button wurde gedrückt.");
+        console.log("Show-Button wurde gedrückt.");
         console.log(query);
-        url += "/json" + "?" + query.toString();
+        url += "/show" + "?";
         let response = await fetch(url);
-        let jsonResponse = await response.json();
-        htmlAnswer.innerText = "Bitte sehen Sie in der Konsole nach.";
-        console.log(jsonResponse);
-        // setback of URL to prevent requests with multiple inputs
-        getURL();
+        let displayResponse = await response.json();
+        htmlAnswer.innerText = displayResponse;
+        console.log(displayResponse);
     }
 })(Aufgabe_3_4 || (Aufgabe_3_4 = {}));
 //# sourceMappingURL=script.js.map
