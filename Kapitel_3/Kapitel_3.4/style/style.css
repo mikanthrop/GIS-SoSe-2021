@@ -3,6 +3,17 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    width: 800px;
+}
+
+h1 {
+    margin: 10px 10px;
+    text-align: center;
+}
+
+p {
+    margin: 5px 10px 15px;
+    text-align: center;
 }
 
 form {
@@ -16,19 +27,37 @@ fieldset {
     display: flex;
     flex-flow: column nowrap;
     justify-content: space-between;
-    align-content: left;
-    width: fit-content;
+    align-items: flex-start;
+    width: 400px;
 }
 
-input {
+div {
+    margin: 3px 5px;
+    text-align: left;
+}
+
+input,
+select,
+textarea {
     margin: 5px;
-    padding: 3px;
+    padding: 4px;
     border-radius: 5px;
+    border-width: 1px;
+    border-style: ridge;
+    border-color: rgb(114, 65, 143);
+}
+
+input,
+select {
     width: 200px;
 }
 
+textarea {
+    max-width: 700px;
+}
+
 span {
-    margin-top: 20px;
+    margin-top: 15px;
 }
 
 button {
@@ -40,6 +69,6 @@ button {
     background-color: rgb(240, 240, 240);
 }
 
-#htmlAnswer {
+#Rants {
     margin: 5px 20px;
 }
