@@ -37,32 +37,31 @@ var P_3_4Server;
     function handleRequest(_request, _response) {
         console.log("I hear voices!");
         _response.setHeader("Access-Control-Allow-Origin", "*");
-        let url = Url.parse(_request.url, true);
-        console.log(url);
         //console.log("pathname: " + url.pathname);
         // check if pathname ist /saveRant, if so, please format
         if (_request.url) {
+            let url = Url.parse(_request.url, true);
+            console.log(url);
             if (url.pathname == "/saveRant") {
-                /* _response.setHeader("content-type", "text/html; charset=utf-8");
-                 for (let key in url.query) {
-                     _response.write("<p><i>" + key + ": " + url.query[key] + "</i></p>");
-                 }*/
-                storeData(url.query);
+                _response.setHeader("content-type", "text/html; charset=utf-8");
+                _response.write("Ihre Daten wurden gespeichert.");
+                //not sure how to solve this
+                let newDataSet = url.query;
+                storeData(newDataSet);
             }
             // check if pathname ist /json, if so, gimme a jsonstring
             if (url.pathname == "/show") {
                 _response.setHeader("content-type", "text/html; charset=utf-8");
-                let jsonString = JSON.stringify(url.query);
-                _response.write(jsonString);
+                _response.write(showDataRant());
             }
         }
         _response.end();
     }
-    function storeData(_url) {
-        rantData.insertOne(_url);
+    function storeData(_rant) {
+        rantData.insertOne(_rant);
     }
-    function showData(_dbName, _colName) {
-        let colObjects = _dbName._colName.find();
+    function showDataRant() {
+        rantData.find();
     }
 })(P_3_4Server = exports.P_3_4Server || (exports.P_3_4Server = {}));
 //# sourceMappingURL=server.js.map
