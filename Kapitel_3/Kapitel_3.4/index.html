@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="script/script.js" defer></script>
     <link rel="stylesheet" href="style/style.css">
-    <title>See your Password</title>
+    <title>Make your voice heard</title>
 </head>
 
 <body>
@@ -15,26 +15,55 @@
 
     </header>
     <main>
+        <h1>Rant Into the Void</h1>
+        <p>
+            Diese Seite ist für all die nervigen Details des Alltags, die man nicht für sich behalten kann, mit denen man aber auch nicht andere Leute belästigen möchte. Hier schreit ihr ins Leere - also tobt euch aus.
+        </p>
         <form>
             <fieldset>
                 <div>
-                    <label for="user">Name:</label>
+                    <label for="user">Benutzername:</label>
                     <input type="text" name="user">
                 </div>
                 <div>
-                    <label for="email">*E-Mail Adresse:</label>
-                    <input type="email" name="email" required>
+                    <label for="category">Kategorie:</label>
+                    <select name="category" id="category">
+                        <option value="anything">Allgemein</option>
+                        <option value="differentCourseOfStudy">Andere Studiengänge</option>
+                        <option value="work">Arbeit/Arbeitsplatz</option>
+                        <option value="relationships">Beziehungen</option>
+                        <option value="thisPage">Diese Seite</option>
+                        <option value="family">Familie</option>
+                        <option value="hobbies">Hobbies</option>
+                        <option value="internet">Internet</option>
+                        <option value="body">Körpergefühl</option>
+                        <option value="media">Medien</option>
+                        <option value="humanity">Menschheit</option>
+                        <option value="neighbours">Nachbarn</option>
+                        <option value="politics">Politik</option>
+                        <option value="rubberduck">Quietsche Entchen</option>
+                        <option value="roleplayingGames">Roleplay Spiele</option>
+                        <option value="stackoverflow">Stackoverflow Management</option>
+                        <option value="city">Stadt</option>
+                        <option value="science">Wissenschaft</option>
+                    </select>
                 </div>
                 <div>
-                    <label for="password">*Passwort:</label>
-                    <input type="password" name="password" required>
+                    <label for="title">Überschrift:</label>
+                    <input type="title" name="title" required>
+                </div>
+                <div>
+                    <label for="rant">Rant:</label>
+                    <textarea type="rant" name="rant" rows="10" cols="30" required>
+
+                    </textarea>
                 </div>
                 <span></span>
-                <button type="button" id="html">Antwort des Servers in HTML erhalten</button>
-                <button type="button" id="json">Antwort des Servers als JSON string erhalten</button>
+                <button type="button" id="saveRant">Save Me Rant</button>
             </fieldset>
         </form>
-        <div id="htmlAnswer">
+        <button type="button" id="showRants">Gimme the Goods</button>
+        <div id="Rants">
 
         </div>
     </main>
