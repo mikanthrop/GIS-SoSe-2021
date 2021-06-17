@@ -15,5 +15,10 @@ namespace Kapitelaufgabe2 {
         body: APart;
         feet: APart;
     }
+
+    export interface BrowserCacheData {
+        error: string;
+        message: string;
+    }
 }
     
