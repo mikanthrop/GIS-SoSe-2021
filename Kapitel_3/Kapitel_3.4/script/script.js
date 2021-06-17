@@ -5,7 +5,7 @@ var Aufgabe_3_4;
     htmlButton.addEventListener("click", handleSaveButtonClick);
     let jsonButton = document.getElementById("showRants");
     jsonButton.addEventListener("click", handleShowButtonClick);
-    let htmlAnswer = document.getElementById("Rants");
+    let serverAnswer = document.getElementById("Rants");
     let url;
     let query;
     function getURL() {
@@ -23,8 +23,8 @@ var Aufgabe_3_4;
         console.log("Save-Button wurde gedrückt.");
         url += "/saveRant" + "?" + query.toString();
         let response = await fetch(url);
-        let displayResponse = await response.json();
-        htmlAnswer.innerText = displayResponse;
+        let displayResponse = await response.text();
+        serverAnswer.innerText = displayResponse;
         console.log(displayResponse);
         // setback of URL to prevent requests with multiple inputs
         getURL();
@@ -36,7 +36,7 @@ var Aufgabe_3_4;
         url += "/show" + "?";
         let response = await fetch(url);
         let displayResponse = await response.json();
-        htmlAnswer.innerText = displayResponse;
+        serverAnswer.innerText = displayResponse;
         console.log(displayResponse);
     }
 })(Aufgabe_3_4 || (Aufgabe_3_4 = {}));

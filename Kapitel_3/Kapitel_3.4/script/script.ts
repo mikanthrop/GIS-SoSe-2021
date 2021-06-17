@@ -6,7 +6,7 @@ namespace Aufgabe_3_4 {
     htmlButton.addEventListener("click", handleSaveButtonClick);
     let jsonButton: HTMLButtonElement = <HTMLButtonElement>document.getElementById("showRants");
     jsonButton.addEventListener("click", handleShowButtonClick);
-    let htmlAnswer: HTMLDivElement = <HTMLDivElement>document.getElementById("Rants");
+    let serverAnswer: HTMLDivElement = <HTMLDivElement>document.getElementById("Rants");
     let url: string;
     let query: URLSearchParams;
 
@@ -29,8 +29,8 @@ namespace Aufgabe_3_4 {
 
         url += "/saveRant" + "?" + query.toString();
         let response: Response = await fetch(url);
-        let displayResponse: string = await response.json();
-        htmlAnswer.innerText = displayResponse;
+        let displayResponse: string = await response.text();
+        serverAnswer.innerText = displayResponse;
         console.log(displayResponse);
         
         // setback of URL to prevent requests with multiple inputs
@@ -46,7 +46,7 @@ namespace Aufgabe_3_4 {
         url += "/show" + "?";
         let response: Response = await fetch(url);
         let displayResponse: string = await response.json();
-        htmlAnswer.innerText = displayResponse;
+        serverAnswer.innerText = displayResponse;
         console.log(displayResponse);
     }
 }

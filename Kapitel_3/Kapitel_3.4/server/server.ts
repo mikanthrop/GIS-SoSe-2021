@@ -11,6 +11,7 @@ export namespace P_3_4Server {
     }
 
     let rantData: Mongo.Collection;
+    let result: Rant[];
 
     let port: number = Number(process.env.PORT);
     if (!port)
@@ -36,8 +37,9 @@ export namespace P_3_4Server {
         console.log("database connection ", rantData != undefined);
 
         let cursor: Mongo.Cursor = rantData.find();
-        let result: Rant[] = await cursor.toArray();
-        console.log(result);
+        console.log("cursor wurde erzeugt. Result wird jetzt befüllt.");
+        result = await cursor.toArray();
+        console.log("this is the result: " + result);
 
     }
 
@@ -51,35 +53,26 @@ export namespace P_3_4Server {
 
         _response.setHeader("Access-Control-Allow-Origin", "*");
 
-        //console.log("pathname: " + url.pathname);
-
-        // check if pathname ist /saveRant, if so, please format
         if (_request.url) {
 
             let url: Url.UrlWithParsedQuery = Url.parse(_request.url, true);
-            console.log(url);
             if (url.pathname == "/saveRant") {
+                console.log(url);
                 _response.setHeader("content-type", "text/html; charset=utf-8");
-                _response.write("Ihre Daten wurden gespeichert.");
                 //not sure how to solve this
-                let newDataSet: Rant = url.query;
-                storeData(newDataSet);
+                // let parsedQuery: ParsedUrlQuery = url.query;
+                // storeData(newDataSet);
+                _response.write("Ihre Daten wurden gespeichert.");
             }
-            
+
             // check if pathname ist /json, if so, gimme a jsonstring
             if (url.pathname == "/show") {
                 _response.setHeader("content-type", "text/html; charset=utf-8");
-                _response.write(showDataRant());
+                console.log("welcome to the show");
+                _response.write(JSON.stringify(result));
             }
         }
         _response.end();
-    }
-
-    function storeData(_rant: Rant): void {
-        rantData.insertOne(_rant);
-    }
-
-    function showDataRant(): void {
-        rantData.find();
+        console.log(_response + " wurde abgeschickt");
     }
 }
