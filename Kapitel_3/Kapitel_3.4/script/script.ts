@@ -1,11 +1,9 @@
-
-
 namespace Aufgabe_3_4 {
 
-    let htmlButton: HTMLButtonElement = <HTMLButtonElement>document.getElementById("saveRant");
-    htmlButton.addEventListener("click", handleSaveButtonClick);
-    let jsonButton: HTMLButtonElement = <HTMLButtonElement>document.getElementById("showRants");
-    jsonButton.addEventListener("click", handleShowButtonClick);
+    let saveButton: HTMLButtonElement = <HTMLButtonElement>document.getElementById("saveRant");
+    saveButton.addEventListener("click", handleSaveButtonClick);
+    let showButton: HTMLButtonElement = <HTMLButtonElement>document.getElementById("showRants");
+    showButton.addEventListener("click", handleShowButtonClick);
     let serverAnswer: HTMLDivElement = <HTMLDivElement>document.getElementById("Rants");
     let url: string;
     let query: URLSearchParams;
@@ -45,8 +43,17 @@ namespace Aufgabe_3_4 {
         
         url += "/show" + "?";
         let response: Response = await fetch(url);
-        let displayResponse: string = await response.json();
-        serverAnswer.innerText = displayResponse;
+        let displayResponse: Rant[] = await response.json();
+        let serverString: string = "";
+        for (let i in displayResponse) {
+            serverString += "<div><p>" + "Verfasst von: " + displayResponse[i].user + "</p>";
+            serverString += "<p>" + "Kategorie: " + displayResponse[i].category + "</p>";
+            serverString += "<p><h3>" + displayResponse[i].title + "</h3></p>";
+            serverString += "<p>" + displayResponse[i].rant + "</p>";
+            serverString += "<span><button>Löschen</button></span></div>";            
+        }
+        serverAnswer.innerHTML = serverString;
+        
         console.log(displayResponse);
     }
 }

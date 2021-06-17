@@ -1,10 +1,10 @@
 "use strict";
 var Aufgabe_3_4;
 (function (Aufgabe_3_4) {
-    let htmlButton = document.getElementById("saveRant");
-    htmlButton.addEventListener("click", handleSaveButtonClick);
-    let jsonButton = document.getElementById("showRants");
-    jsonButton.addEventListener("click", handleShowButtonClick);
+    let saveButton = document.getElementById("saveRant");
+    saveButton.addEventListener("click", handleSaveButtonClick);
+    let showButton = document.getElementById("showRants");
+    showButton.addEventListener("click", handleShowButtonClick);
     let serverAnswer = document.getElementById("Rants");
     let url;
     let query;
@@ -36,7 +36,15 @@ var Aufgabe_3_4;
         url += "/show" + "?";
         let response = await fetch(url);
         let displayResponse = await response.json();
-        serverAnswer.innerText = displayResponse;
+        let serverString = "";
+        for (let i in displayResponse) {
+            serverString += "<div><p>" + "Verfasst von: " + displayResponse[i].user + "</p>";
+            serverString += "<p>" + "Kategorie: " + displayResponse[i].category + "</p>";
+            serverString += "<p><h3>" + displayResponse[i].title + "</h3></p>";
+            serverString += "<p>" + displayResponse[i].rant + "</p>";
+            serverString += "<span><button>Löschen</button></span></div>";
+        }
+        serverAnswer.innerHTML = serverString;
         console.log(displayResponse);
     }
 })(Aufgabe_3_4 || (Aufgabe_3_4 = {}));
