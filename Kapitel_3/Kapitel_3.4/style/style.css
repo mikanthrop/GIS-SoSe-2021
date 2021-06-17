@@ -11,8 +11,12 @@ h1 {
     text-align: center;
 }
 
+h3 {
+    margin-top: 10px;
+    margin-left: 5px;
+}
+
 p {
-    margin: 5px 10px 15px;
     text-align: center;
 }
 
@@ -71,4 +75,27 @@ button {
 
 #Rants {
     margin: 5px 20px;
+    text-align: left;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    align-items: flex-start;
+    align-content: space-around;
+    width: 1200px;
+}
+
+#Rants * {
+    width: 400px;
+    text-align: left;
+}
+
+#Rants div {
+    border-style: solid;
+    border-color: black;
+    border-width: thin;
+    padding: 10px;
+}
+
+#Rants button {
+    width: min-content;
 }
