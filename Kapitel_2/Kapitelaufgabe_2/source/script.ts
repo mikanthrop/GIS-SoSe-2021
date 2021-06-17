@@ -15,11 +15,6 @@ namespace Kapitelaufgabe2 {
         return window.location.pathname.substring(window.location.pathname.lastIndexOf("/") + 1);
     }
 
-    interface BrowserCacheData {
-        error: string;
-        message: string;
-    }
-
     async function getServerAnswer(_url: RequestInfo): Promise<string> {
         let browserCacheData: JSON = JSON.parse(JSON.stringify(sessionStorage));
         //tslint:disable-next-line: no-any
