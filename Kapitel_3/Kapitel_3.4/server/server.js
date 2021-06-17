@@ -28,9 +28,9 @@ var P_3_4Server;
         rantData = mongoClient.db("Kapitel_3_4").collection("Rants");
         console.log("database connection ", rantData != undefined);
         let cursor = rantData.find();
-        console.log("cursor wurde erzeugt. Result wird jetzt befüllt.");
+        cursor.rewind();
         result = await cursor.toArray();
-        console.log("this is the result: " + result);
+        console.log("this is the result: ", result);
     }
     // gibt aus dass er horcht
     function handleListen() {
@@ -44,9 +44,7 @@ var P_3_4Server;
             if (url.pathname == "/saveRant") {
                 console.log(url);
                 _response.setHeader("content-type", "text/html; charset=utf-8");
-                //not sure how to solve this
-                // let parsedQuery: ParsedUrlQuery = url.query;
-                // storeData(newDataSet);
+                storeData(url.query);
                 _response.write("Ihre Daten wurden gespeichert.");
             }
             // check if pathname ist /json, if so, gimme a jsonstring
@@ -58,6 +56,9 @@ var P_3_4Server;
         }
         _response.end();
         console.log(_response + " wurde abgeschickt");
+    }
+    function storeData(_query) {
+        rantData.insertOne(_query);
     }
 })(P_3_4Server = exports.P_3_4Server || (exports.P_3_4Server = {}));
 //# sourceMappingURL=server.js.map

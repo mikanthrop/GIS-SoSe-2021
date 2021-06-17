@@ -1,14 +1,9 @@
 import * as Http from "http";
 import * as Url from "url";
 import * as Mongo from "mongodb";
+import { ParsedUrlQuery } from "querystring";
 
 export namespace P_3_4Server {
-    interface Rant {
-        user: string;
-        category: string;
-        title: string;
-        rant: string;
-    }
 
     let rantData: Mongo.Collection;
     let result: Rant[];
@@ -37,9 +32,9 @@ export namespace P_3_4Server {
         console.log("database connection ", rantData != undefined);
 
         let cursor: Mongo.Cursor = rantData.find();
-        console.log("cursor wurde erzeugt. Result wird jetzt befüllt.");
+        cursor.rewind();
         result = await cursor.toArray();
-        console.log("this is the result: " + result);
+        console.log("this is the result: ", result);
 
     }
 
@@ -59,9 +54,7 @@ export namespace P_3_4Server {
             if (url.pathname == "/saveRant") {
                 console.log(url);
                 _response.setHeader("content-type", "text/html; charset=utf-8");
-                //not sure how to solve this
-                // let parsedQuery: ParsedUrlQuery = url.query;
-                // storeData(newDataSet);
+                storeData(url.query);
                 _response.write("Ihre Daten wurden gespeichert.");
             }
 
@@ -74,5 +67,9 @@ export namespace P_3_4Server {
         }
         _response.end();
         console.log(_response + " wurde abgeschickt");
+    }
+
+    function storeData(_query: ParsedUrlQuery): void {
+        rantData.insertOne(_query);
     }
 }
