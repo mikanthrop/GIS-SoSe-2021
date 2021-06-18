@@ -1,3 +1,4 @@
+import * as Mongo from "mongodb";
 namespace Aufgabe_3_4 {
 
     let saveButton: HTMLButtonElement = <HTMLButtonElement>document.getElementById("saveRant");
@@ -44,34 +45,37 @@ namespace Aufgabe_3_4 {
         url += "/show" + "?";
         let response: Response = await fetch(url);
         let displayResponse: Rant[] = await response.json();
-        let serverString: string = "";
         for (let i in displayResponse) {
-            serverString += "<div><p>" + "Verfasst von: " + displayResponse[i].user + "</p>";
-            serverString += "<p>" + "Kategorie: " + displayResponse[i].category + "</p>";
-            serverString += "<p><h3>" + displayResponse[i].title + "</h3></p>";
-            serverString += "<p>" + displayResponse[i].rant + "</p>";
-            serverString += "<span>" + "<button type=\"button\" class=\"delete\">Löschen</button>" + "</span></div>";
+            let post: HTMLDivElement = document.createElement("div");
+            serverAnswer.appendChild(post);
+            let user: HTMLParagraphElement = document.createElement("p");
+            user.innerHTML = "Verfasst von: " + displayResponse[i].user;
+            post.appendChild(user);
+            let category: HTMLParagraphElement = document.createElement("p");
+            category.innerHTML = "Kategorie: " + displayResponse[i].category;
+            post.appendChild(category);
+            let title: HTMLParagraphElement = document.createElement("p");
+            title.innerHTML = "<h3>" + displayResponse[i].title + "</h3>";
+            post.appendChild(title);
+            let rant: HTMLParagraphElement = document.createElement("p");
+            rant.innerHTML = displayResponse[i].rant;
+            post.appendChild(rant);
+            let deleteButton: HTMLButtonElement = document.createElement("button");
+            deleteButton.setAttribute("type", "button");
+            deleteButton.addEventListener("click", handleDeleteButtonClick);
+            //_id des Objektes in einer Variable speichern und in der URL mitsenden
+            
+            async function handleDeleteButtonClick(): Promise<void> {
+                getURL();
+        
+                console.log("Delete-Button wurde gedrückt.");
+        
+                url += "/delete" +  + "?";
+                let response: Response = await fetch(url);
+                let displayResponse: string = await response.text();
+                serverAnswer.innerHTML = displayResponse;
+            }
         }
-        serverAnswer.innerHTML = serverString;
-        deleteButton = document.getElementsByClassName("delete");
-        for (let element in deleteButton) {
-            deleteButton[element].addEventListener("click", handleDeleteButtonClick);
-            console.log(element);
-        }
-
         console.log(displayResponse);
     }
-
-    async function handleDeleteButtonClick(): Promise<void> {
-        getURL();
-
-        console.log("Delete-Button wurde gedrückt.");
-
-        url += "/delete" + + "?";
-        let response: Response = await fetch(url);
-        let displayResponse: string = await response.text();
-        serverAnswer.innerHTML = displayResponse;
-
-    }
-
 }

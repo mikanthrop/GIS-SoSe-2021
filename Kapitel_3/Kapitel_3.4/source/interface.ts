@@ -1,8 +1,6 @@
-namespace Kapiteldreivier {
-    export interface Rant {
+    interface Rant {
         user: string;
         category: string;
         title: string;
         rant: string;
     }
-}
