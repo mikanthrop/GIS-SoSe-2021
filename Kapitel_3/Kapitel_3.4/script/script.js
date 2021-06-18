@@ -5,6 +5,7 @@ var Aufgabe_3_4;
     saveButton.addEventListener("click", handleSaveButtonClick);
     let showButton = document.getElementById("showRants");
     showButton.addEventListener("click", handleShowButtonClick);
+    let deleteButton;
     let serverAnswer = document.getElementById("Rants");
     let url;
     let query;
@@ -32,7 +33,6 @@ var Aufgabe_3_4;
     async function handleShowButtonClick() {
         getURL();
         console.log("Show-Button wurde gedrückt.");
-        console.log(query);
         url += "/show" + "?";
         let response = await fetch(url);
         let displayResponse = await response.json();
@@ -42,10 +42,23 @@ var Aufgabe_3_4;
             serverString += "<p>" + "Kategorie: " + displayResponse[i].category + "</p>";
             serverString += "<p><h3>" + displayResponse[i].title + "</h3></p>";
             serverString += "<p>" + displayResponse[i].rant + "</p>";
-            serverString += "<span><button>Löschen</button></span></div>";
+            serverString += "<span>" + "<button type=\"button\" class=\"delete\">Löschen</button>" + "</span></div>";
         }
         serverAnswer.innerHTML = serverString;
+        deleteButton = document.getElementsByClassName("delete");
+        for (let element in deleteButton) {
+            deleteButton[element].addEventListener("click", handleDeleteButtonClick);
+            console.log(element);
+        }
         console.log(displayResponse);
+    }
+    async function handleDeleteButtonClick() {
+        getURL();
+        console.log("Delete-Button wurde gedrückt.");
+        url += "/delete" + +"?";
+        let response = await fetch(url);
+        let displayResponse = await response.text();
+        serverAnswer.innerHTML = displayResponse;
     }
 })(Aufgabe_3_4 || (Aufgabe_3_4 = {}));
 //# sourceMappingURL=script.js.map

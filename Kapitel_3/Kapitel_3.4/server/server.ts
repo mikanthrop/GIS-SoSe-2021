@@ -34,7 +34,6 @@ export namespace P_3_4Server {
         let cursor: Mongo.Cursor = rantData.find();
         cursor.rewind();
         result = await cursor.toArray();
-        console.log("this is the result: ", result);
 
     }
 
@@ -43,7 +42,7 @@ export namespace P_3_4Server {
         console.log("Listening");
     }
 
-    function handleRequest(_request: Http.IncomingMessage, _response: Http.ServerResponse): void {
+    async function handleRequest(_request: Http.IncomingMessage, _response: Http.ServerResponse): Promise<void> {
         console.log("I hear voices!");
 
         _response.setHeader("Access-Control-Allow-Origin", "*");
@@ -56,6 +55,7 @@ export namespace P_3_4Server {
                 _response.setHeader("content-type", "text/html; charset=utf-8");
                 storeData(url.query);
                 _response.write("Ihre Daten wurden gespeichert.");
+                await connectToMongo(databaseURL);
             }
 
             // check if pathname ist /json, if so, gimme a jsonstring
@@ -63,6 +63,11 @@ export namespace P_3_4Server {
                 _response.setHeader("content-type", "text/html; charset=utf-8");
                 console.log("welcome to the show");
                 _response.write(JSON.stringify(result));
+            }
+
+            if (url.pathname == "/delete") {
+                _response.setHeader("content-type", "text/html; charset=utf-8");
+                _response.write("Löschanfrage angekommen.");
             }
         }
         _response.end();

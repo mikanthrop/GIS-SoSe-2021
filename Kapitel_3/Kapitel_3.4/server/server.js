@@ -30,13 +30,12 @@ var P_3_4Server;
         let cursor = rantData.find();
         cursor.rewind();
         result = await cursor.toArray();
-        console.log("this is the result: ", result);
     }
     // gibt aus dass er horcht
     function handleListen() {
         console.log("Listening");
     }
-    function handleRequest(_request, _response) {
+    async function handleRequest(_request, _response) {
         console.log("I hear voices!");
         _response.setHeader("Access-Control-Allow-Origin", "*");
         if (_request.url) {
@@ -46,12 +45,17 @@ var P_3_4Server;
                 _response.setHeader("content-type", "text/html; charset=utf-8");
                 storeData(url.query);
                 _response.write("Ihre Daten wurden gespeichert.");
+                await connectToMongo(databaseURL);
             }
             // check if pathname ist /json, if so, gimme a jsonstring
             if (url.pathname == "/show") {
                 _response.setHeader("content-type", "text/html; charset=utf-8");
                 console.log("welcome to the show");
                 _response.write(JSON.stringify(result));
+            }
+            if (url.pathname == "/delete") {
+                _response.setHeader("content-type", "text/html; charset=utf-8");
+                _response.write("Löschanfrage angekommen.");
             }
         }
         _response.end();
