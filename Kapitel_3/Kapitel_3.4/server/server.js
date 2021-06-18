@@ -1,13 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.P_3_4Server = void 0;
 const Http = require("http");
 const Url = require("url");
 const Mongo = require("mongodb");
-var P_3_4Server;
-(function (P_3_4Server) {
-    let rantData;
+var Kapiteldreivier;
+(function (Kapiteldreivier) {
     let result;
+    let rantData;
     let port = Number(process.env.PORT);
     if (!port)
         port = 8100;
@@ -27,9 +26,6 @@ var P_3_4Server;
         await mongoClient.connect();
         rantData = mongoClient.db("Kapitel_3_4").collection("Rants");
         console.log("database connection ", rantData != undefined);
-        let cursor = rantData.find();
-        cursor.rewind();
-        result = await cursor.toArray();
     }
     // gibt aus dass er horcht
     function handleListen() {
@@ -51,6 +47,8 @@ var P_3_4Server;
             if (url.pathname == "/show") {
                 _response.setHeader("content-type", "text/html; charset=utf-8");
                 console.log("welcome to the show");
+                let cursor = rantData.find();
+                result = await cursor.toArray();
                 _response.write(JSON.stringify(result));
             }
             if (url.pathname == "/delete") {
@@ -64,5 +62,5 @@ var P_3_4Server;
     function storeData(_query) {
         rantData.insertOne(_query);
     }
-})(P_3_4Server = exports.P_3_4Server || (exports.P_3_4Server = {}));
+})(Kapiteldreivier || (Kapiteldreivier = {}));
 //# sourceMappingURL=server.js.map

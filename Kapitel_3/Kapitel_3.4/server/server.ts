@@ -3,10 +3,10 @@ import * as Url from "url";
 import * as Mongo from "mongodb";
 import { ParsedUrlQuery } from "querystring";
 
-export namespace P_3_4Server {
+namespace Kapiteldreivier {
 
-    let rantData: Mongo.Collection;
     let result: Rant[];
+    let rantData: Mongo.Collection;
 
     let port: number = Number(process.env.PORT);
     if (!port)
@@ -30,13 +30,7 @@ export namespace P_3_4Server {
         await mongoClient.connect();
         rantData = mongoClient.db("Kapitel_3_4").collection("Rants");
         console.log("database connection ", rantData != undefined);
-
-        let cursor: Mongo.Cursor = rantData.find();
-        cursor.rewind();
-        result = await cursor.toArray();
-
     }
-
     // gibt aus dass er horcht
     function handleListen(): void {
         console.log("Listening");
@@ -62,6 +56,8 @@ export namespace P_3_4Server {
             if (url.pathname == "/show") {
                 _response.setHeader("content-type", "text/html; charset=utf-8");
                 console.log("welcome to the show");
+                let cursor: Mongo.Cursor = rantData.find();
+                result = await cursor.toArray();
                 _response.write(JSON.stringify(result));
             }
 
