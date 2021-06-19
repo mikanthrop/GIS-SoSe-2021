@@ -1,11 +1,12 @@
-import * as Mongo from "mongodb";
-namespace Aufgabe_3_4 {
+//import * as Mongo from "mongodb";
+import { Rant } from "../source/interface";
+
+export namespace Kapiteldreivier {
 
     let saveButton: HTMLButtonElement = <HTMLButtonElement>document.getElementById("saveRant");
     saveButton.addEventListener("click", handleSaveButtonClick);
     let showButton: HTMLButtonElement = <HTMLButtonElement>document.getElementById("showRants");
     showButton.addEventListener("click", handleShowButtonClick);
-    let deleteButton: HTMLCollectionOf<Element>;
     let serverAnswer: HTMLDivElement = <HTMLDivElement>document.getElementById("Rants");
     let url: string;
     let query: URLSearchParams;
@@ -46,31 +47,36 @@ namespace Aufgabe_3_4 {
         let response: Response = await fetch(url);
         let displayResponse: Rant[] = await response.json();
         for (let i in displayResponse) {
+            let queryDelete: Rant = displayResponse[i];
+            
             let post: HTMLDivElement = document.createElement("div");
             serverAnswer.appendChild(post);
             let user: HTMLParagraphElement = document.createElement("p");
-            user.innerHTML = "Verfasst von: " + displayResponse[i].user;
+            user.appendChild(document.createTextNode("Verfasst von: " + queryDelete.user));
             post.appendChild(user);
             let category: HTMLParagraphElement = document.createElement("p");
-            category.innerHTML = "Kategorie: " + displayResponse[i].category;
+            category.appendChild(document.createTextNode("Kategorie: " + queryDelete.category));
             post.appendChild(category);
             let title: HTMLParagraphElement = document.createElement("p");
-            title.innerHTML = "<h3>" + displayResponse[i].title + "</h3>";
+            title.appendChild(document.createTextNode(queryDelete.title));
+
             post.appendChild(title);
             let rant: HTMLParagraphElement = document.createElement("p");
-            rant.innerHTML = displayResponse[i].rant;
+            rant.appendChild(document.createTextNode(queryDelete.rant));
             post.appendChild(rant);
             let deleteButton: HTMLButtonElement = document.createElement("button");
+            deleteButton.appendChild(document.createTextNode("Löschen"));
             deleteButton.setAttribute("type", "button");
             deleteButton.addEventListener("click", handleDeleteButtonClick);
+            post.appendChild(deleteButton);
             //_id des Objektes in einer Variable speichern und in der URL mitsenden
-            
+
             async function handleDeleteButtonClick(): Promise<void> {
                 getURL();
-        
+
                 console.log("Delete-Button wurde gedrückt.");
-        
-                url += "/delete" +  + "?";
+
+                url += "/delete" + "?" + query.toString;
                 let response: Response = await fetch(url);
                 let displayResponse: string = await response.text();
                 serverAnswer.innerHTML = displayResponse;

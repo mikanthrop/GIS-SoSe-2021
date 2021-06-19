@@ -1,11 +1,12 @@
 "use strict";
-var Aufgabe_3_4;
-(function (Aufgabe_3_4) {
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Kapiteldreivier = void 0;
+var Kapiteldreivier;
+(function (Kapiteldreivier) {
     let saveButton = document.getElementById("saveRant");
     saveButton.addEventListener("click", handleSaveButtonClick);
     let showButton = document.getElementById("showRants");
     showButton.addEventListener("click", handleShowButtonClick);
-    let deleteButton;
     let serverAnswer = document.getElementById("Rants");
     let url;
     let query;
@@ -36,29 +37,38 @@ var Aufgabe_3_4;
         url += "/show" + "?";
         let response = await fetch(url);
         let displayResponse = await response.json();
-        let serverString = "";
         for (let i in displayResponse) {
-            serverString += "<div><p>" + "Verfasst von: " + displayResponse[i].user + "</p>";
-            serverString += "<p>" + "Kategorie: " + displayResponse[i].category + "</p>";
-            serverString += "<p><h3>" + displayResponse[i].title + "</h3></p>";
-            serverString += "<p>" + displayResponse[i].rant + "</p>";
-            serverString += "<span>" + "<button type=\"button\" class=\"delete\">Löschen</button>" + "</span></div>";
-        }
-        serverAnswer.innerHTML = serverString;
-        deleteButton = document.getElementsByClassName("delete");
-        for (let element in deleteButton) {
-            deleteButton[element].addEventListener("click", handleDeleteButtonClick);
-            console.log(element);
+            let queryDelete = displayResponse[i];
+            let post = document.createElement("div");
+            serverAnswer.appendChild(post);
+            let user = document.createElement("p");
+            user.appendChild(document.createTextNode("Verfasst von: " + queryDelete.user));
+            post.appendChild(user);
+            let category = document.createElement("p");
+            category.appendChild(document.createTextNode("Kategorie: " + queryDelete.category));
+            post.appendChild(category);
+            let title = document.createElement("p");
+            title.appendChild(document.createTextNode(queryDelete.title));
+            post.appendChild(title);
+            let rant = document.createElement("p");
+            rant.appendChild(document.createTextNode(queryDelete.rant));
+            post.appendChild(rant);
+            let deleteButton = document.createElement("button");
+            deleteButton.appendChild(document.createTextNode("Löschen"));
+            deleteButton.setAttribute("type", "button");
+            deleteButton.addEventListener("click", handleDeleteButtonClick);
+            post.appendChild(deleteButton);
+            //_id des Objektes in einer Variable speichern und in der URL mitsenden
+            async function handleDeleteButtonClick() {
+                getURL();
+                console.log("Delete-Button wurde gedrückt.");
+                url += "/delete" + "?" + query.toString;
+                let response = await fetch(url);
+                let displayResponse = await response.text();
+                serverAnswer.innerHTML = displayResponse;
+            }
         }
         console.log(displayResponse);
     }
-    async function handleDeleteButtonClick() {
-        getURL();
-        console.log("Delete-Button wurde gedrückt.");
-        url += "/delete" + +"?";
-        let response = await fetch(url);
-        let displayResponse = await response.text();
-        serverAnswer.innerHTML = displayResponse;
-    }
-})(Aufgabe_3_4 || (Aufgabe_3_4 = {}));
+})(Kapiteldreivier = exports.Kapiteldreivier || (exports.Kapiteldreivier = {}));
 //# sourceMappingURL=script.js.map
