@@ -3,23 +3,31 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Kapiteldreivier = void 0;
 const Http = require("http");
 const Url = require("url");
-const mongoClient_1 = require("./mongoClient");
-const mongoClient_2 = require("./mongoClient");
+const Mongo = require("mongodb");
 var Kapiteldreivier;
 (function (Kapiteldreivier) {
+    let rantData;
     let result;
-    let databaseURL = "mongodb://localhost:27017";
+    //let databaseURL: string = "mongodb://localhost:27017";
+    let databaseURL = "mongodb+srv://TestUser:3m3vaco2Wrn2Swh4@gis-sose-2021.5ejyi.mongodb.net";
     let port = Number(process.env.PORT);
     if (!port)
         port = 8100;
     startServer(port);
-    mongoClient_1.connectToMongo(databaseURL);
+    connectToMongo(databaseURL);
     function startServer(_port) {
         console.log("Starting server");
         let server = Http.createServer();
         server.addListener("request", handleRequest);
         server.addListener("listening", handleListen);
         server.listen(_port);
+    }
+    async function connectToMongo(_databaseUrl) {
+        let options = { useNewUrlParser: true, useUnifiedTopology: true };
+        let mongoClient = new Mongo.MongoClient(_databaseUrl, options);
+        await mongoClient.connect();
+        rantData = mongoClient.db("Kapitel_3_4").collection("Rants");
+        console.log("database connection ", rantData != undefined);
     }
     // gibt aus dass er horcht
     function handleListen() {
@@ -33,23 +41,25 @@ var Kapiteldreivier;
             if (url.pathname == "/saveRant") {
                 console.log(url);
                 _response.setHeader("content-type", "text/html; charset=utf-8");
-                mongoClient_2.rantData.insertOne(url.query);
+                rantData.insertOne(url.query);
                 _response.write("Ihre Daten wurden gespeichert.");
-                await mongoClient_1.connectToMongo(databaseURL);
+                await connectToMongo(databaseURL);
             }
             // check if pathname ist /json, if so, gimme a jsonstring
             if (url.pathname == "/show") {
                 _response.setHeader("content-type", "text/html; charset=utf-8");
                 console.log("welcome to the show");
-                let cursor = mongoClient_2.rantData.find();
+                let cursor = rantData.find();
                 result = await cursor.toArray();
                 _response.write(JSON.stringify(result));
             }
             if (url.pathname == "/delete") {
                 console.log(url.query);
                 _response.setHeader("content-type", "text/html; charset=utf-8");
-                mongoClient_2.rantData.deleteOne({ "user": url.query["user"], "category": url.query["category"], "title": url.query["title"], "rant": url.query["rant"] });
+                rantData.deleteOne({ "_id": new Mongo.ObjectId(url.query._id.toString()) });
+                console.log("_id: " + new Mongo.ObjectId(url.query._id.toString()));
                 _response.write("Löschanfrage angekommen.");
+                await connectToMongo(databaseURL);
             }
         }
         _response.end();

@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Kapiteldreivier = void 0;
 var Kapiteldreivier;
 (function (Kapiteldreivier) {
     let saveButton = document.getElementById("saveRant");
@@ -11,8 +10,8 @@ var Kapiteldreivier;
     let url;
     let query;
     function getURL() {
-        //url = "https://gis-server-git-gud.herokuapp.com";
-        url = "http://localhost:8100";
+        url = "https://gis-server-git-gud.herokuapp.com";
+        //url = "http://localhost:8100";
     }
     function getFormData() {
         let formData = new FormData(document.forms[0]);
@@ -33,6 +32,7 @@ var Kapiteldreivier;
     }
     async function handleShowButtonClick() {
         getURL();
+        serverAnswer.innerHTML = "";
         console.log("Show-Button wurde gedrückt.");
         url += "/show" + "?";
         let response = await fetch(url);
@@ -47,7 +47,7 @@ var Kapiteldreivier;
             let category = document.createElement("p");
             category.appendChild(document.createTextNode("Kategorie: " + queryDelete.category));
             post.appendChild(category);
-            let title = document.createElement("p");
+            let title = document.createElement("h3");
             title.appendChild(document.createTextNode(queryDelete.title));
             post.appendChild(title);
             let rant = document.createElement("p");
@@ -55,6 +55,7 @@ var Kapiteldreivier;
             post.appendChild(rant);
             let deleteButton = document.createElement("button");
             deleteButton.appendChild(document.createTextNode("Löschen"));
+            //deleteButton.setAttribute("id", queryDelete._id);
             deleteButton.setAttribute("type", "button");
             deleteButton.addEventListener("click", handleDeleteButtonClick);
             post.appendChild(deleteButton);
@@ -62,7 +63,10 @@ var Kapiteldreivier;
             async function handleDeleteButtonClick() {
                 getURL();
                 console.log("Delete-Button wurde gedrückt.");
-                url += "/delete" + "?" + query.toString;
+                let id = queryDelete._id;
+                console.log("id: " + id.toString());
+                url += "/delete" + "?_id=" + id.toString();
+                console.log(url);
                 let response = await fetch(url);
                 let displayResponse = await response.text();
                 serverAnswer.innerHTML = displayResponse;
@@ -70,5 +74,5 @@ var Kapiteldreivier;
         }
         console.log(displayResponse);
     }
-})(Kapiteldreivier = exports.Kapiteldreivier || (exports.Kapiteldreivier = {}));
+})(Kapiteldreivier || (Kapiteldreivier = {}));
 //# sourceMappingURL=script.js.map

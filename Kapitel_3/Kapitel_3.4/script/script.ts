@@ -1,7 +1,8 @@
 //import * as Mongo from "mongodb";
+import { ObjectID } from "mongodb";
 import { Rant } from "../source/interface";
 
-export namespace Kapiteldreivier {
+namespace Kapiteldreivier {
 
     let saveButton: HTMLButtonElement = <HTMLButtonElement>document.getElementById("saveRant");
     saveButton.addEventListener("click", handleSaveButtonClick);
@@ -12,8 +13,8 @@ export namespace Kapiteldreivier {
     let query: URLSearchParams;
 
     function getURL(): void {
-        //url = "https://gis-server-git-gud.herokuapp.com";
-        url = "http://localhost:8100";
+        url = "https://gis-server-git-gud.herokuapp.com";
+        //url = "http://localhost:8100";
     }
 
     function getFormData(): void {
@@ -40,6 +41,7 @@ export namespace Kapiteldreivier {
 
     async function handleShowButtonClick(): Promise<void> {
         getURL();
+        serverAnswer.innerHTML = "";
 
         console.log("Show-Button wurde gedrückt.");
 
@@ -57,7 +59,7 @@ export namespace Kapiteldreivier {
             let category: HTMLParagraphElement = document.createElement("p");
             category.appendChild(document.createTextNode("Kategorie: " + queryDelete.category));
             post.appendChild(category);
-            let title: HTMLParagraphElement = document.createElement("p");
+            let title: HTMLElement = document.createElement("h3");
             title.appendChild(document.createTextNode(queryDelete.title));
 
             post.appendChild(title);
@@ -66,6 +68,7 @@ export namespace Kapiteldreivier {
             post.appendChild(rant);
             let deleteButton: HTMLButtonElement = document.createElement("button");
             deleteButton.appendChild(document.createTextNode("Löschen"));
+            //deleteButton.setAttribute("id", queryDelete._id);
             deleteButton.setAttribute("type", "button");
             deleteButton.addEventListener("click", handleDeleteButtonClick);
             post.appendChild(deleteButton);
@@ -75,8 +78,11 @@ export namespace Kapiteldreivier {
                 getURL();
 
                 console.log("Delete-Button wurde gedrückt.");
-
-                url += "/delete" + "?" + query.toString;
+                let id: ObjectID = queryDelete._id;
+                console.log("id: " + id.toString());
+                
+                url += "/delete" + "?_id=" + id.toString();
+                console.log(url);
                 let response: Response = await fetch(url);
                 let displayResponse: string = await response.text();
                 serverAnswer.innerHTML = displayResponse;

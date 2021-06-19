@@ -2,13 +2,12 @@ import * as Http from "http";
 import * as Url from "url";
 import * as Mongo from "mongodb";
 import { Rant } from "../source/interface";
-import { connectToMongo } from "./mongoClient";
-import { rantData } from "./mongoClient";
 
 export namespace Kapiteldreivier {
-
+    let rantData: Mongo.Collection;
     let result: Rant[];
-    let databaseURL: string = "mongodb://localhost:27017";
+    //let databaseURL: string = "mongodb://localhost:27017";
+    let databaseURL: string = "mongodb+srv://TestUser:3m3vaco2Wrn2Swh4@gis-sose-2021.5ejyi.mongodb.net";
 
     let port: number = Number(process.env.PORT);
     if (!port)
@@ -25,6 +24,13 @@ export namespace Kapiteldreivier {
         server.listen(_port);
     }
 
+    async function connectToMongo(_databaseUrl: string): Promise<void> {
+        let options: Mongo.MongoClientOptions = { useNewUrlParser: true, useUnifiedTopology: true };
+        let mongoClient: Mongo.MongoClient = new Mongo.MongoClient(_databaseUrl, options);
+        await mongoClient.connect();
+        rantData = mongoClient.db("Kapitel_3_4").collection("Rants");
+        console.log("database connection ", rantData != undefined);
+    }
     
     // gibt aus dass er horcht
     function handleListen(): void {
@@ -60,8 +66,11 @@ export namespace Kapiteldreivier {
                 console.log(url.query);
                 
                 _response.setHeader("content-type", "text/html; charset=utf-8");
-                rantData.deleteOne({"user": url.query["user"], "category": url.query ["category"], "title": url.query["title"], "rant": url.query["rant"]});
+                rantData.deleteOne( {"_id": new Mongo.ObjectId(url.query._id.toString())});
+                console.log("_id: " + new Mongo.ObjectId(url.query._id.toString()));
+                
                 _response.write("Löschanfrage angekommen.");
+                await connectToMongo(databaseURL);
             }
         }
         _response.end();
