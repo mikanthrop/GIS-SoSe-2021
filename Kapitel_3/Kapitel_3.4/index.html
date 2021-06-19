@@ -22,7 +22,7 @@
         <p>
             Diese Seite ist für all die nervigen Details des Alltags, die man nicht für sich behalten kann, mit denen man aber auch nicht andere Leute belästigen möchte. Hier schreit ihr ins Leere - also tobt euch aus.
         </p>
-        <form>
+        <form id="rantForm">
             <fieldset>
                 <div>
                     <label for="user">Benutzername:</label>
@@ -92,8 +92,11 @@
 
                     </textarea>
                 </div>
-                <span></span>
-                <button type="button" id="saveRant">Save Me Rant</button>
+                <span>
+                    <button type="button" id="saveRant">Save Me Rant</button>
+                    <button type="reset" id="resetRant">Another chance</button>
+
+                </span>
             </fieldset>
         </form>
         <button type="button" id="showRants">Gimme the Goods</button>

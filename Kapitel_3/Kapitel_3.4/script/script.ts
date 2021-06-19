@@ -34,7 +34,6 @@ namespace Kapiteldreivier {
         let displayResponse: string = await response.text();
         serverAnswer.innerText = displayResponse;
         console.log(displayResponse);
-
         // setback of URL to prevent requests with multiple inputs
         getURL();
     }
@@ -50,7 +49,7 @@ namespace Kapiteldreivier {
         let displayResponse: Rant[] = await response.json();
         for (let i in displayResponse) {
             let queryDelete: Rant = displayResponse[i];
-            
+
             let post: HTMLDivElement = document.createElement("div");
             serverAnswer.appendChild(post);
             let user: HTMLParagraphElement = document.createElement("p");
@@ -80,7 +79,7 @@ namespace Kapiteldreivier {
                 console.log("Delete-Button wurde gedrückt.");
                 let id: ObjectID = queryDelete._id;
                 console.log("id: " + id.toString());
-                
+
                 url += "/delete" + "?_id=" + id.toString();
                 console.log(url);
                 let response: Response = await fetch(url);
