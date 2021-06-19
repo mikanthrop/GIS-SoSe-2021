@@ -1,7 +1,7 @@
 import * as Mongo from "mongodb";
-import { rantData } from "./server";
 
 export namespace Kapiteldreivier {
+    export let rantData: Mongo.Collection;
     export async function connectToMongo(_databaseUrl: string): Promise<void> {
         let options: Mongo.MongoClientOptions = { useNewUrlParser: true, useUnifiedTopology: true };
         let mongoClient: Mongo.MongoClient = new Mongo.MongoClient(_databaseUrl, options);

@@ -3,11 +3,11 @@ import * as Url from "url";
 import * as Mongo from "mongodb";
 import { Rant } from "../source/interface";
 import { connectToMongo } from "./mongoClient";
+import { rantData } from "./mongoClient";
 
 export namespace Kapiteldreivier {
 
     let result: Rant[];
-    export let rantData: Mongo.Collection;
     let databaseURL: string = "mongodb://localhost:27017";
 
     let port: number = Number(process.env.PORT);

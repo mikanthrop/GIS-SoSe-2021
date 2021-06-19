@@ -4,6 +4,7 @@ exports.Kapiteldreivier = void 0;
 const Http = require("http");
 const Url = require("url");
 const mongoClient_1 = require("./mongoClient");
+const mongoClient_2 = require("./mongoClient");
 var Kapiteldreivier;
 (function (Kapiteldreivier) {
     let result;
@@ -32,7 +33,7 @@ var Kapiteldreivier;
             if (url.pathname == "/saveRant") {
                 console.log(url);
                 _response.setHeader("content-type", "text/html; charset=utf-8");
-                Kapiteldreivier.rantData.insertOne(url.query);
+                mongoClient_2.rantData.insertOne(url.query);
                 _response.write("Ihre Daten wurden gespeichert.");
                 await mongoClient_1.connectToMongo(databaseURL);
             }
@@ -40,14 +41,14 @@ var Kapiteldreivier;
             if (url.pathname == "/show") {
                 _response.setHeader("content-type", "text/html; charset=utf-8");
                 console.log("welcome to the show");
-                let cursor = Kapiteldreivier.rantData.find();
+                let cursor = mongoClient_2.rantData.find();
                 result = await cursor.toArray();
                 _response.write(JSON.stringify(result));
             }
             if (url.pathname == "/delete") {
                 console.log(url.query);
                 _response.setHeader("content-type", "text/html; charset=utf-8");
-                Kapiteldreivier.rantData.deleteOne({ "user": url.query["user"], "category": url.query["category"], "title": url.query["title"], "rant": url.query["rant"] });
+                mongoClient_2.rantData.deleteOne({ "user": url.query["user"], "category": url.query["category"], "title": url.query["title"], "rant": url.query["rant"] });
                 _response.write("Löschanfrage angekommen.");
             }
         }
