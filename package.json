@@ -9,7 +9,7 @@
     "description": "something with gis",
     "main": "index.js",
     "scripts": {
-        "start": "node ./Kapitel_3/Kapitel_3.2/server/server.js"
+        "start": "node ./Kapitel_3/Kapitel_3.4/source/server.js"
     },
     "repository": {
         "type": "git",
