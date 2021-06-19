@@ -1,18 +1,19 @@
 import * as Http from "http";
 import * as Url from "url";
 import * as Mongo from "mongodb";
-import { ParsedUrlQuery } from "querystring";
+import { Rant } from "../source/interface";
+import { connectToMongo } from "./mongoClient";
 
-namespace Kapiteldreivier {
+export namespace Kapiteldreivier {
 
     let result: Rant[];
-    let rantData: Mongo.Collection;
+    export let rantData: Mongo.Collection;
+    let databaseURL: string = "mongodb://localhost:27017";
 
     let port: number = Number(process.env.PORT);
     if (!port)
         port = 8100;
 
-    let databaseURL: string = "mongodb://localhost:27017";
     startServer(port);
     connectToMongo(databaseURL);
 
@@ -24,13 +25,7 @@ namespace Kapiteldreivier {
         server.listen(_port);
     }
 
-    async function connectToMongo(_databaseUrl: string): Promise<void> {
-        let options: Mongo.MongoClientOptions = { useNewUrlParser: true, useUnifiedTopology: true };
-        let mongoClient: Mongo.MongoClient = new Mongo.MongoClient(_databaseUrl, options);
-        await mongoClient.connect();
-        rantData = mongoClient.db("Kapitel_3_4").collection("Rants");
-        console.log("database connection ", rantData != undefined);
-    }
+    
     // gibt aus dass er horcht
     function handleListen(): void {
         console.log("Listening");
@@ -47,7 +42,7 @@ namespace Kapiteldreivier {
             if (url.pathname == "/saveRant") {
                 console.log(url);
                 _response.setHeader("content-type", "text/html; charset=utf-8");
-                storeData(url.query);
+                rantData.insertOne(url.query);
                 _response.write("Ihre Daten wurden gespeichert.");
                 await connectToMongo(databaseURL);
             }
@@ -62,15 +57,14 @@ namespace Kapiteldreivier {
             }
 
             if (url.pathname == "/delete") {
+                console.log(url.query);
+                
                 _response.setHeader("content-type", "text/html; charset=utf-8");
+                rantData.deleteOne({"user": url.query["user"], "category": url.query ["category"], "title": url.query["title"], "rant": url.query["rant"]});
                 _response.write("Löschanfrage angekommen.");
             }
         }
         _response.end();
         console.log(_response + " wurde abgeschickt");
-    }
-
-    function storeData(_query: ParsedUrlQuery): void {
-        rantData.insertOne(_query);
     }
 }
