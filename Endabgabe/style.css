@@ -8,3 +8,18 @@
 .ishidden {
     display: none !important;
 }
+
+nav ul.flexbox {
+    display: flex;
+    flex-flow: row, nowrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin: 10px;
+}
+
+form.flexbox {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: left;
+    align-items: stretch;
+}
