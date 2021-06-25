@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=#, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="../scripts/login.js" defer></script>
     <link rel="stylesheet" href="../style.css">
     <title>Login</title>
@@ -13,26 +13,48 @@
 <body>
     <header>
         <nav>
+            <ul class="flexbox">
+                <li><a href="./login.html">Login</a></li>
+                <li><a href="./recipes.html">Rezeptideen</a></li>
+            </ul>
 
         </nav>
     </header>
     <main>
-        <form action="" method="post" id="login">
-            <label for="user">Benutzername</label>
-            <input type="text" name="user" placeholder="Benutzername" required>
-            <label for="password">Passwort</label>
-            <input type="password" name="password" placeholder="Passwort" required>
-            <button type="button">Einloggen</button>
+        <form action="" method="post" id="loginForm">
+            <h2>Login</h2>
+            <fieldset class="flexbox">
+                <div>
+                    <label for="username">Benutzername</label>
+                    <input type="text" name="username" placeholder="Benutzername" required>
+                </div>
+                <div>
+                    <label for="password">Passwort</label>
+                    <input type="password" name="password" placeholder="Passwort" required>
+                </div>
+                <button type="button" id="buttonLogin">Einloggen</button>
+            </fieldset>
+            <span>Noch keinen Account?</span><button type="button" id="switchToSignup">Account erstellen</button>
         </form>
-        <form action="" method="post" class="ishidden" id="signup">
-            <label for="user">Benutzername</label>
-            <input type="text" name="user" placeholder="Benutzername" required>
-            <label for="email">Email</label>
-            <input type="text" name="email" placeholder="E-Mail">
-            <label for="password">Passwort</label>
-            <input type="password" name="password" placeholder="E-Mail" required>
-            <button type="button">Account erstellen</button>
+        <form action="" method="post" class="ishidden" id="signupForm">
+            <h2>Account erstellen</h2>
+            <fieldset class="flexbox">
+                <div>
+                    <label for="user">Benutzername</label>
+                    <input type="text" name="user" placeholder="Benutzername" required>
+                </div>
+                <div>
+                    <label for="password">Passwort</label>
+                    <input type="password" name="password" placeholder="E-Mail" required>
+                </div>
+                <button type="button" id="buttonSignup">Account erstellen</button>
+            </fieldset>
+            <span>Schon einen Account?</span><button type="button" id="switchToLogin">Login</button>
         </form>
+
+        <div id="serverResponse">
+
+        </div>
     </main>
     <footer>
 
