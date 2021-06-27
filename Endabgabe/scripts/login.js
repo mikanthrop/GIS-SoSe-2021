@@ -58,6 +58,7 @@ var Endabgabe;
         url += "/signup?" + query.toString();
         let response = await fetch(url);
         let displayResponse = await response.text();
+        console.log(displayResponse);
         // string im if statement überprüfen
         window.open("../html/login.html");
         serverResponseDiv.innerHTML = displayResponse;

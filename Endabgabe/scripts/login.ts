@@ -71,6 +71,7 @@ namespace Endabgabe {
         url += "/signup?" +  query.toString();
         let response: Response = await fetch(url);
         let displayResponse: string = await response.text();
+        console.log(displayResponse);
         // string im if statement überprüfen
         window.open("../html/login.html");
         serverResponseDiv.innerHTML = displayResponse;

@@ -44,19 +44,25 @@ var Endabgabe;
                 console.log("Request to login received.");
                 _response.setHeader("content-type", "text/html; charset=utf-8");
                 // check if login data is saved in coll. users
-                cursor = users.find(url);
-                console.log(cursor);
-                /*// if cursor did find something, say so
-                let loginResponse: LoginMessage;
-                if (cursor != undefined) loginResponse.message = "Found user";
+                cursor = users.find(url.query);
+                let result = await cursor.toArray();
+                console.log("this is the result: " + result);
+                // if cursor did find something, say so
+                let loginResponse;
+                if (result != undefined) {
+                    loginResponse.message = "Found user";
+                }
+                else {
+                    loginResponse.error = "Couldn't find user";
+                }
                 // if not, say so
-                else loginResponse.error = "Couldn't find user";
-                _response.write(loginResponse);*/
-                _response.write(cursor);
+                _response.write(loginResponse);
+                //_response.write(url);
             }
             // request comes from signupForm
             if (url.pathname == "/signup") {
                 console.log("Request to signup received.");
+                //einbauen, dass überprüft wird, ob der Benutzername schon benutzt wird
                 _response.setHeader("content-type", "text/html; charset=utf-8");
                 users.insertOne(url.query);
                 _response.write("Ihr Account wurde erstellt.");
