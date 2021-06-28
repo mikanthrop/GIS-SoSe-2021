@@ -47,7 +47,8 @@ namespace Endabgabe {
 
         if (_request.url != undefined) {
 
-            let cursor: Mongo.Cursor;
+            //let cursor: Mongo.Cursor;
+
             let url: Url.UrlWithParsedQuery = Url.parse(_request.url, true);
             // request comes from loginForm
             if (url.pathname == "/login") {
@@ -55,38 +56,35 @@ namespace Endabgabe {
                 _response.setHeader("content-type", "text/html; charset=utf-8");
 
                 // check if login data is saved in coll. users
-                cursor = users.find(url.query);
-                let result: User[] = await cursor.toArray();
-                console.log("this is the result: " + result);
-
+                let searchedUser: User = await users.findOne({ "user": url.query.user, "password": url.query.password });
+                /*console.log("url query : ", url.query);
+                console.log("url query user: " + url.query.user);
+                console.log("url query password: " + url.query.password);*/
 
                 // if cursor did find something, say so
-                let loginResponse: LoginMessage;
+                let loginResponse: string;
 
-                if (result != undefined) {
-                    loginResponse.message = "Found user";
-                } else {
-                    loginResponse.error = "Couldn't find user";
-                }
-                // if not, say so
+                if (searchedUser != undefined) loginResponse = "Found user";
+                else loginResponse = "Couldn't find user";
                 _response.write(loginResponse);
-
-                //_response.write(url);
             }
             // request comes from signupForm
             if (url.pathname == "/signup") {
+                _response.setHeader("content-type", "text/html; charset=utf-8");
                 console.log("Request to signup received.");
 
                 //einbauen, dass überprüft wird, ob der Benutzername schon benutzt wird
-
-                _response.setHeader("content-type", "text/html; charset=utf-8");
-                users.insertOne(url.query);
-                _response.write("Ihr Account wurde erstellt.");
-                await connectToMongo(databaseURL);
+                let user: User = await users.findOne({ "user": url.query.user });
+                if (user != undefined) _response.write("Benutzername ist bereits vergeben.");
+                else {
+                    users.insertOne(url.query);
+                    _response.write("Ihr Account wurde erstellt.");
+                    await connectToMongo(databaseURL);
+                }
             }
         }
         _response.end();
-        console.log("Server sent response.");
+        console.log("--------Server sent response--------");
     }
 
 }
