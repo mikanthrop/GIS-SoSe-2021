@@ -5,6 +5,7 @@ namespace Endabgabe {
     document.getElementById("buttonSignup").addEventListener("click", handleClickButtonSignup);
     let loginForm: HTMLFormElement = <HTMLFormElement>document.getElementById("loginForm");
     let signupForm: HTMLFormElement = <HTMLFormElement>document.getElementById("signupForm");
+    let formData: FormData;
     let serverResponseDiv: HTMLDivElement = <HTMLDivElement>document.getElementById("serverResponse");
     let url: string;
     let query: URLSearchParams;
@@ -35,12 +36,14 @@ namespace Endabgabe {
     }
 
     function getFormDataLogin(): void {
-        let formData: FormData = new FormData(loginForm);
+        formData = new FormData(loginForm);
+        console.log("user: " + formData.get("user"));
         setQuery(formData);
     }
 
     function getFormDataSignup(): void {
-        let formData: FormData = new FormData(signupForm);
+        formData = new FormData(signupForm);
+        console.log(formData.entries());
         setQuery(formData);
     }
 
@@ -52,14 +55,14 @@ namespace Endabgabe {
 
         url += "/login?" + query.toString();
         let response: Response = await fetch(url);
-        let serverResponse: JSON = await response.json();
-        console.log(serverResponse);
-        
-        /*if (serverResponse != undefined) {
-            for (let key in serverResponse) {
-                sessionStorage.setItem(key, JSON.stringify(serverResponse[key]));
-            }
-        }*/
+        let displayResponse: string = await response.text();
+        console.log(displayResponse);
+        serverResponseDiv.innerHTML = displayResponse;
+        if (displayResponse == "Found user") {
+            sessionStorage.setItem("user", formData.get("user").toString());
+            //recipefavs?
+            //sessionStorage.setItem("")
+        }
     }
 
     async function handleClickButtonSignup(): Promise<void> {
@@ -72,8 +75,8 @@ namespace Endabgabe {
         let response: Response = await fetch(url);
         let displayResponse: string = await response.text();
         console.log(displayResponse);
-        // string im if statement überprüfen
-        window.open("../html/login.html");
+        if (displayResponse == "Ihr Account wurde erstellt.") window.open("../html/login.html", "_self");
+        else 
         serverResponseDiv.innerHTML = displayResponse;
 
     }
