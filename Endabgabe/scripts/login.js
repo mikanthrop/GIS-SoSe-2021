@@ -1,17 +1,36 @@
 "use strict";
 var Endabgabe;
 (function (Endabgabe) {
+    //generally used elements/variables
+    let formData;
+    let serverResponseDiv = document.getElementById("serverResponse");
+    let query;
+    let url;
+    //login.html
     document.getElementById("switchToSignup").addEventListener("click", handleClickSwitchToSignup);
     document.getElementById("switchToLogin").addEventListener("click", handleClickSwitchToLogin);
     document.getElementById("buttonLogin").addEventListener("click", handleClickButtonLogin);
     document.getElementById("buttonSignup").addEventListener("click", handleClickButtonSignup);
     let loginForm = document.getElementById("loginForm");
     let signupForm = document.getElementById("signupForm");
-    let formData;
-    let serverResponseDiv = document.getElementById("serverResponse");
-    let url;
-    let query;
-    //make switching between login and signup form possible
+    /* //myRecipes.html
+     document.getElementById("submitRecipe").addEventListener("click", handleClickSubmitRecipe);
+     document.getElementById("addIngredient").addEventListener("click", handleClickAddIngredient);
+     let ingredientsDiv: HTMLDivElement = <HTMLDivElement>document.getElementById("ingredients");
+     let recipeForm: HTMLFormElement = <HTMLFormElement>document.getElementById("recipeForm");
+     let ingredientList: string[];
+     let ingredientCount: number = 1;*/
+    // generally used functions
+    function getURL() {
+        //url = "https://gis-server-git-gud.herokuapp.com";
+        url = "http://localhost:8100";
+    }
+    function setQuery(_formData) {
+        //tslint:disable-next-line: no-any
+        query = new URLSearchParams(_formData);
+    }
+    //login.html functions
+    //makes switching between login and signup form possible
     function handleClickSwitchToLogin() {
         console.log("SwitchToLogin wurde gedrückt.");
         signupForm.classList.add("ishidden");
@@ -21,14 +40,6 @@ var Endabgabe;
         console.log("SwitchToSignup wurde gedrückt.");
         loginForm.classList.add("ishidden");
         signupForm.classList.remove("ishidden");
-    }
-    function getURL() {
-        //url = "https://gis-server-git-gud.herokuapp.com";
-        url = "http://localhost:8100";
-    }
-    function setQuery(_formData) {
-        //tslint:disable-next-line: no-any
-        query = new URLSearchParams(_formData);
     }
     function getFormDataLogin() {
         formData = new FormData(loginForm);
@@ -53,6 +64,7 @@ var Endabgabe;
             sessionStorage.setItem("user", formData.get("user").toString());
             //recipefavs?
             //sessionStorage.setItem("")
+            window.open("../html/recipes.html", "_self");
         }
     }
     async function handleClickButtonSignup() {
@@ -68,5 +80,26 @@ var Endabgabe;
         else
             serverResponseDiv.innerHTML = displayResponse;
     }
+    //myRecipes.html functions
+    /* function handleClickAddIngredient(): void {
+         let nextIngredient: HTMLInputElement = document.createElement("input");
+         nextIngredient.type = "text";
+         nextIngredient.name = "ingredient" + ingredientCount;
+         ingredientCount++;
+         ingredientsDiv.appendChild(nextIngredient);
+     }
+ 
+     async function handleClickSubmitRecipe(): Promise<void> {
+         console.log("Submit Recipe wurde gedrückt.");
+         
+         formData = new FormData(recipeForm);
+         console.log(formData.getAll("ingredient"));
+         setQuery(formData);
+         url += "/submit?" + query.toString();
+         let response: Response = await fetch(url);
+         let displayResponse: string = await response.text();
+         serverResponseDiv.innerHTML = displayResponse;
+ 
+     }*/
 })(Endabgabe || (Endabgabe = {}));
 //# sourceMappingURL=login.js.map
