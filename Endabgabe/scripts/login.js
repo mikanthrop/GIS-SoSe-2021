@@ -7,6 +7,7 @@ var Endabgabe;
     document.getElementById("buttonSignup").addEventListener("click", handleClickButtonSignup);
     let loginForm = document.getElementById("loginForm");
     let signupForm = document.getElementById("signupForm");
+    let formData;
     let serverResponseDiv = document.getElementById("serverResponse");
     let url;
     let query;
@@ -30,11 +31,13 @@ var Endabgabe;
         query = new URLSearchParams(_formData);
     }
     function getFormDataLogin() {
-        let formData = new FormData(loginForm);
+        formData = new FormData(loginForm);
+        console.log("user: " + formData.get("user"));
         setQuery(formData);
     }
     function getFormDataSignup() {
-        let formData = new FormData(signupForm);
+        formData = new FormData(signupForm);
+        console.log(formData.entries());
         setQuery(formData);
     }
     async function handleClickButtonLogin() {
@@ -43,13 +46,14 @@ var Endabgabe;
         getFormDataLogin();
         url += "/login?" + query.toString();
         let response = await fetch(url);
-        let serverResponse = await response.json();
-        console.log(serverResponse);
-        /*if (serverResponse != undefined) {
-            for (let key in serverResponse) {
-                sessionStorage.setItem(key, JSON.stringify(serverResponse[key]));
-            }
-        }*/
+        let displayResponse = await response.text();
+        console.log(displayResponse);
+        serverResponseDiv.innerHTML = displayResponse;
+        if (displayResponse == "Found user") {
+            sessionStorage.setItem("user", formData.get("user").toString());
+            //recipefavs?
+            //sessionStorage.setItem("")
+        }
     }
     async function handleClickButtonSignup() {
         console.log("ButtonSignup wurde gedrückt. Server erstellt ein neues Nutzerprofil.");
@@ -59,9 +63,10 @@ var Endabgabe;
         let response = await fetch(url);
         let displayResponse = await response.text();
         console.log(displayResponse);
-        // string im if statement überprüfen
-        window.open("../html/login.html");
-        serverResponseDiv.innerHTML = displayResponse;
+        if (displayResponse == "Ihr Account wurde erstellt.")
+            window.open("../html/login.html", "_self");
+        else
+            serverResponseDiv.innerHTML = displayResponse;
     }
 })(Endabgabe || (Endabgabe = {}));
 //# sourceMappingURL=login.js.map
