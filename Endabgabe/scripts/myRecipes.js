@@ -1,7 +1,6 @@
 "use strict";
 var Endabgabe;
 (function (Endabgabe) {
-    let formData;
     let serverResponseDiv = document.getElementById("serverResponse");
     let query;
     let url;
@@ -9,8 +8,9 @@ var Endabgabe;
     document.getElementById("addIngredient").addEventListener("click", handleClickAddIngredient);
     let ingredientsDiv = document.getElementById("ingredients");
     let recipeForm = document.getElementById("recipeForm");
+    let recipeData;
     let ingredientList;
-    let ingredientCount = 1;
+    let ingredientCount = 0;
     function getURL() {
         //url = "https://gis-server-git-gud.herokuapp.com";
         url = "http://localhost:8100";
@@ -20,18 +20,31 @@ var Endabgabe;
         query = new URLSearchParams(_formData);
     }
     function handleClickAddIngredient() {
-        let nextIngredient = document.createElement("input");
-        nextIngredient.type = "text";
-        nextIngredient.name = "ingredient" + ingredientCount;
-        ingredientCount++;
-        ingredientsDiv.appendChild(nextIngredient);
+        serverResponseDiv.innerHTML = "";
+        recipeData = new FormData(recipeForm);
+        let thisIngredient = "ingredient" + ingredientCount;
+        console.log("im input " + ingredientCount + " steht " + recipeData.get(thisIngredient));
+        //hier nicht sicher ob != "" oder != null oder != undefined richtig ist, 
+        //alles funktioniert nicht so richtig
+        if (recipeData.get(thisIngredient) != undefined) {
+            console.log("----------i'm in---------------");
+            let nextIngredient = document.createElement("input");
+            nextIngredient.type = "text";
+            nextIngredient.name = "ingredient" + ingredientCount;
+            ingredientsDiv.appendChild(nextIngredient);
+            ingredientCount++;
+        }
+        else {
+            serverResponseDiv.innerHTML = "Bitte geben Sie eine weitere Zutat ein.";
+        }
     }
     async function handleClickSubmitRecipe() {
         console.log("Submit Recipe wurde gedrückt.");
         getURL();
-        formData = new FormData(recipeForm);
-        console.log(formData.getAll("ingredient"));
-        setQuery(formData);
+        let recipe;
+        recipe.ingredients = ingredientList;
+        console.log(recipeData.getAll("ingredient"));
+        setQuery(recipeData);
         url += "/submit?" + query.toString();
         let response = await fetch(url);
         let displayResponse = await response.text();
