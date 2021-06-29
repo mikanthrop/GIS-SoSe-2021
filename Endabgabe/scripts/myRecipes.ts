@@ -7,7 +7,7 @@ namespace Endabgabe {
     document.getElementById("submitRecipe").addEventListener("click", handleClickSubmitRecipe);
     document.getElementById("addIngredient").addEventListener("click", handleClickAddIngredient);
     let ingredientsDiv: HTMLDivElement = <HTMLDivElement>document.getElementById("ingredients");
-    let recipeForm: HTMLFormElement = <HTMLFormElement>document.getElementById("recipeForm");
+    //let recipeForm: HTMLFormElement = <HTMLFormElement>document.getElementById("recipeForm");
     let recipeData: FormData;
     let ingredientList: string[];
     let ingredientCount: number = 0;
