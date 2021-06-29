@@ -21,12 +21,15 @@ var Endabgabe;
     }
     function handleClickAddIngredient() {
         serverResponseDiv.innerHTML = "";
-        recipeData = new FormData(recipeForm);
+        //console.log("valueOf", recipeData.get("ingredient0").valueOf());
         let thisIngredient = "ingredient" + ingredientCount;
-        console.log("im input " + ingredientCount + " steht " + recipeData.get(thisIngredient));
+        console.log(thisIngredient);
+        let ingredientInput = document.getElementById(thisIngredient);
+        //console.log(ingredientInput.value);
+        console.log("im input " + ingredientCount + " steht " + recipeData.get("ingredient0"));
         //hier nicht sicher ob != "" oder != null oder != undefined richtig ist, 
         //alles funktioniert nicht so richtig
-        if (recipeData.get(thisIngredient) != undefined) {
+        if (ingredientInput != null) {
             console.log("----------i'm in---------------");
             let nextIngredient = document.createElement("input");
             nextIngredient.type = "text";
