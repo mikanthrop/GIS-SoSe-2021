@@ -1,7 +1,7 @@
 namespace Endabgabe {
     let serverResponseDiv: HTMLDivElement = <HTMLDivElement>document.getElementById("serverResponse");
     let query: URLSearchParams;
-    
+    let ingredientInput: HTMLInputElement;
     let url: string;
     
     document.getElementById("submitRecipe").addEventListener("click", handleClickSubmitRecipe);
@@ -17,46 +17,45 @@ namespace Endabgabe {
         url = "http://localhost:8100";
     }
 
-    function setQuery(_formData: FormData): void {
-        //tslint:disable-next-line: no-any
-        query = new URLSearchParams(<any>_formData);
-    }
-
     function handleClickAddIngredient(): void {
         serverResponseDiv.innerHTML = "";
-        //console.log("valueOf", recipeData.get("ingredient0").valueOf());
+        
         let thisIngredient: string = "ingredient" + ingredientCount;
-        console.log(thisIngredient);
-        
-        let ingredientInput: HTMLInputElement = <HTMLInputElement>document.getElementById(thisIngredient);
-        //console.log(ingredientInput.value);
-        
-        console.log("im input " + ingredientCount + " steht " + recipeData.get("ingredient0"));
+        ingredientInput = <HTMLInputElement>document.getElementById(thisIngredient);
        
-        //hier nicht sicher ob != "" oder != null oder != undefined richtig ist, 
-        //alles funktioniert nicht so richtig
-        if (ingredientInput != null) {
-            console.log("----------i'm in---------------");
+        if (ingredientInput.value != "") {
+            ingredientCount++;
+            thisIngredient = "ingredient" + ingredientCount;
+
             let nextIngredient: HTMLInputElement = document.createElement("input");
             nextIngredient.type = "text";
-            nextIngredient.name = "ingredient" + ingredientCount;
+            nextIngredient.id = thisIngredient;
+            nextIngredient.name = thisIngredient;
             ingredientsDiv.appendChild(nextIngredient);
-            
-            ingredientCount++;
-        } else {
-            serverResponseDiv.innerHTML = "Bitte geben Sie eine weitere Zutat ein.";
-        }
+
+        } else serverResponseDiv.innerHTML = "Bitte geben Sie eine weitere Zutat ein.";
     }
 
     async function handleClickSubmitRecipe(): Promise<void> {
         console.log("Submit Recipe wurde gedrückt.");
         getURL();
 
-       
         let recipe: Recipe;
+        console.log(ingredientsDiv.childElementCount);
+        ingredientInput = <HTMLInputElement>document.getElementById("ingredient0");
+        ingredientList = [ingredientInput.value];
+
+        //appends every ingredient to ingredientList
+        for (let i: number = 1; i < ingredientsDiv.childElementCount; i++) {
+            console.log("----------i'm in------------");
+            ingredientInput = <HTMLInputElement>document.getElementById("ingredient" + i);
+            console.log(ingredientInput.value);
+            ingredientList.push(ingredientInput.value);
+            console.log(ingredientList);
+        }
         recipe.ingredients = ingredientList;
         console.log(recipeData.getAll("ingredient"));
-        setQuery(recipeData);
+        // gotta make the query by myself
         url += "/submit?" + query.toString();
         let response: Response = await fetch(url);
         let displayResponse: string = await response.text();
