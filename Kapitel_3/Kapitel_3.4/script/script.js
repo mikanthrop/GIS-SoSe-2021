@@ -7,6 +7,7 @@ var Kapiteldreivier;
     let showButton = document.getElementById("showRants");
     showButton.addEventListener("click", handleShowButtonClick);
     let serverAnswer = document.getElementById("Rants");
+    let rantForm = document.getElementById("rantForm");
     let url;
     let query;
     function getURL() {
@@ -27,6 +28,7 @@ var Kapiteldreivier;
         let displayResponse = await response.text();
         serverAnswer.innerText = displayResponse;
         console.log(displayResponse);
+        rantForm.reset();
         // setback of URL to prevent requests with multiple inputs
         getURL();
     }
