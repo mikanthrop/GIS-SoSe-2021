@@ -57,23 +57,22 @@ namespace Endabgabe {
 
                 // check if login data is saved in coll. users
                 let searchedUser: User = await users.findOne({ "user": url.query.user, "password": url.query.password });
-                /*console.log("url query : ", url.query);
-                console.log("url query user: " + url.query.user);
-                console.log("url query password: " + url.query.password);*/
 
                 // if cursor did find something, say so
-                let loginResponse: string;
+                let loginResponse: LoginMessage = {message: undefined, error: undefined};
 
-                if (searchedUser != undefined) loginResponse = "Found user";
-                else loginResponse = "Couldn't find user";
-                _response.write(loginResponse);
+                if (searchedUser != undefined) loginResponse.message = "Found user";
+                else loginResponse.error = "Couldn't find user";
+                console.log(loginResponse);
+                
+                _response.write(JSON.stringify(loginResponse));
             }
             // request comes from signupForm
             if (url.pathname == "/signup") {
                 _response.setHeader("content-type", "text/html; charset=utf-8");
                 console.log("Request to signup received.");
 
-                //einbauen, dass überprüft wird, ob der Benutzername schon benutzt wird
+                //überprüft, ob der Benutzername schon benutzt wird
                 let user: User = await users.findOne({ "user": url.query.user });
                 if (user != undefined) _response.write("Benutzername ist bereits vergeben.");
                 else {
@@ -82,6 +81,21 @@ namespace Endabgabe {
                     await connectToMongo(databaseURL);
                 }
             }
+            // request to save a recipe
+            if (url.pathname == "/submit") {
+                _response.setHeader("content-type", "text/html; charset=utf-8");
+                console.log("Request to save recipe received.");
+
+                console.log(url.query);
+                
+                if (url.query.title == "" && url.query.ingredients == "")
+                recipes.insertOne(url.query);
+            }
+
+            if (url.pathname == "/delete") {
+                recipes.deleteOne({"title: ": url.query.title, "ingredients: ": url.query.ingredients});
+            }
+
         }
         _response.end();
         console.log("--------Server sent response--------");
