@@ -56,16 +56,17 @@ var Endabgabe;
         getURL();
         getFormDataLogin();
         url += "/login?" + query.toString();
+        console.log(query.toString());
         let response = await fetch(url);
-        let displayResponse = await response.text();
-        console.log(displayResponse);
-        serverResponseDiv.innerHTML = displayResponse;
-        if (displayResponse == "Found user") {
-            sessionStorage.setItem("user", formData.get("user").toString());
-            //recipefavs?
-            //sessionStorage.setItem("")
+        let text = await response.text();
+        console.log(text);
+        let displayResponse = JSON.parse(text);
+        if (displayResponse.message != undefined) {
             window.open("../html/recipes.html", "_self");
+            localStorage.setItem("user", formData.get("user").toString());
         }
+        if (displayResponse.error != undefined)
+            serverResponseDiv.innerHTML = displayResponse.error;
     }
     async function handleClickButtonSignup() {
         console.log("ButtonSignup wurde gedrückt. Server erstellt ein neues Nutzerprofil.");

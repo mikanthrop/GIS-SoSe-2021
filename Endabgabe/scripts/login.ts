@@ -16,13 +16,13 @@ namespace Endabgabe {
     let loginForm: HTMLFormElement = <HTMLFormElement>document.getElementById("loginForm");
     let signupForm: HTMLFormElement = <HTMLFormElement>document.getElementById("signupForm");
 
-   /* //myRecipes.html
-    document.getElementById("submitRecipe").addEventListener("click", handleClickSubmitRecipe);
-    document.getElementById("addIngredient").addEventListener("click", handleClickAddIngredient);
-    let ingredientsDiv: HTMLDivElement = <HTMLDivElement>document.getElementById("ingredients");
-    let recipeForm: HTMLFormElement = <HTMLFormElement>document.getElementById("recipeForm");
-    let ingredientList: string[];
-    let ingredientCount: number = 1;*/
+    /* //myRecipes.html
+     document.getElementById("submitRecipe").addEventListener("click", handleClickSubmitRecipe);
+     document.getElementById("addIngredient").addEventListener("click", handleClickAddIngredient);
+     let ingredientsDiv: HTMLDivElement = <HTMLDivElement>document.getElementById("ingredients");
+     let recipeForm: HTMLFormElement = <HTMLFormElement>document.getElementById("recipeForm");
+     let ingredientList: string[];
+     let ingredientCount: number = 1;*/
 
 
     // generally used functions
@@ -71,16 +71,16 @@ namespace Endabgabe {
         getFormDataLogin();
 
         url += "/login?" + query.toString();
+        console.log(query.toString());
         let response: Response = await fetch(url);
-        let displayResponse: string = await response.text();
-        console.log(displayResponse);
-        serverResponseDiv.innerHTML = displayResponse;
-        if (displayResponse == "Found user") {
-            sessionStorage.setItem("user", formData.get("user").toString());
-            //recipefavs?
-            //sessionStorage.setItem("")
+        let text: string = await response.text();
+        console.log(text);
+        let displayResponse: LoginMessage = JSON.parse(text);
+        if (displayResponse.message != undefined) {
             window.open("../html/recipes.html", "_self");
+            localStorage.setItem("user", formData.get("user").toString());
         }
+        if (displayResponse.error != undefined) serverResponseDiv.innerHTML = displayResponse.error;
     }
 
     async function handleClickButtonSignup(): Promise<void> {
@@ -101,24 +101,24 @@ namespace Endabgabe {
     //myRecipes.html functions
 
 
-   /* function handleClickAddIngredient(): void {
-        let nextIngredient: HTMLInputElement = document.createElement("input");
-        nextIngredient.type = "text";
-        nextIngredient.name = "ingredient" + ingredientCount;
-        ingredientCount++;
-        ingredientsDiv.appendChild(nextIngredient);
-    }
-
-    async function handleClickSubmitRecipe(): Promise<void> {
-        console.log("Submit Recipe wurde gedrückt.");
-        
-        formData = new FormData(recipeForm);
-        console.log(formData.getAll("ingredient"));
-        setQuery(formData);
-        url += "/submit?" + query.toString();
-        let response: Response = await fetch(url);
-        let displayResponse: string = await response.text();
-        serverResponseDiv.innerHTML = displayResponse;
-
-    }*/
+    /* function handleClickAddIngredient(): void {
+         let nextIngredient: HTMLInputElement = document.createElement("input");
+         nextIngredient.type = "text";
+         nextIngredient.name = "ingredient" + ingredientCount;
+         ingredientCount++;
+         ingredientsDiv.appendChild(nextIngredient);
+     }
+ 
+     async function handleClickSubmitRecipe(): Promise<void> {
+         console.log("Submit Recipe wurde gedrückt.");
+         
+         formData = new FormData(recipeForm);
+         console.log(formData.getAll("ingredient"));
+         setQuery(formData);
+         url += "/submit?" + query.toString();
+         let response: Response = await fetch(url);
+         let displayResponse: string = await response.text();
+         serverResponseDiv.innerHTML = displayResponse;
+ 
+     }*/
 }
