@@ -10,6 +10,8 @@ interface User {
 }
 
 interface Recipe {
+    title: string;
+    author: string;
     ingredients: string[];
     preparation: string;
 }

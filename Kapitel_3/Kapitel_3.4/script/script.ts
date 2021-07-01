@@ -9,6 +9,7 @@ namespace Kapiteldreivier {
     let showButton: HTMLButtonElement = <HTMLButtonElement>document.getElementById("showRants");
     showButton.addEventListener("click", handleShowButtonClick);
     let serverAnswer: HTMLDivElement = <HTMLDivElement>document.getElementById("Rants");
+    let rantForm: HTMLFormElement = <HTMLFormElement>document.getElementById("rantForm");
     let url: string;
     let query: URLSearchParams;
 
@@ -34,6 +35,7 @@ namespace Kapiteldreivier {
         let displayResponse: string = await response.text();
         serverAnswer.innerText = displayResponse;
         console.log(displayResponse);
+        rantForm.reset();
         // setback of URL to prevent requests with multiple inputs
         getURL();
     }

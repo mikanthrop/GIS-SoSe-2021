@@ -66,7 +66,7 @@ export namespace Kapiteldreivier {
                 console.log(url.query);
                 
                 _response.setHeader("content-type", "text/html; charset=utf-8");
-                rantData.deleteOne( {"_id": new Mongo.ObjectId(url.query._id.toString())});
+                rantData.deleteOne( {"_id": new Mongo.ObjectId(url.query._id.toString())} );
                 console.log("_id: " + new Mongo.ObjectId(url.query._id.toString()));
                 
                 _response.write("Der Beitrag wurde gelöscht.");
