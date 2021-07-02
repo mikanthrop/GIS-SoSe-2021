@@ -38,8 +38,8 @@ var Endabgabe;
         console.log("Server heard request. Now responding.");
         _response.setHeader("Access-Control-Allow-Origin", "*");
         if (_request.url != undefined) {
-            //let cursor: Mongo.Cursor;
             let url = Url.parse(_request.url, true);
+            //login.html
             // request comes from loginForm
             if (url.pathname == "/login") {
                 console.log("Request to login received.");
@@ -69,8 +69,9 @@ var Endabgabe;
                     await connectToMongo(databaseURL);
                 }
             }
+            // myRecipes.html
             // request to save a recipe
-            if (url.pathname == "/submit") {
+            if (url.pathname == "/submitRecipe") {
                 _response.setHeader("content-type", "text/html; charset=utf-8");
                 console.log("Request to save recipe received.");
                 // checks if there is an author to the recipe
@@ -85,15 +86,33 @@ var Endabgabe;
             }
             // request to show recipes the user created
             if (url.pathname == "/showMyRecipes") {
-                _response.setHeader("content-type", "text/html; charset=utf-8");
+                _response.setHeader("content-type", "application/json; charset=utf-8");
                 console.log("Request to show user's recipes received.");
                 let cursor = recipes.find({ "author": url.query.user });
                 let result = await cursor.toArray();
                 _response.write(JSON.stringify(result));
             }
+            // request to send old version back to client so user can edit the recipe
+            if (url.pathname == "/editMyRecipe") {
+                _response.setHeader("content-type", "text/html; charset=utf-8");
+                console.log("Request to edit user's recipe received.");
+                let cursor = recipes.find({ "_id": new Mongo.ObjectId(url.query._id.toString()) });
+                let result = await cursor.toArray();
+                _response.write(JSON.stringify(result));
+            }
+            // request to resubmit edited recipe
+            if (url.pathname == "/resubmitRecipe") {
+                _response.setHeader("content-type", "text/html; charset=utf-8");
+                console.log("Request to resubmit user's recipe received.");
+                let doc = { "_id": url.query._id, "title": url.query.title, "author": url.query.author, "ingredients": url.query.ingredients, "preparation": url.query.preparation };
+                let filter = { "_id": url.query._id };
+                recipes.replaceOne(filter, doc);
+            }
             // request to delete one recipe the user created themselves
             if (url.pathname == "/deleteMyRecipe") {
-                recipes.deleteOne({});
+                console.log("Request to delete user's recipe received.");
+                recipes.deleteOne({ "_id": new Mongo.ObjectId(url.query._id.toString()) });
+                _response.write("Rezept wurde erfolgreich gelöscht.");
             }
         }
         _response.end();
