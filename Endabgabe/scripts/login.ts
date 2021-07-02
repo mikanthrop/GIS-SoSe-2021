@@ -1,6 +1,6 @@
+import * as Interface from "../source/interface";
 
-
-namespace Endabgabe {
+export namespace Endabgabe {
     //generally used elements/variables
     let formData: FormData;
     let serverResponseDiv: HTMLDivElement = <HTMLDivElement>document.getElementById("serverResponse");
@@ -75,7 +75,7 @@ namespace Endabgabe {
         let response: Response = await fetch(url);
         let text: string = await response.text();
         console.log(text);
-        let displayResponse: LoginMessage = JSON.parse(text);
+        let displayResponse: Interface.LoginMessage = JSON.parse(text);
         if (displayResponse.message != undefined) {
             window.open("../html/recipes.html", "_self");
             localStorage.setItem("user", formData.get("user").toString());

@@ -1,8 +1,9 @@
 import * as Http from "http";
 import * as Url from "url";
 import * as Mongo from "mongodb";
+import * as Interface from "./interface";
 
-namespace Endabgabe {
+export namespace Endabgabe {
     let users: Mongo.Collection;
     let recipes: Mongo.Collection;
     let databaseURL: string = "mongodb://localhost:27017";
@@ -56,15 +57,15 @@ namespace Endabgabe {
                 _response.setHeader("content-type", "text/html; charset=utf-8");
 
                 // check if login data is saved in coll. users
-                let searchedUser: User = await users.findOne({ "user": url.query.user, "password": url.query.password });
+                let searchedUser: Interface.User = await users.findOne({ "user": url.query.user, "password": url.query.password });
 
                 // if cursor did find something, say so
-                let loginResponse: LoginMessage = {message: undefined, error: undefined};
+                let loginResponse: Interface.LoginMessage = { message: undefined, error: undefined };
 
                 if (searchedUser != undefined) loginResponse.message = "Found user";
                 else loginResponse.error = "Couldn't find user";
                 console.log(loginResponse);
-                
+
                 _response.write(JSON.stringify(loginResponse));
             }
             // request comes from signupForm
@@ -72,8 +73,8 @@ namespace Endabgabe {
                 _response.setHeader("content-type", "text/html; charset=utf-8");
                 console.log("Request to signup received.");
 
-                //überprüft, ob der Benutzername schon benutzt wird
-                let user: User = await users.findOne({ "user": url.query.user });
+                //checks if username is already in use
+                let user: Interface.User = await users.findOne({ "user": url.query.user });
                 if (user != undefined) _response.write("Benutzername ist bereits vergeben.");
                 else {
                     users.insertOne(url.query);
@@ -86,14 +87,27 @@ namespace Endabgabe {
                 _response.setHeader("content-type", "text/html; charset=utf-8");
                 console.log("Request to save recipe received.");
 
-                console.log(url.query);
-                
-                if (url.query.title == "" && url.query.ingredients == "")
-                recipes.insertOne(url.query);
+                // checks if there is an author to the recipe
+                if (url.query.author != "") {
+                    console.log("onto saving!");
+                    recipes.insertOne(url.query);
+                    _response.write("Ihr Rezept wurde erfolgreich gespeichert.");
+                } else {
+                    _response.write("Sie müssen eingeloggt sein, um ein Rezept erstellen zu können.");
+                }
             }
-
-            if (url.pathname == "/delete") {
-                recipes.deleteOne({"title: ": url.query.title, "ingredients: ": url.query.ingredients});
+            // request to show recipes the user created
+            if (url.pathname == "/showMyRecipes") {
+                _response.setHeader("content-type", "text/html; charset=utf-8");
+                console.log("Request to show user's recipes received.");
+                
+                let cursor: Mongo.Cursor = recipes.find({ "author": url.query.user});
+                let result: Interface.Recipe[] = await cursor.toArray();
+                _response.write(JSON.stringify(result));
+            }
+            // request to delete one recipe the user created themselves
+            if (url.pathname == "/deleteMyRecipe") {
+                recipes.deleteOne({});
             }
 
         }

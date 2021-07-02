@@ -1,4 +1,7 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Endabgabe = void 0;
+const Mongo = require("mongodb");
 var Endabgabe;
 (function (Endabgabe) {
     let ingredientsDiv = document.getElementById("ingredients");
@@ -6,22 +9,47 @@ var Endabgabe;
     let recipeForm = document.getElementById("recipeForm");
     let serverResponseDiv = document.getElementById("serverResponse");
     let scriptResponseDiv = document.getElementById("scriptResponse");
-    let query;
+    //let query: URLSearchParams;
     let ingredientInput;
     let url;
-    let recipeData;
+    //let recipeData: FormData;
     let ingredientList;
     let ingredientCount = 0;
-    window.addEventListener("load", handleLoggedIn);
+    window.addEventListener("load", handleShowMyRecipes);
     document.getElementById("submitRecipe").addEventListener("click", handleClickSubmitRecipe);
     document.getElementById("addIngredient").addEventListener("click", handleClickAddIngredient);
-    function handleLoggedIn() {
-        console.log(localStorage.getItem("user"));
-        if (localStorage.getItem("user") == null) {
+    async function handleShowMyRecipes() {
+        getURL();
+        let user = localStorage.getItem("user");
+        console.log(user);
+        if (user == null) {
             loggedInDiv.classList.add("ishidden");
             let notYou = document.createElement("h2");
-            notYou.innerHTML = "Sie müssen angemeldet sein, um dieses Feature nutzen zu können.";
+            notYou.appendChild(document.createTextNode("Sie müssen angemeldet sein, um dieses Feature nutzen zu können."));
             serverResponseDiv.appendChild(notYou);
+        }
+        else {
+            url += "/showMyRecipes?" + "user=" + user;
+            console.log(url);
+            let response = await fetch(url);
+            let disReply = await response.json();
+            for (let i in disReply) {
+                let post = document.createElement("div");
+                serverResponseDiv.appendChild(post);
+                let author = document.createElement("p");
+                author.appendChild(document.createTextNode("Verfasser: " + disReply[i].author));
+                post.appendChild(author);
+                let title = document.createElement("h3");
+                title.appendChild(document.createTextNode(disReply[i].title));
+                post.appendChild(title);
+                let ingredients = document.createElement("p");
+                ingredients.appendChild(document.createTextNode("Zutaten: " + disReply[i].ingredients));
+                post.appendChild(ingredients);
+                let preparation = document.createElement("p");
+                preparation.appendChild(document.createTextNode("Zubereitung: " + disReply[i].preparation));
+                post.appendChild(preparation);
+            }
+            //serverResponseDiv.innerHTML = displayResponse;
         }
     }
     function getURL() {
@@ -74,7 +102,7 @@ var Endabgabe;
                     console.log("--------------i'm out--------------");
                 console.log("Zutatenliste " + ingredientList);
             }
-            let recipe = { ingredients: ingredientList, author: localStorage.getItem("user"), title: recipeTitle.value, preparation: recipePreparation.value };
+            let recipe = { _id: new Mongo.ObjectId(), ingredients: ingredientList, author: localStorage.getItem("user"), title: recipeTitle.value, preparation: recipePreparation.value };
             console.log("recipe ", recipe);
             // gotta make the query by myself
             url += "/submit?title=" + recipe.title + "&author=" + recipe.author + "&ingredients=" + recipe.ingredients + "&preparation=" + recipe.preparation;
@@ -85,5 +113,5 @@ var Endabgabe;
             recipeForm.reset();
         }
     }
-})(Endabgabe || (Endabgabe = {}));
+})(Endabgabe = exports.Endabgabe || (exports.Endabgabe = {}));
 //# sourceMappingURL=myRecipes.js.map

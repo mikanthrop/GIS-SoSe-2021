@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Endabgabe = void 0;
 const Http = require("http");
 const Url = require("url");
 const Mongo = require("mongodb");
@@ -58,7 +59,7 @@ var Endabgabe;
             if (url.pathname == "/signup") {
                 _response.setHeader("content-type", "text/html; charset=utf-8");
                 console.log("Request to signup received.");
-                //überprüft, ob der Benutzername schon benutzt wird
+                //checks if username is already in use
                 let user = await users.findOne({ "user": url.query.user });
                 if (user != undefined)
                     _response.write("Benutzername ist bereits vergeben.");
@@ -72,16 +73,31 @@ var Endabgabe;
             if (url.pathname == "/submit") {
                 _response.setHeader("content-type", "text/html; charset=utf-8");
                 console.log("Request to save recipe received.");
-                console.log(url.query);
-                if (url.query.title == "" && url.query.ingredients == "")
+                // checks if there is an author to the recipe
+                if (url.query.author != "") {
+                    console.log("onto saving!");
                     recipes.insertOne(url.query);
+                    _response.write("Ihr Rezept wurde erfolgreich gespeichert.");
+                }
+                else {
+                    _response.write("Sie müssen eingeloggt sein, um ein Rezept erstellen zu können.");
+                }
             }
-            if (url.pathname == "/delete") {
-                recipes.deleteOne({ "title: ": url.query.title, "ingredients: ": url.query.ingredients });
+            // request to show recipes the user created
+            if (url.pathname == "/showMyRecipes") {
+                _response.setHeader("content-type", "text/html; charset=utf-8");
+                console.log("Request to show user's recipes received.");
+                let cursor = recipes.find({ "author": url.query.user });
+                let result = await cursor.toArray();
+                _response.write(JSON.stringify(result));
+            }
+            // request to delete one recipe the user created themselves
+            if (url.pathname == "/deleteMyRecipe") {
+                recipes.deleteOne({});
             }
         }
         _response.end();
         console.log("--------Server sent response--------");
     }
-})(Endabgabe || (Endabgabe = {}));
+})(Endabgabe = exports.Endabgabe || (exports.Endabgabe = {}));
 //# sourceMappingURL=server.js.map

@@ -1,15 +1,18 @@
-interface LoginMessage {
+import { ObjectId } from "mongodb";
+
+export interface LoginMessage {
     message: string;
     error: string;
 }
 
-interface User {
+export interface User {
     username: string;
     password: string;
     myFavs: Recipe[];
 }
 
-interface Recipe {
+export interface Recipe {
+    _id: ObjectId;
     title: string;
     author: string;
     ingredients: string[];

@@ -1,4 +1,6 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Endabgabe = void 0;
 var Endabgabe;
 (function (Endabgabe) {
     //generally used elements/variables
@@ -102,5 +104,5 @@ var Endabgabe;
          serverResponseDiv.innerHTML = displayResponse;
  
      }*/
-})(Endabgabe || (Endabgabe = {}));
+})(Endabgabe = exports.Endabgabe || (exports.Endabgabe = {}));
 //# sourceMappingURL=login.js.map
