@@ -166,7 +166,7 @@ export namespace Endabgabe {
                     async function handleClickResubmitRecipe(): Promise<void> {
                         let recipe: Interface.Recipe = getRecipeOutOfForm();
 
-                        url += "/submitRecipe?_id" + thisRecipe[0]._id + "&title=" + recipe.title + "&author=" + recipe.author + "&ingredients=" + recipe.ingredients + "&preparation=" + recipe.preparation;
+                        url += "/resubmitRecipe?_id" + thisRecipe[0]._id + "&title=" + recipe.title + "&author=" + recipe.author + "&ingredients=" + recipe.ingredients + "&preparation=" + recipe.preparation;
                         console.log(url);
 
                         let response: Response = await fetch(url);

@@ -137,7 +137,7 @@ var Endabgabe;
                     resubmitButton.addEventListener("click", handleClickResubmitRecipe);
                     async function handleClickResubmitRecipe() {
                         let recipe = getRecipeOutOfForm();
-                        url += "/submitRecipe?_id" + thisRecipe[0]._id + "&title=" + recipe.title + "&author=" + recipe.author + "&ingredients=" + recipe.ingredients + "&preparation=" + recipe.preparation;
+                        url += "/resubmitRecipe?_id" + thisRecipe[0]._id + "&title=" + recipe.title + "&author=" + recipe.author + "&ingredients=" + recipe.ingredients + "&preparation=" + recipe.preparation;
                         console.log(url);
                         let response = await fetch(url);
                         let resubmitReply = await response.text();
