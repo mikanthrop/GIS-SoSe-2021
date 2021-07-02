@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Kapiteldreivier = void 0;
 var Kapiteldreivier;
 (function (Kapiteldreivier) {
     let saveButton = document.getElementById("saveRant");
@@ -76,5 +77,5 @@ var Kapiteldreivier;
         }
         console.log(displayResponse);
     }
-})(Kapiteldreivier || (Kapiteldreivier = {}));
+})(Kapiteldreivier = exports.Kapiteldreivier || (exports.Kapiteldreivier = {}));
 //# sourceMappingURL=script.js.map

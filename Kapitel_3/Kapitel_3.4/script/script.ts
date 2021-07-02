@@ -2,7 +2,7 @@
 import { ObjectID } from "mongodb";
 import { Rant } from "../source/interface";
 
-namespace Kapiteldreivier {
+export namespace Kapiteldreivier {
 
     let saveButton: HTMLButtonElement = <HTMLButtonElement>document.getElementById("saveRant");
     saveButton.addEventListener("click", handleSaveButtonClick);
