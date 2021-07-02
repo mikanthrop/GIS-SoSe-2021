@@ -1,4 +1,4 @@
-import { ObjectId } from "mongodb";
+
 
 export interface LoginMessage {
     message: string;
@@ -12,7 +12,7 @@ export interface User {
 }
 
 export interface Recipe {
-    _id: ObjectId;
+    _id: string;
     title: string;
     author: string;
     ingredients: string[];
