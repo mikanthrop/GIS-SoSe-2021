@@ -49,7 +49,7 @@ export namespace Endabgabe {
         if (_request.url != undefined) {
 
             let url: Url.UrlWithParsedQuery = Url.parse(_request.url, true);
-            
+
             //login.html
             // request comes from loginForm
             if (url.pathname == "/login") {
@@ -57,7 +57,7 @@ export namespace Endabgabe {
                 _response.setHeader("content-type", "text/html; charset=utf-8");
 
                 // check if login data is saved in coll. users
-                let searchedUser: Interface.User = await users.findOne({ "user": url.query.user, "password": url.query.password });
+                let searchedUser: Interface.User = await users.findOne({ "user": url.query.user.toString(), "password": url.query.password.toString() });
 
                 // if cursor did find something, say so
                 let loginResponse: Interface.LoginMessage = { message: undefined, error: undefined };
@@ -75,7 +75,7 @@ export namespace Endabgabe {
                 console.log("Request to signup received.");
 
                 //checks if username is already in use
-                let user: Interface.User = await users.findOne({ "user": url.query.user });
+                let user: Interface.User = await users.findOne({ "user": url.query.user.toString() });
                 if (user != undefined) _response.write("Benutzername ist bereits vergeben.");
                 else {
                     users.insertOne(url.query);
@@ -105,8 +105,8 @@ export namespace Endabgabe {
             if (url.pathname == "/showMyRecipes") {
                 _response.setHeader("content-type", "application/json; charset=utf-8");
                 console.log("Request to show user's recipes received.");
-                
-                let cursor: Mongo.Cursor = recipes.find({ "author": url.query.user});
+
+                let cursor: Mongo.Cursor = recipes.find({ "author": url.query.user });
                 let result: Interface.Recipe[] = await cursor.toArray();
                 _response.write(JSON.stringify(result));
             }
@@ -116,24 +116,24 @@ export namespace Endabgabe {
                 _response.setHeader("content-type", "text/html; charset=utf-8");
                 console.log("Request to edit user's recipe received.");
 
-                let cursor: Mongo.Cursor = recipes.find({"_id": new Mongo.ObjectId(url.query._id.toString())});
+                // request to resubmit edited recipe
+                let cursor: Mongo.Cursor = recipes.find({ "_id": new Mongo.ObjectId(url.query._id.toString()) });
                 let result: Interface.Recipe[] = await cursor.toArray();
                 _response.write(JSON.stringify(result));
             }
+            if (url.pathname == "/resubmitMyRecipe") {
 
-            // request to resubmit edited recipe
-            if (url.pathname == "/resubmitRecipe") {
-                _response.setHeader("content-type", "text/html; charset=utf-8");
-                console.log("Request to resubmit user's recipe received.");
+                //let doc: Interface.MongoRecipe = { "title": url.query.title.toString(), "author": url.query.author.toString(), "ingredients": url.query.ingredients.toString(), "preparation": url.query.preparation.toString() };
+                let filter: Interface.FilterId = { "_id": new Mongo.ObjectId(url.query._id.toString()) };
+                //recipes.replaceOne(filter, doc);
+                console.log(!recipes.find(filter));
 
-                let doc: any = {"_id" : url.query._id, "title" : url.query.title, "author" : url.query.author, "ingredients" : url.query.ingredients, "preparation" : url.query.preparation};
-                let filter: Mongo.FilterQuery<any> = {"_id" : url.query._id};
-                recipes.replaceOne(filter, doc);
-            }
+            } 
+
             // request to delete one recipe the user created themselves
             if (url.pathname == "/deleteMyRecipe") {
                 console.log("Request to delete user's recipe received.");
-                recipes.deleteOne({"_id": new Mongo.ObjectId(url.query._id.toString())});
+                recipes.deleteOne({ "_id": new Mongo.ObjectId(url.query._id.toString()) });
                 _response.write("Rezept wurde erfolgreich gelöscht.");
             }
 

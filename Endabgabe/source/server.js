@@ -45,7 +45,7 @@ var Endabgabe;
                 console.log("Request to login received.");
                 _response.setHeader("content-type", "text/html; charset=utf-8");
                 // check if login data is saved in coll. users
-                let searchedUser = await users.findOne({ "user": url.query.user, "password": url.query.password });
+                let searchedUser = await users.findOne({ "user": url.query.user.toString(), "password": url.query.password.toString() });
                 // if cursor did find something, say so
                 let loginResponse = { message: undefined, error: undefined };
                 if (searchedUser != undefined)
@@ -60,7 +60,7 @@ var Endabgabe;
                 _response.setHeader("content-type", "text/html; charset=utf-8");
                 console.log("Request to signup received.");
                 //checks if username is already in use
-                let user = await users.findOne({ "user": url.query.user });
+                let user = await users.findOne({ "user": url.query.user.toString() });
                 if (user != undefined)
                     _response.write("Benutzername ist bereits vergeben.");
                 else {
@@ -96,17 +96,16 @@ var Endabgabe;
             if (url.pathname == "/editMyRecipe") {
                 _response.setHeader("content-type", "text/html; charset=utf-8");
                 console.log("Request to edit user's recipe received.");
+                // request to resubmit edited recipe
                 let cursor = recipes.find({ "_id": new Mongo.ObjectId(url.query._id.toString()) });
                 let result = await cursor.toArray();
                 _response.write(JSON.stringify(result));
             }
-            // request to resubmit edited recipe
-            if (url.pathname == "/resubmitRecipe") {
-                _response.setHeader("content-type", "text/html; charset=utf-8");
-                console.log("Request to resubmit user's recipe received.");
-                let doc = { "_id": url.query._id, "title": url.query.title, "author": url.query.author, "ingredients": url.query.ingredients, "preparation": url.query.preparation };
-                let filter = { "_id": url.query._id };
-                recipes.replaceOne(filter, doc);
+            if (url.pathname == "/resubmitMyRecipe") {
+                //let doc: Interface.MongoRecipe = { "title": url.query.title.toString(), "author": url.query.author.toString(), "ingredients": url.query.ingredients.toString(), "preparation": url.query.preparation.toString() };
+                let filter = { "_id": new Mongo.ObjectId(url.query._id.toString()) };
+                //recipes.replaceOne(filter, doc);
+                console.log(!recipes.find(filter));
             }
             // request to delete one recipe the user created themselves
             if (url.pathname == "/deleteMyRecipe") {
