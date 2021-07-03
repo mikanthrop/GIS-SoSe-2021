@@ -18,6 +18,7 @@ export namespace Endabgabe {
     //let recipeData: FormData;
     let ingredientList: string[];
     let ingredientCount: number = 0;
+    let _id: string;
 
     window.addEventListener("load", handleShowMyRecipes);
     submitButton.addEventListener("click", handleClickSubmitRecipe);
@@ -124,6 +125,7 @@ export namespace Endabgabe {
 
                 async function handleClickEditButton(): Promise<void> {
                     getURL();
+                    recipeForm.reset();
 
                     url += "/editMyRecipe?" + "_id=" + showReply[i]._id;
                     console.log(url);
@@ -140,39 +142,58 @@ export namespace Endabgabe {
                     recipePreparation.value = thisRecipe[0].preparation;
                     console.log("preparation: " + thisRecipe[0].preparation);
 
-                    ingredientInput.value = thisRecipe[0].ingredients[0];
-                    console.log("First ingredient: " + thisRecipe[0].ingredients[0]);
+                    //ingredientInput.value = "";
+                    //console.log("First ingredient: " + thisRecipe[0].ingredients);
 
-                    for (let i: number = 1; i < thisRecipe[0].ingredients.length; i++) {
+                    let ingredientsArray: string[] = [""];
+                    let newIngredient: string = "";
 
-                        let newIngredient: HTMLInputElement = document.createElement("input");
-                        newIngredient.setAttribute("type", "text");
-                        newIngredient.setAttribute("id", "ingredient" + i);
-                        ingredientsDiv.appendChild(newIngredient);
-                        newIngredient.value = thisRecipe[0].ingredients[i];
-                        console.log(i + ". ingredient: " + thisRecipe[0].ingredients[i]);
+                    //ingredients gets chopped into one character strings, so I have to put them back together
+                    for (let i: number = 0; i < thisRecipe[0].ingredients.length; i++) {
+                        let character: string = thisRecipe[0].ingredients[i];
+                        if (character.includes(",")) {
+                            ingredientsArray.push(newIngredient);
+                            newIngredient = "";
+                            console.log("Ein wildes Komma ist aufgetaucht.");
+
+                        } else {
+                            if (i < thisRecipe[0].ingredients.length - 1) {
+                                newIngredient += character;
+                                console.log("next Ingredient: " + newIngredient);
+                            } else {
+                                newIngredient += character;
+                                ingredientsArray.push(newIngredient);
+                            }
+                        }
                     }
+
+                    console.log("Liste der Zutaten: ", ingredientsArray);
+
+                    /* let newIngredient: HTMLInputElement = document.createElement("input");
+                     newIngredient.setAttribute("type", "text");
+                     newIngredient.setAttribute("id", "ingredient" + i);
+                     ingredientsDiv.appendChild(newIngredient);
+                     newIngredient.value = thisRecipe[0].ingredients[i];
+                     console.log(i + ". ingredient: " + thisRecipe[0].ingredients[i]);*/
 
                     //changing submit button to resubmit button and adding the eventlistener onto it
                     submitButton.classList.add("ishidden");
 
-                    let resubmitButton: HTMLButtonElement = document.createElement("button");
-                    resubmitButton.setAttribute("type", "button");
-                    resubmitButton.appendChild(document.createTextNode("Rezept ändern"));
-                    formButtonDiv.appendChild(resubmitButton);
+                    let checkResub: HTMLButtonElement = <HTMLButtonElement>document.getElementById("resubmitButton");
+                    console.log("resubmit: ", !checkResub);
 
-                    resubmitButton.addEventListener("click", handleClickResubmitRecipe);
+                    if (!checkResub == true) {
+                        let resubmitButton: HTMLButtonElement = document.createElement("button");
+                        resubmitButton.setAttribute("type", "button");
+                        resubmitButton.setAttribute("id", "resubmitButton");
+                        resubmitButton.appendChild(document.createTextNode("Rezept ändern"));
+                        formButtonDiv.appendChild(resubmitButton);
 
-                    async function handleClickResubmitRecipe(): Promise<void> {
-                        let recipe: Interface.Recipe = getRecipeOutOfForm();
-
-                        url += "/resubmitRecipe?_id" + thisRecipe[0]._id + "&title=" + recipe.title + "&author=" + recipe.author + "&ingredients=" + recipe.ingredients + "&preparation=" + recipe.preparation;
-                        console.log(url);
-
-                        let response: Response = await fetch(url);
-                        let resubmitReply: string = await response.text();
-                        serverResponseDiv.innerHTML = resubmitReply;
+                        resubmitButton.addEventListener("click", handleClickResubmitRecipe);
                     }
+                    _id = thisRecipe[0]._id;
+                    console.log("id " + _id);
+
                 }
 
                 async function handleClickDeleteButton(): Promise<void> {
@@ -187,12 +208,24 @@ export namespace Endabgabe {
 
                     handleShowMyRecipes();
                 }
+
+                async function handleClickResubmitRecipe(): Promise<void> {
+                    let recipe: Interface.Recipe = getRecipeOutOfForm();
+                    recipe._id = _id;
+                    console.log(recipe._id);
+
+
+                    console.log("Resubmit Recipe wurde gedrückt.");
+                    url += "/resubmitMyRecipe?" + "_id=" + recipe._id + "&title=" + recipe.title + "&author=" + recipe.author + "&ingredients=" + recipe.ingredients + "&preparation=" + recipe.preparation;
+                    console.log("z190: " + url);
+
+                    let response: Response = await fetch(url);
+                    let resubmitReply: string = await response.text();
+                    serverResponseDiv.innerHTML = resubmitReply;
+                }
             }
         }
     }
-
-
-
 
 
     async function handleClickSubmitRecipe(): Promise<void> {
@@ -207,16 +240,16 @@ export namespace Endabgabe {
         else if (!recipePreparation.value) scriptResponseDiv.innerHTML = "Bitte geben Sie an, wie das Gericht zubereitet wird.";
         else {
             let recipe: Interface.Recipe = getRecipeOutOfForm();
-            
+
             // gotta make the query by myself
             url += "/submitRecipe?title=" + recipe.title + "&author=" + recipe.author + "&ingredients=" + recipe.ingredients + "&preparation=" + recipe.preparation;
             console.log(url);
             let response: Response = await fetch(url);
             let displayResponse: string = await response.text();
             serverResponseDiv.innerHTML = displayResponse;
-            
+
             recipeForm.reset();
             handleShowMyRecipes();
         }
-    } 
+    }
 }

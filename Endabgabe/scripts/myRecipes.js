@@ -18,6 +18,7 @@ var Endabgabe;
     //let recipeData: FormData;
     let ingredientList;
     let ingredientCount = 0;
+    let _id;
     window.addEventListener("load", handleShowMyRecipes);
     submitButton.addEventListener("click", handleClickSubmitRecipe);
     document.getElementById("addIngredient").addEventListener("click", handleClickAddIngredient);
@@ -108,6 +109,7 @@ var Endabgabe;
                 deleteButton.addEventListener("click", handleClickDeleteButton);
                 async function handleClickEditButton() {
                     getURL();
+                    recipeForm.reset();
                     url += "/editMyRecipe?" + "_id=" + showReply[i]._id;
                     console.log(url);
                     ingredientInput = document.getElementById("ingredient0");
@@ -118,31 +120,50 @@ var Endabgabe;
                     console.log("title: " + thisRecipe[0].title);
                     recipePreparation.value = thisRecipe[0].preparation;
                     console.log("preparation: " + thisRecipe[0].preparation);
-                    ingredientInput.value = thisRecipe[0].ingredients[0];
-                    console.log("First ingredient: " + thisRecipe[0].ingredients[0]);
-                    for (let i = 1; i < thisRecipe[0].ingredients.length; i++) {
-                        let newIngredient = document.createElement("input");
-                        newIngredient.setAttribute("type", "text");
-                        newIngredient.setAttribute("id", "ingredient" + i);
-                        ingredientsDiv.appendChild(newIngredient);
-                        newIngredient.value = thisRecipe[0].ingredients[i];
-                        console.log(i + ". ingredient: " + thisRecipe[0].ingredients[i]);
+                    //ingredientInput.value = "";
+                    //console.log("First ingredient: " + thisRecipe[0].ingredients);
+                    let ingredientsArray = [""];
+                    let newIngredient = "";
+                    //ingredients gets chopped into one character strings, so I have to put them back together
+                    for (let i = 0; i < thisRecipe[0].ingredients.length; i++) {
+                        let character = thisRecipe[0].ingredients[i];
+                        if (character.includes(",")) {
+                            ingredientsArray.push(newIngredient);
+                            newIngredient = "";
+                            console.log("Ein wildes Komma ist aufgetaucht.");
+                        }
+                        else {
+                            if (i < thisRecipe[0].ingredients.length - 1) {
+                                newIngredient += character;
+                                console.log("next Ingredient: " + newIngredient);
+                            }
+                            else {
+                                newIngredient += character;
+                                ingredientsArray.push(newIngredient);
+                            }
+                        }
                     }
+                    console.log("Liste der Zutaten: ", ingredientsArray);
+                    /* let newIngredient: HTMLInputElement = document.createElement("input");
+                     newIngredient.setAttribute("type", "text");
+                     newIngredient.setAttribute("id", "ingredient" + i);
+                     ingredientsDiv.appendChild(newIngredient);
+                     newIngredient.value = thisRecipe[0].ingredients[i];
+                     console.log(i + ". ingredient: " + thisRecipe[0].ingredients[i]);*/
                     //changing submit button to resubmit button and adding the eventlistener onto it
                     submitButton.classList.add("ishidden");
-                    let resubmitButton = document.createElement("button");
-                    resubmitButton.setAttribute("type", "button");
-                    resubmitButton.appendChild(document.createTextNode("Rezept ändern"));
-                    formButtonDiv.appendChild(resubmitButton);
-                    resubmitButton.addEventListener("click", handleClickResubmitRecipe);
-                    async function handleClickResubmitRecipe() {
-                        let recipe = getRecipeOutOfForm();
-                        url += "/resubmitRecipe?_id" + thisRecipe[0]._id + "&title=" + recipe.title + "&author=" + recipe.author + "&ingredients=" + recipe.ingredients + "&preparation=" + recipe.preparation;
-                        console.log(url);
-                        let response = await fetch(url);
-                        let resubmitReply = await response.text();
-                        serverResponseDiv.innerHTML = resubmitReply;
+                    let checkResub = document.getElementById("resubmitButton");
+                    console.log("resubmit: ", !checkResub);
+                    if (!checkResub == true) {
+                        let resubmitButton = document.createElement("button");
+                        resubmitButton.setAttribute("type", "button");
+                        resubmitButton.setAttribute("id", "resubmitButton");
+                        resubmitButton.appendChild(document.createTextNode("Rezept ändern"));
+                        formButtonDiv.appendChild(resubmitButton);
+                        resubmitButton.addEventListener("click", handleClickResubmitRecipe);
                     }
+                    _id = thisRecipe[0]._id;
+                    console.log("id " + _id);
                 }
                 async function handleClickDeleteButton() {
                     getURL();
@@ -152,6 +173,17 @@ var Endabgabe;
                     let deleteReply = await response.text();
                     serverResponseDiv.innerHTML = deleteReply;
                     handleShowMyRecipes();
+                }
+                async function handleClickResubmitRecipe() {
+                    let recipe = getRecipeOutOfForm();
+                    recipe._id = _id;
+                    console.log(recipe._id);
+                    console.log("Resubmit Recipe wurde gedrückt.");
+                    url += "/resubmitMyRecipe?" + "_id=" + recipe._id + "&title=" + recipe.title + "&author=" + recipe.author + "&ingredients=" + recipe.ingredients + "&preparation=" + recipe.preparation;
+                    console.log("z190: " + url);
+                    let response = await fetch(url);
+                    let resubmitReply = await response.text();
+                    serverResponseDiv.innerHTML = resubmitReply;
                 }
             }
         }
