@@ -12,11 +12,13 @@ export namespace Endabgabe {
     let scriptResponseDiv: HTMLDivElement = <HTMLDivElement>document.getElementById("scriptResponse");
     let formButtonDiv: HTMLDivElement = <HTMLDivElement>document.getElementById("buttonDiv");
     let submitButton: HTMLButtonElement = <HTMLButtonElement>document.getElementById("submitRecipe");
+    let resubmitButton: HTMLButtonElement;
 
     //let query: URLSearchParams;
     let url: string;
     //let recipeData: FormData;
-    let ingredientList: string[];
+    let thisIngredient: string;
+    let ingredientList: string[] = [""];
     let ingredientCount: number = 0;
     let _id: string;
 
@@ -29,27 +31,36 @@ export namespace Endabgabe {
         url = "http://localhost:8100";
     }
 
-    function handleClickAddIngredient(): void {
-        serverResponseDiv.innerHTML = "";
+    function createIngredientInput(): void {
+        ingredientCount++;
+        thisIngredient = "ingredient" + ingredientCount;
 
-        let thisIngredient: string = "ingredient" + ingredientCount;
+        let nextIngredient: HTMLInputElement = document.createElement("input");
+        nextIngredient.type = "text";
+        nextIngredient.id = thisIngredient;
+        nextIngredient.name = thisIngredient;
+        ingredientsDiv.appendChild(nextIngredient);
+        //return nextIngredient;
+    }
+
+    function handleClickAddIngredient(): void {
+        scriptResponseDiv.innerHTML = "";
+
+        thisIngredient = "ingredient" + ingredientCount;
         ingredientInput = <HTMLInputElement>document.getElementById(thisIngredient);
 
         if (ingredientInput.value != "") {
-            ingredientCount++;
-            thisIngredient = "ingredient" + ingredientCount;
+            createIngredientInput();
 
-            let nextIngredient: HTMLInputElement = document.createElement("input");
-            nextIngredient.type = "text";
-            nextIngredient.id = thisIngredient;
-            nextIngredient.name = thisIngredient;
-            ingredientsDiv.appendChild(nextIngredient);
-
-        } else serverResponseDiv.innerHTML = "Bitte geben Sie eine weitere Zutat ein.";
+        } else scriptResponseDiv.innerHTML = "Bitte geben Sie eine weitere Zutat ein.";
     }
 
     function getRecipeOutOfForm(): Interface.Recipe {
-        ingredientList = [ingredientInput.value];
+        let input: HTMLInputElement = <HTMLInputElement>document.getElementById("ingredient0");
+        
+        ingredientList[0] = input.value;
+        console.log("------------allererste Zutatenliste: " + ingredientList + "-------------");
+        
         //appends every ingredient to ingredientList
         for (let i: number = 1; i < ingredientsDiv.childElementCount; i++) {
             console.log("----------i'm in------------");
@@ -167,14 +178,19 @@ export namespace Endabgabe {
                         }
                     }
 
-                    console.log("Liste der Zutaten: ", ingredientsArray);
+                    console.log("Anzahl der Zutaten: " + ingredientsArray.length);
 
-                    /* let newIngredient: HTMLInputElement = document.createElement("input");
-                     newIngredient.setAttribute("type", "text");
-                     newIngredient.setAttribute("id", "ingredient" + i);
-                     ingredientsDiv.appendChild(newIngredient);
-                     newIngredient.value = thisRecipe[0].ingredients[i];
-                     console.log(i + ". ingredient: " + thisRecipe[0].ingredients[i]);*/
+                    ingredientInput.value = ingredientsArray[1];
+                    // appending ingredients to the form
+                    for (let i: number = 2; i < ingredientsArray.length; i++) {
+                        createIngredientInput();
+                        console.log("ingredientCounter: " + ingredientCount);
+
+                        let nextInput: HTMLInputElement = <HTMLInputElement>document.getElementById("ingredient" + ingredientCount);
+                        nextInput.value = ingredientsArray[i];
+                    }
+
+                    console.log("Liste der Zutaten: ", ingredientsArray);
 
                     //changing submit button to resubmit button and adding the eventlistener onto it
                     submitButton.classList.add("ishidden");
@@ -183,7 +199,7 @@ export namespace Endabgabe {
                     console.log("resubmit: ", !checkResub);
 
                     if (!checkResub == true) {
-                        let resubmitButton: HTMLButtonElement = document.createElement("button");
+                        resubmitButton = document.createElement("button");
                         resubmitButton.setAttribute("type", "button");
                         resubmitButton.setAttribute("id", "resubmitButton");
                         resubmitButton.appendChild(document.createTextNode("Rezept ändern"));
@@ -193,7 +209,6 @@ export namespace Endabgabe {
                     }
                     _id = thisRecipe[0]._id;
                     console.log("id " + _id);
-
                 }
 
                 async function handleClickDeleteButton(): Promise<void> {
@@ -210,6 +225,7 @@ export namespace Endabgabe {
                 }
 
                 async function handleClickResubmitRecipe(): Promise<void> {
+                    getURL();
                     let recipe: Interface.Recipe = getRecipeOutOfForm();
                     recipe._id = _id;
                     console.log(recipe._id);
@@ -222,6 +238,12 @@ export namespace Endabgabe {
                     let response: Response = await fetch(url);
                     let resubmitReply: string = await response.text();
                     serverResponseDiv.innerHTML = resubmitReply;
+
+                    submitButton.classList.remove("ishidden");
+                    resubmitButton.remove();
+                    recipeForm.reset();
+                    recipe.ingredients = [""];
+                    handleShowMyRecipes();
                 }
             }
         }

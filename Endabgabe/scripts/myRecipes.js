@@ -13,10 +13,12 @@ var Endabgabe;
     let scriptResponseDiv = document.getElementById("scriptResponse");
     let formButtonDiv = document.getElementById("buttonDiv");
     let submitButton = document.getElementById("submitRecipe");
+    let resubmitButton;
     //let query: URLSearchParams;
     let url;
     //let recipeData: FormData;
-    let ingredientList;
+    let thisIngredient;
+    let ingredientList = [""];
     let ingredientCount = 0;
     let _id;
     window.addEventListener("load", handleShowMyRecipes);
@@ -26,24 +28,30 @@ var Endabgabe;
         //url = "https://gis-server-git-gud.herokuapp.com";
         url = "http://localhost:8100";
     }
+    function createIngredientInput() {
+        ingredientCount++;
+        thisIngredient = "ingredient" + ingredientCount;
+        let nextIngredient = document.createElement("input");
+        nextIngredient.type = "text";
+        nextIngredient.id = thisIngredient;
+        nextIngredient.name = thisIngredient;
+        ingredientsDiv.appendChild(nextIngredient);
+        //return nextIngredient;
+    }
     function handleClickAddIngredient() {
-        serverResponseDiv.innerHTML = "";
-        let thisIngredient = "ingredient" + ingredientCount;
+        scriptResponseDiv.innerHTML = "";
+        thisIngredient = "ingredient" + ingredientCount;
         ingredientInput = document.getElementById(thisIngredient);
         if (ingredientInput.value != "") {
-            ingredientCount++;
-            thisIngredient = "ingredient" + ingredientCount;
-            let nextIngredient = document.createElement("input");
-            nextIngredient.type = "text";
-            nextIngredient.id = thisIngredient;
-            nextIngredient.name = thisIngredient;
-            ingredientsDiv.appendChild(nextIngredient);
+            createIngredientInput();
         }
         else
-            serverResponseDiv.innerHTML = "Bitte geben Sie eine weitere Zutat ein.";
+            scriptResponseDiv.innerHTML = "Bitte geben Sie eine weitere Zutat ein.";
     }
     function getRecipeOutOfForm() {
-        ingredientList = [ingredientInput.value];
+        let input = document.getElementById("ingredient0");
+        ingredientList[0] = input.value;
+        console.log("------------allererste Zutatenliste: " + ingredientList + "-------------");
         //appends every ingredient to ingredientList
         for (let i = 1; i < ingredientsDiv.childElementCount; i++) {
             console.log("----------i'm in------------");
@@ -143,19 +151,22 @@ var Endabgabe;
                             }
                         }
                     }
+                    console.log("Anzahl der Zutaten: " + ingredientsArray.length);
+                    ingredientInput.value = ingredientsArray[1];
+                    // appending ingredients to the form
+                    for (let i = 2; i < ingredientsArray.length; i++) {
+                        createIngredientInput();
+                        console.log("ingredientCounter: " + ingredientCount);
+                        let nextInput = document.getElementById("ingredient" + ingredientCount);
+                        nextInput.value = ingredientsArray[i];
+                    }
                     console.log("Liste der Zutaten: ", ingredientsArray);
-                    /* let newIngredient: HTMLInputElement = document.createElement("input");
-                     newIngredient.setAttribute("type", "text");
-                     newIngredient.setAttribute("id", "ingredient" + i);
-                     ingredientsDiv.appendChild(newIngredient);
-                     newIngredient.value = thisRecipe[0].ingredients[i];
-                     console.log(i + ". ingredient: " + thisRecipe[0].ingredients[i]);*/
                     //changing submit button to resubmit button and adding the eventlistener onto it
                     submitButton.classList.add("ishidden");
                     let checkResub = document.getElementById("resubmitButton");
                     console.log("resubmit: ", !checkResub);
                     if (!checkResub == true) {
-                        let resubmitButton = document.createElement("button");
+                        resubmitButton = document.createElement("button");
                         resubmitButton.setAttribute("type", "button");
                         resubmitButton.setAttribute("id", "resubmitButton");
                         resubmitButton.appendChild(document.createTextNode("Rezept ändern"));
@@ -175,6 +186,7 @@ var Endabgabe;
                     handleShowMyRecipes();
                 }
                 async function handleClickResubmitRecipe() {
+                    getURL();
                     let recipe = getRecipeOutOfForm();
                     recipe._id = _id;
                     console.log(recipe._id);
@@ -184,6 +196,11 @@ var Endabgabe;
                     let response = await fetch(url);
                     let resubmitReply = await response.text();
                     serverResponseDiv.innerHTML = resubmitReply;
+                    submitButton.classList.remove("ishidden");
+                    resubmitButton.remove();
+                    recipeForm.reset();
+                    recipe.ingredients = [""];
+                    handleShowMyRecipes();
                 }
             }
         }

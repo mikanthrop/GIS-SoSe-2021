@@ -1,7 +1,3 @@
-import { ObjectId } from "mongodb";
-
-
-
 export interface LoginMessage {
     message: string;
     error: string;
@@ -19,10 +15,6 @@ export interface Recipe {
     author: string;
     ingredients: string[];
     preparation: string;
-}
-
-export interface FilterId {
-    _id: ObjectId;
 }
 
 export interface MongoRecipe {

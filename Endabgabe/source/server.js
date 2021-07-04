@@ -97,15 +97,22 @@ var Endabgabe;
                 _response.setHeader("content-type", "text/html; charset=utf-8");
                 console.log("Request to edit user's recipe received.");
                 // request to resubmit edited recipe
+                console.log("url.query: ", url.query);
                 let cursor = recipes.find({ "_id": new Mongo.ObjectId(url.query._id.toString()) });
                 let result = await cursor.toArray();
                 _response.write(JSON.stringify(result));
             }
             if (url.pathname == "/resubmitMyRecipe") {
-                //let doc: Interface.MongoRecipe = { "title": url.query.title.toString(), "author": url.query.author.toString(), "ingredients": url.query.ingredients.toString(), "preparation": url.query.preparation.toString() };
+                let doc = { "title": url.query.title.toString(), "author": url.query.author.toString(), "ingredients": url.query.ingredients.toString(), "preparation": url.query.preparation.toString() };
+                console.log("title " + url.query.title.toString());
+                console.log("author " + url.query.author.toString());
+                console.log("ingredients " + url.query.ingredients.toString());
+                console.log("preparation " + url.query.preparation.toString());
+                console.log("_id " + url.query._id.toString());
                 let filter = { "_id": new Mongo.ObjectId(url.query._id.toString()) };
-                //recipes.replaceOne(filter, doc);
-                console.log(!recipes.find(filter));
+                console.log(filter);
+                recipes.replaceOne(filter, doc);
+                _response.write("Ihr Rezept wurde erfolgreich geändert.");
             }
             // request to delete one recipe the user created themselves
             if (url.pathname == "/deleteMyRecipe") {
