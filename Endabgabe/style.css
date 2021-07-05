@@ -9,7 +9,7 @@
     display: none !important;
 }
 
-nav ul.flexbox {
+nav .flexbox {
     display: flex;
     flex-flow: row, nowrap;
     justify-content: space-between;
