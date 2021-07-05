@@ -9,6 +9,7 @@ export namespace Endabgabe {
     let url: string;
 
     //login.html
+    window.addEventListener("load", buildNavbar);
     document.getElementById("switchToSignup").addEventListener("click", handleClickSwitchToSignup);
     document.getElementById("switchToLogin").addEventListener("click", handleClickSwitchToLogin);
     document.getElementById("buttonLogin").addEventListener("click", handleClickButtonLogin);
@@ -16,16 +17,51 @@ export namespace Endabgabe {
     let loginForm: HTMLFormElement = <HTMLFormElement>document.getElementById("loginForm");
     let signupForm: HTMLFormElement = <HTMLFormElement>document.getElementById("signupForm");
 
-    /* //myRecipes.html
-     document.getElementById("submitRecipe").addEventListener("click", handleClickSubmitRecipe);
-     document.getElementById("addIngredient").addEventListener("click", handleClickAddIngredient);
-     let ingredientsDiv: HTMLDivElement = <HTMLDivElement>document.getElementById("ingredients");
-     let recipeForm: HTMLFormElement = <HTMLFormElement>document.getElementById("recipeForm");
-     let ingredientList: string[];
-     let ingredientCount: number = 1;*/
+    function buildNavbar(): void {
+        let user: string = localStorage.getItem("user");
+        let navBar: HTMLElement = document.getElementById("navBar");
+    
+        let recipesLink: HTMLAnchorElement = document.createElement("a");
+        recipesLink.setAttribute("href", "../html/recipes.html");
+        navBar.appendChild(recipesLink);
+        let recipesHLine: HTMLElement = document.createElement("h1");
+        recipesHLine.appendChild(document.createTextNode("Rezeptesammlung"));
+        recipesLink.appendChild(recipesHLine);
+        
+        let loggedInOrNot: HTMLDivElement = document.createElement("div");
+        loggedInOrNot.setAttribute("id", "loggedInOrNot");
+        navBar.appendChild(loggedInOrNot);
+        
+        if (user == null) {
+            let loginLink: HTMLAnchorElement = document.createElement("a");
+            loginLink.setAttribute("href", "../html/login.html");
+            loggedInOrNot.appendChild(loginLink);
+            let loginHLine: HTMLElement = document.createElement("h2");
+            loginHLine.appendChild(document.createTextNode("Login"));
+            loginLink.appendChild(loginHLine);
+        
+        } else {
+            let myFavoritesLink: HTMLAnchorElement = document.createElement("a");
+            myFavoritesLink.setAttribute("href", "../html/myFavorites.html");
+            loggedInOrNot.appendChild(myFavoritesLink);
+            let myFavoritesHLine: HTMLElement = document.createElement("h2");
+            myFavoritesHLine.appendChild(document.createTextNode("Meine Favoriten"));
+            myFavoritesLink.appendChild(myFavoritesHLine);
+    
+            let myRecipesLink: HTMLAnchorElement = document.createElement("a");
+            myRecipesLink.setAttribute("href", "../html/myRecipes.html");
+            loggedInOrNot.appendChild(myRecipesLink);
+            let myRecipesHLine: HTMLElement = document.createElement("h2");
+            myRecipesHLine.appendChild(document.createTextNode("Meine Rezepte"));
+            myRecipesLink.appendChild(myRecipesHLine);
 
+            let loggedIn: HTMLElement = document.createElement("h3");
+            loggedIn.innerText = "Eingeloggt als \n" + user;
+            loggedInOrNot.appendChild(loggedIn);
+        }
+    
+    }
 
-    // generally used functions
     function getURL(): void {
         //url = "https://gis-server-git-gud.herokuapp.com";
         url = "http://localhost:8100";
@@ -36,8 +72,6 @@ export namespace Endabgabe {
         query = new URLSearchParams(<any>_formData);
     }
 
-
-    //login.html functions
     //makes switching between login and signup form possible
     function handleClickSwitchToLogin(): void {
         console.log("SwitchToLogin wurde gedrückt.");
@@ -80,7 +114,7 @@ export namespace Endabgabe {
             window.open("../html/recipes.html", "_self");
             localStorage.setItem("user", formData.get("user").toString());
         }
-        if (displayResponse.error != undefined) serverResponseDiv.innerHTML = displayResponse.error;
+        if (displayResponse.error != undefined) serverResponseDiv.innerHTML = "Nutzer konnte nicht gefunden werden.";
     }
 
     async function handleClickButtonSignup(): Promise<void> {
@@ -96,29 +130,4 @@ export namespace Endabgabe {
         else
             serverResponseDiv.innerHTML = displayResponse;
     }
-
-
-    //myRecipes.html functions
-
-
-    /* function handleClickAddIngredient(): void {
-         let nextIngredient: HTMLInputElement = document.createElement("input");
-         nextIngredient.type = "text";
-         nextIngredient.name = "ingredient" + ingredientCount;
-         ingredientCount++;
-         ingredientsDiv.appendChild(nextIngredient);
-     }
- 
-     async function handleClickSubmitRecipe(): Promise<void> {
-         console.log("Submit Recipe wurde gedrückt.");
-         
-         formData = new FormData(recipeForm);
-         console.log(formData.getAll("ingredient"));
-         setQuery(formData);
-         url += "/submit?" + query.toString();
-         let response: Response = await fetch(url);
-         let displayResponse: string = await response.text();
-         serverResponseDiv.innerHTML = displayResponse;
- 
-     }*/
 }
