@@ -13,7 +13,7 @@ export interface Recipe {
     _id: string;
     title: string;
     author: string;
-    ingredients: string[];
+    ingredients: string|string[];
     preparation: string;
 }
 

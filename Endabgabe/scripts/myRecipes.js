@@ -13,44 +13,42 @@ var Endabgabe;
     let scriptResponseDiv = document.getElementById("scriptResponse");
     let formButtonDiv = document.getElementById("buttonDiv");
     let submitButton = document.getElementById("submitRecipe");
+    let addIngButton = document.getElementById("addIngredient");
     let resubmitButton;
     //let query: URLSearchParams;
     let url;
     //let recipeData: FormData;
-    let thisIngredient;
-    let ingredientList = [""];
-    let ingredientCount = 0;
-    let _id;
+    let ingredientCounter = 0;
     window.addEventListener("load", handleShowMyRecipes);
     submitButton.addEventListener("click", handleClickSubmitRecipe);
-    document.getElementById("addIngredient").addEventListener("click", handleClickAddIngredient);
+    addIngButton.addEventListener("click", handleClickAddIngredient);
     function getURL() {
         //url = "https://gis-server-git-gud.herokuapp.com";
         url = "http://localhost:8100";
     }
-    function createIngredientInput() {
-        ingredientCount++;
-        thisIngredient = "ingredient" + ingredientCount;
+    function createIngredientInput(_ingredientIDCounter) {
+        let thisIngredientId = "ingredient" + _ingredientIDCounter;
         let nextIngredient = document.createElement("input");
         nextIngredient.type = "text";
-        nextIngredient.id = thisIngredient;
-        nextIngredient.name = thisIngredient;
+        nextIngredient.id = thisIngredientId;
+        nextIngredient.name = thisIngredientId;
         ingredientsDiv.appendChild(nextIngredient);
-        //return nextIngredient;
+        return nextIngredient;
     }
-    function handleClickAddIngredient() {
+    function handleClickAddIngredient(_event) {
         scriptResponseDiv.innerHTML = "";
-        thisIngredient = "ingredient" + ingredientCount;
-        ingredientInput = document.getElementById(thisIngredient);
-        if (ingredientInput.value != "") {
-            createIngredientInput();
+        let thisIngredientId = "ingredient" + ingredientCounter;
+        let newIngrInput = document.getElementById(thisIngredientId);
+        if (newIngrInput.value != "") {
+            ingredientCounter++;
+            createIngredientInput(ingredientCounter);
         }
         else
             scriptResponseDiv.innerHTML = "Bitte geben Sie eine weitere Zutat ein.";
     }
     function getRecipeOutOfForm() {
         let input = document.getElementById("ingredient0");
-        ingredientList[0] = input.value;
+        let ingredientList = [input.value];
         console.log("------------allererste Zutatenliste: " + ingredientList + "-------------");
         //appends every ingredient to ingredientList
         for (let i = 1; i < ingredientsDiv.childElementCount; i++) {
@@ -70,6 +68,39 @@ var Endabgabe;
         console.log("recipe ", recipe);
         return recipe;
     }
+    function createPost(_i, _serverReply) {
+        // formatting one recipe
+        let post = document.createElement("div");
+        serverResponseDiv.appendChild(post);
+        let author = document.createElement("p");
+        author.appendChild(document.createTextNode("Verfasser: " + _serverReply[_i].author));
+        post.appendChild(author);
+        let title = document.createElement("h3");
+        title.appendChild(document.createTextNode(_serverReply[_i].title));
+        post.appendChild(title);
+        let ingredients = document.createElement("p");
+        ingredients.appendChild(document.createTextNode("Zutaten: " + _serverReply[_i].ingredients));
+        post.appendChild(ingredients);
+        let preparation = document.createElement("p");
+        preparation.appendChild(document.createTextNode("Zubereitung: " + _serverReply[_i].preparation));
+        post.appendChild(preparation);
+        // adding buttons
+        let postButtonDiv = document.createElement("div");
+        post.appendChild(postButtonDiv);
+        let editButton = document.createElement("button");
+        editButton.setAttribute("type", "button");
+        editButton.appendChild(document.createTextNode("Bearbeiten"));
+        postButtonDiv.appendChild(editButton);
+        let deleteButton = document.createElement("button");
+        deleteButton.setAttribute("type", "button");
+        deleteButton.appendChild(document.createTextNode("Löschen"));
+        postButtonDiv.appendChild(deleteButton);
+        // eventListener and their functions
+        editButton.addEventListener("click", handleClickEditButton);
+        deleteButton.addEventListener("click", handleClickDeleteButton);
+        editButton.dataset._id = _serverReply[_i]._id.toString();
+        deleteButton.dataset._id = _serverReply[_i]._id.toString();
+    }
     async function handleShowMyRecipes() {
         getURL();
         let user = localStorage.getItem("user");
@@ -85,125 +116,102 @@ var Endabgabe;
             console.log(url);
             let response = await fetch(url);
             let showReply = await response.json();
-            for (let i in showReply) {
-                // formatting one recipe
-                let post = document.createElement("div");
-                serverResponseDiv.appendChild(post);
-                let author = document.createElement("p");
-                author.appendChild(document.createTextNode("Verfasser: " + showReply[i].author));
-                post.appendChild(author);
-                let title = document.createElement("h3");
-                title.appendChild(document.createTextNode(showReply[i].title));
-                post.appendChild(title);
-                let ingredients = document.createElement("p");
-                ingredients.appendChild(document.createTextNode("Zutaten: " + showReply[i].ingredients));
-                post.appendChild(ingredients);
-                let preparation = document.createElement("p");
-                preparation.appendChild(document.createTextNode("Zubereitung: " + showReply[i].preparation));
-                post.appendChild(preparation);
-                // adding buttons
-                let postButtonDiv = document.createElement("div");
-                post.appendChild(postButtonDiv);
-                let editButton = document.createElement("button");
-                editButton.setAttribute("type", "button");
-                editButton.appendChild(document.createTextNode("Bearbeiten"));
-                postButtonDiv.appendChild(editButton);
-                let deleteButton = document.createElement("button");
-                deleteButton.setAttribute("type", "button");
-                deleteButton.appendChild(document.createTextNode("Löschen"));
-                postButtonDiv.appendChild(deleteButton);
-                // eventListener and their functions
-                editButton.addEventListener("click", handleClickEditButton);
-                deleteButton.addEventListener("click", handleClickDeleteButton);
-                async function handleClickEditButton() {
-                    getURL();
-                    recipeForm.reset();
-                    url += "/editMyRecipe?" + "_id=" + showReply[i]._id;
-                    console.log(url);
-                    ingredientInput = document.getElementById("ingredient0");
-                    let response = await fetch(url);
-                    let thisRecipe = await response.json();
-                    // writing values of the recipe in question into recipeForm
-                    recipeTitle.value = thisRecipe[0].title;
-                    console.log("title: " + thisRecipe[0].title);
-                    recipePreparation.value = thisRecipe[0].preparation;
-                    console.log("preparation: " + thisRecipe[0].preparation);
-                    //ingredientInput.value = "";
-                    //console.log("First ingredient: " + thisRecipe[0].ingredients);
-                    let ingredientsArray = [""];
-                    let newIngredient = "";
-                    //ingredients gets chopped into one character strings, so I have to put them back together
-                    for (let i = 0; i < thisRecipe[0].ingredients.length; i++) {
-                        let character = thisRecipe[0].ingredients[i];
-                        if (character.includes(",")) {
-                            ingredientsArray.push(newIngredient);
-                            newIngredient = "";
-                            console.log("Ein wildes Komma ist aufgetaucht.");
-                        }
-                        else {
-                            if (i < thisRecipe[0].ingredients.length - 1) {
-                                newIngredient += character;
-                                console.log("next Ingredient: " + newIngredient);
-                            }
-                            else {
-                                newIngredient += character;
-                                ingredientsArray.push(newIngredient);
-                            }
-                        }
-                    }
-                    console.log("Anzahl der Zutaten: " + ingredientsArray.length);
-                    ingredientInput.value = ingredientsArray[1];
-                    // appending ingredients to the form
-                    for (let i = 2; i < ingredientsArray.length; i++) {
-                        createIngredientInput();
-                        console.log("ingredientCounter: " + ingredientCount);
-                        let nextInput = document.getElementById("ingredient" + ingredientCount);
-                        nextInput.value = ingredientsArray[i];
-                    }
-                    console.log("Liste der Zutaten: ", ingredientsArray);
-                    //changing submit button to resubmit button and adding the eventlistener onto it
-                    submitButton.classList.add("ishidden");
-                    let checkResub = document.getElementById("resubmitButton");
-                    console.log("resubmit: ", !checkResub);
-                    if (!checkResub == true) {
-                        resubmitButton = document.createElement("button");
-                        resubmitButton.setAttribute("type", "button");
-                        resubmitButton.setAttribute("id", "resubmitButton");
-                        resubmitButton.appendChild(document.createTextNode("Rezept ändern"));
-                        formButtonDiv.appendChild(resubmitButton);
-                        resubmitButton.addEventListener("click", handleClickResubmitRecipe);
-                    }
-                    _id = thisRecipe[0]._id;
-                    console.log("id " + _id);
-                }
-                async function handleClickDeleteButton() {
-                    getURL();
-                    url += "/deleteMyRecipe?" + "_id=" + showReply[i]._id;
-                    console.log(url);
-                    let response = await fetch(url);
-                    let deleteReply = await response.text();
-                    serverResponseDiv.innerHTML = deleteReply;
-                    handleShowMyRecipes();
-                }
-                async function handleClickResubmitRecipe() {
-                    getURL();
-                    let recipe = getRecipeOutOfForm();
-                    recipe._id = _id;
-                    console.log(recipe._id);
-                    console.log("Resubmit Recipe wurde gedrückt.");
-                    url += "/resubmitMyRecipe?" + "_id=" + recipe._id + "&title=" + recipe.title + "&author=" + recipe.author + "&ingredients=" + recipe.ingredients + "&preparation=" + recipe.preparation;
-                    console.log("z190: " + url);
-                    let response = await fetch(url);
-                    let resubmitReply = await response.text();
-                    serverResponseDiv.innerHTML = resubmitReply;
-                    submitButton.classList.remove("ishidden");
-                    resubmitButton.remove();
-                    recipeForm.reset();
-                    recipe.ingredients = [""];
-                    handleShowMyRecipes();
-                }
+            for (let i = 0; i < showReply.length; i++) {
+                createPost(i, showReply);
             }
         }
+    }
+    async function handleClickDeleteButton(_event) {
+        getURL();
+        let target = _event.currentTarget;
+        let id = target.dataset._id;
+        url += "/deleteMyRecipe?" + "_id=" + id;
+        console.log(url);
+        let response = await fetch(url);
+        let deleteReply = await response.text();
+        serverResponseDiv.innerHTML = deleteReply;
+        handleShowMyRecipes();
+    }
+    async function handleClickEditButton(_event) {
+        getURL();
+        recipeForm.reset();
+        // writing url with infos from button.dataset
+        let target = _event.currentTarget;
+        let id = target.dataset._id;
+        url += "/editMyRecipe?" + "_id=" + id;
+        console.log(url);
+        let response = await fetch(url);
+        let recipeArray = await response.json();
+        let thisRecipe = recipeArray[0];
+        // writing values of the recipe in question into recipeForm
+        recipeTitle.value = thisRecipe.title;
+        console.log("title: " + thisRecipe.title);
+        console.log("ingredients: " + thisRecipe.ingredients);
+        recipePreparation.value = thisRecipe.preparation;
+        console.log("preparation: " + thisRecipe.preparation);
+        let firstChar = 0;
+        let lastChar;
+        let inputId = 0;
+        //ingredients come back as a string, so you have to splice it
+        for (let i = 0; i <= thisRecipe.ingredients.length; i++) {
+            let character = thisRecipe.ingredients[i];
+            if (i == thisRecipe.ingredients.length || character.includes(",")) {
+                lastChar = i;
+                console.log("Stelle nach der letzten Stelle der Zutat: " + lastChar);
+                // slicing the ingredient out of the ingredient string
+                let inputValue = thisRecipe.ingredients.slice(firstChar, lastChar);
+                console.log("tatsächliche Zutat: " + inputValue.toString());
+                console.log("id des nächsten inputs: " + inputId);
+                // looking for input whom to fill with inputValue
+                let input = document.getElementById("ingredient" + inputId);
+                // if input does not exist
+                if (!input) {
+                    //create the input Element
+                    let newInput = createIngredientInput(inputId);
+                    newInput.value = inputValue.toString();
+                }
+                else {
+                    input.value = inputValue.toString();
+                }
+                inputId += 1;
+                firstChar = i + 1;
+                console.log("erste Stelle der nächsten Zutat: " + firstChar);
+            }
+        }
+        //changing submit button to resubmit button and adding the eventlistener onto it
+        submitButton.classList.add("ishidden");
+        let checkResub = document.getElementById("resubmitButton");
+        console.log("resubmit: ", !checkResub);
+        if (!checkResub == true) {
+            resubmitButton = document.createElement("button");
+            resubmitButton.setAttribute("type", "button");
+            resubmitButton.setAttribute("id", "resubmitButton");
+            resubmitButton.appendChild(document.createTextNode("Rezept ändern"));
+            formButtonDiv.appendChild(resubmitButton);
+            resubmitButton.addEventListener("click", handleClickResubmitRecipe);
+            resubmitButton.dataset._id = id;
+        }
+        let _id = thisRecipe._id;
+        console.log("id " + _id);
+    }
+    async function handleClickResubmitRecipe(_event) {
+        getURL();
+        let target = _event.currentTarget;
+        let id = target.dataset._id;
+        let recipe = getRecipeOutOfForm();
+        recipe._id = id;
+        console.log(recipe._id);
+        console.log("Resubmit Recipe wurde gedrückt.");
+        url += "/resubmitMyRecipe?" + "_id=" + recipe._id + "&title=" + recipe.title + "&author=" + recipe.author + "&ingredients=" + recipe.ingredients + "&preparation=" + recipe.preparation;
+        console.log("z190: " + url);
+        let response = await fetch(url);
+        let resubmitReply = await response.text();
+        serverResponseDiv.innerHTML = resubmitReply;
+        submitButton.classList.remove("ishidden");
+        resubmitButton.remove();
+        recipeForm.reset();
+        handleShowMyRecipes();
+        cleanUpInputs();
     }
     async function handleClickSubmitRecipe() {
         scriptResponseDiv.innerHTML = "";
@@ -226,6 +234,15 @@ var Endabgabe;
             serverResponseDiv.innerHTML = displayResponse;
             recipeForm.reset();
             handleShowMyRecipes();
+            cleanUpInputs();
+        }
+    }
+    function cleanUpInputs() {
+        let size = ingredientsDiv.children.length;
+        console.log("Anzahl der Inputs: " + size);
+        for (let i = size - 1; i >= 1; i--) {
+            let inputId = "ingredient" + i;
+            document.getElementById(inputId).remove();
         }
     }
 })(Endabgabe = exports.Endabgabe || (exports.Endabgabe = {}));

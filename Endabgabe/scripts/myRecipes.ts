@@ -12,55 +12,52 @@ export namespace Endabgabe {
     let scriptResponseDiv: HTMLDivElement = <HTMLDivElement>document.getElementById("scriptResponse");
     let formButtonDiv: HTMLDivElement = <HTMLDivElement>document.getElementById("buttonDiv");
     let submitButton: HTMLButtonElement = <HTMLButtonElement>document.getElementById("submitRecipe");
+    let addIngButton: HTMLInputElement = <HTMLInputElement>document.getElementById("addIngredient");
     let resubmitButton: HTMLButtonElement;
 
     //let query: URLSearchParams;
     let url: string;
     //let recipeData: FormData;
-    let thisIngredient: string;
-    let ingredientList: string[] = [""];
-    let ingredientCount: number = 0;
-    let _id: string;
+    let ingredientCounter: number = 0;
 
     window.addEventListener("load", handleShowMyRecipes);
     submitButton.addEventListener("click", handleClickSubmitRecipe);
-    document.getElementById("addIngredient").addEventListener("click", handleClickAddIngredient);
+    addIngButton.addEventListener("click", handleClickAddIngredient);
 
     function getURL(): void {
         //url = "https://gis-server-git-gud.herokuapp.com";
         url = "http://localhost:8100";
     }
 
-    function createIngredientInput(): void {
-        ingredientCount++;
-        thisIngredient = "ingredient" + ingredientCount;
+    function createIngredientInput(_ingredientIDCounter: number): HTMLInputElement {
+        let thisIngredientId: string = "ingredient" + _ingredientIDCounter;
 
         let nextIngredient: HTMLInputElement = document.createElement("input");
         nextIngredient.type = "text";
-        nextIngredient.id = thisIngredient;
-        nextIngredient.name = thisIngredient;
+        nextIngredient.id = thisIngredientId;
+        nextIngredient.name = thisIngredientId;
         ingredientsDiv.appendChild(nextIngredient);
-        //return nextIngredient;
+        return nextIngredient;
     }
 
-    function handleClickAddIngredient(): void {
+    function handleClickAddIngredient(_event: Event): void {
         scriptResponseDiv.innerHTML = "";
 
-        thisIngredient = "ingredient" + ingredientCount;
-        ingredientInput = <HTMLInputElement>document.getElementById(thisIngredient);
+        let thisIngredientId: string = "ingredient" + ingredientCounter;
+        let newIngrInput: HTMLInputElement = <HTMLInputElement>document.getElementById(thisIngredientId);
 
-        if (ingredientInput.value != "") {
-            createIngredientInput();
-
+        if (newIngrInput.value != "") {
+            ingredientCounter++;
+            createIngredientInput(ingredientCounter);
         } else scriptResponseDiv.innerHTML = "Bitte geben Sie eine weitere Zutat ein.";
     }
 
     function getRecipeOutOfForm(): Interface.Recipe {
         let input: HTMLInputElement = <HTMLInputElement>document.getElementById("ingredient0");
-        
-        ingredientList[0] = input.value;
+        let ingredientList: string[] = [input.value];
+
         console.log("------------allererste Zutatenliste: " + ingredientList + "-------------");
-        
+
         //appends every ingredient to ingredientList
         for (let i: number = 1; i < ingredientsDiv.childElementCount; i++) {
             console.log("----------i'm in------------");
@@ -79,6 +76,49 @@ export namespace Endabgabe {
         return recipe;
     }
 
+    function createPost(_i: number, _serverReply: Interface.Recipe[]): void {
+        // formatting one recipe
+        let post: HTMLDivElement = document.createElement("div");
+        serverResponseDiv.appendChild(post);
+
+        let author: HTMLParagraphElement = document.createElement("p");
+        author.appendChild(document.createTextNode("Verfasser: " + _serverReply[_i].author));
+        post.appendChild(author);
+
+        let title: HTMLElement = document.createElement("h3");
+        title.appendChild(document.createTextNode(_serverReply[_i].title));
+        post.appendChild(title);
+
+        let ingredients: HTMLParagraphElement = document.createElement("p");
+        ingredients.appendChild(document.createTextNode("Zutaten: " + _serverReply[_i].ingredients));
+        post.appendChild(ingredients);
+
+        let preparation: HTMLParagraphElement = document.createElement("p");
+        preparation.appendChild(document.createTextNode("Zubereitung: " + _serverReply[_i].preparation));
+        post.appendChild(preparation);
+
+        // adding buttons
+        let postButtonDiv: HTMLDivElement = document.createElement("div");
+        post.appendChild(postButtonDiv);
+
+        let editButton: HTMLButtonElement = document.createElement("button");
+        editButton.setAttribute("type", "button");
+        editButton.appendChild(document.createTextNode("Bearbeiten"));
+        postButtonDiv.appendChild(editButton);
+
+        let deleteButton: HTMLButtonElement = document.createElement("button");
+        deleteButton.setAttribute("type", "button");
+        deleteButton.appendChild(document.createTextNode("Löschen"));
+        postButtonDiv.appendChild(deleteButton);
+
+        // eventListener and their functions
+        editButton.addEventListener("click", handleClickEditButton);
+        deleteButton.addEventListener("click", handleClickDeleteButton);
+
+        editButton.dataset._id = _serverReply[_i]._id.toString();
+        deleteButton.dataset._id = _serverReply[_i]._id.toString();
+    }
+
     async function handleShowMyRecipes(): Promise<void> {
         getURL();
 
@@ -95,160 +135,127 @@ export namespace Endabgabe {
             let response: Response = await fetch(url);
             let showReply: Interface.Recipe[] = await response.json();
 
-            for (let i in showReply) {
-                // formatting one recipe
-                let post: HTMLDivElement = document.createElement("div");
-                serverResponseDiv.appendChild(post);
-
-                let author: HTMLParagraphElement = document.createElement("p");
-                author.appendChild(document.createTextNode("Verfasser: " + showReply[i].author));
-                post.appendChild(author);
-
-                let title: HTMLElement = document.createElement("h3");
-                title.appendChild(document.createTextNode(showReply[i].title));
-                post.appendChild(title);
-
-                let ingredients: HTMLParagraphElement = document.createElement("p");
-                ingredients.appendChild(document.createTextNode("Zutaten: " + showReply[i].ingredients));
-                post.appendChild(ingredients);
-
-                let preparation: HTMLParagraphElement = document.createElement("p");
-                preparation.appendChild(document.createTextNode("Zubereitung: " + showReply[i].preparation));
-                post.appendChild(preparation);
-
-                // adding buttons
-                let postButtonDiv: HTMLDivElement = document.createElement("div");
-                post.appendChild(postButtonDiv);
-
-                let editButton: HTMLButtonElement = document.createElement("button");
-                editButton.setAttribute("type", "button");
-                editButton.appendChild(document.createTextNode("Bearbeiten"));
-                postButtonDiv.appendChild(editButton);
-
-                let deleteButton: HTMLButtonElement = document.createElement("button");
-                deleteButton.setAttribute("type", "button");
-                deleteButton.appendChild(document.createTextNode("Löschen"));
-                postButtonDiv.appendChild(deleteButton);
-
-                // eventListener and their functions
-                editButton.addEventListener("click", handleClickEditButton);
-                deleteButton.addEventListener("click", handleClickDeleteButton);
-
-                async function handleClickEditButton(): Promise<void> {
-                    getURL();
-                    recipeForm.reset();
-
-                    url += "/editMyRecipe?" + "_id=" + showReply[i]._id;
-                    console.log(url);
-
-                    ingredientInput = <HTMLInputElement>document.getElementById("ingredient0");
-
-                    let response: Response = await fetch(url);
-                    let thisRecipe: Interface.Recipe[] = await response.json();
-
-                    // writing values of the recipe in question into recipeForm
-                    recipeTitle.value = thisRecipe[0].title;
-                    console.log("title: " + thisRecipe[0].title);
-
-                    recipePreparation.value = thisRecipe[0].preparation;
-                    console.log("preparation: " + thisRecipe[0].preparation);
-
-                    //ingredientInput.value = "";
-                    //console.log("First ingredient: " + thisRecipe[0].ingredients);
-
-                    let ingredientsArray: string[] = [""];
-                    let newIngredient: string = "";
-
-                    //ingredients gets chopped into one character strings, so I have to put them back together
-                    for (let i: number = 0; i < thisRecipe[0].ingredients.length; i++) {
-                        let character: string = thisRecipe[0].ingredients[i];
-                        if (character.includes(",")) {
-                            ingredientsArray.push(newIngredient);
-                            newIngredient = "";
-                            console.log("Ein wildes Komma ist aufgetaucht.");
-
-                        } else {
-                            if (i < thisRecipe[0].ingredients.length - 1) {
-                                newIngredient += character;
-                                console.log("next Ingredient: " + newIngredient);
-                            } else {
-                                newIngredient += character;
-                                ingredientsArray.push(newIngredient);
-                            }
-                        }
-                    }
-
-                    console.log("Anzahl der Zutaten: " + ingredientsArray.length);
-
-                    ingredientInput.value = ingredientsArray[1];
-                    // appending ingredients to the form
-                    for (let i: number = 2; i < ingredientsArray.length; i++) {
-                        createIngredientInput();
-                        console.log("ingredientCounter: " + ingredientCount);
-
-                        let nextInput: HTMLInputElement = <HTMLInputElement>document.getElementById("ingredient" + ingredientCount);
-                        nextInput.value = ingredientsArray[i];
-                    }
-
-                    console.log("Liste der Zutaten: ", ingredientsArray);
-
-                    //changing submit button to resubmit button and adding the eventlistener onto it
-                    submitButton.classList.add("ishidden");
-
-                    let checkResub: HTMLButtonElement = <HTMLButtonElement>document.getElementById("resubmitButton");
-                    console.log("resubmit: ", !checkResub);
-
-                    if (!checkResub == true) {
-                        resubmitButton = document.createElement("button");
-                        resubmitButton.setAttribute("type", "button");
-                        resubmitButton.setAttribute("id", "resubmitButton");
-                        resubmitButton.appendChild(document.createTextNode("Rezept ändern"));
-                        formButtonDiv.appendChild(resubmitButton);
-
-                        resubmitButton.addEventListener("click", handleClickResubmitRecipe);
-                    }
-                    _id = thisRecipe[0]._id;
-                    console.log("id " + _id);
-                }
-
-                async function handleClickDeleteButton(): Promise<void> {
-                    getURL();
-
-                    url += "/deleteMyRecipe?" + "_id=" + showReply[i]._id;
-                    console.log(url);
-
-                    let response: Response = await fetch(url);
-                    let deleteReply: string = await response.text();
-                    serverResponseDiv.innerHTML = deleteReply;
-
-                    handleShowMyRecipes();
-                }
-
-                async function handleClickResubmitRecipe(): Promise<void> {
-                    getURL();
-                    let recipe: Interface.Recipe = getRecipeOutOfForm();
-                    recipe._id = _id;
-                    console.log(recipe._id);
-
-
-                    console.log("Resubmit Recipe wurde gedrückt.");
-                    url += "/resubmitMyRecipe?" + "_id=" + recipe._id + "&title=" + recipe.title + "&author=" + recipe.author + "&ingredients=" + recipe.ingredients + "&preparation=" + recipe.preparation;
-                    console.log("z190: " + url);
-
-                    let response: Response = await fetch(url);
-                    let resubmitReply: string = await response.text();
-                    serverResponseDiv.innerHTML = resubmitReply;
-
-                    submitButton.classList.remove("ishidden");
-                    resubmitButton.remove();
-                    recipeForm.reset();
-                    recipe.ingredients = [""];
-                    handleShowMyRecipes();
-                }
+            for (let i: number = 0; i < showReply.length; i++) {
+                createPost(i, showReply);
             }
         }
     }
 
+    async function handleClickDeleteButton(_event: Event): Promise<void> {
+        getURL();
+
+        let target: HTMLElement = <HTMLElement>_event.currentTarget;
+        let id: string = target.dataset._id;
+
+        url += "/deleteMyRecipe?" + "_id=" + id;
+        console.log(url);
+
+        let response: Response = await fetch(url);
+        let deleteReply: string = await response.text();
+        serverResponseDiv.innerHTML = deleteReply;
+
+        handleShowMyRecipes();
+    }
+
+    async function handleClickEditButton(_event: Event): Promise<void> {
+        getURL();
+        recipeForm.reset();
+
+        // writing url with infos from button.dataset
+        let target: HTMLElement = <HTMLElement>_event.currentTarget;
+        let id: string = target.dataset._id;
+
+        url += "/editMyRecipe?" + "_id=" + id;
+        console.log(url);
+        let response: Response = await fetch(url);
+        let recipeArray: Interface.Recipe[] = await response.json();
+        let thisRecipe: Interface.Recipe = recipeArray[0];
+
+        // writing values of the recipe in question into recipeForm
+        recipeTitle.value = thisRecipe.title;
+        console.log("title: " + thisRecipe.title);
+
+        console.log("ingredients: " + thisRecipe.ingredients);
+
+        recipePreparation.value = thisRecipe.preparation;
+        console.log("preparation: " + thisRecipe.preparation);
+
+        let firstChar: number = 0;
+        let lastChar: number;
+        let inputId: number = 0;
+
+        //ingredients come back as a string, so you have to splice it
+        for (let i: number = 0; i <= thisRecipe.ingredients.length; i++) {
+            let character: string = thisRecipe.ingredients[i];
+            if (i == thisRecipe.ingredients.length || character.includes(",")) {
+                lastChar = i;
+                console.log("Stelle nach der letzten Stelle der Zutat: " + lastChar);
+                // slicing the ingredient out of the ingredient string
+                let inputValue: string | string[] = thisRecipe.ingredients.slice(firstChar, lastChar);
+                console.log("tatsächliche Zutat: " + inputValue.toString());
+
+                console.log("id des nächsten inputs: " + inputId);
+
+                // looking for input whom to fill with inputValue
+                let input: HTMLInputElement = <HTMLInputElement>document.getElementById("ingredient" + inputId);
+                // if input does not exist
+                if (!input) {
+                    //create the input Element
+                    let newInput: HTMLInputElement = createIngredientInput(inputId);
+                    newInput.value = inputValue.toString();
+                } else {
+                    input.value = inputValue.toString();
+                }
+                inputId += 1;
+                firstChar = i + 1;
+                console.log("erste Stelle der nächsten Zutat: " + firstChar);
+            }
+        }
+        //changing submit button to resubmit button and adding the eventlistener onto it
+        submitButton.classList.add("ishidden");
+
+        let checkResub: HTMLButtonElement = <HTMLButtonElement>document.getElementById("resubmitButton");
+        console.log("resubmit: ", !checkResub);
+
+        if (!checkResub == true) {
+            resubmitButton = document.createElement("button");
+            resubmitButton.setAttribute("type", "button");
+            resubmitButton.setAttribute("id", "resubmitButton");
+            resubmitButton.appendChild(document.createTextNode("Rezept ändern"));
+            formButtonDiv.appendChild(resubmitButton);
+
+            resubmitButton.addEventListener("click", handleClickResubmitRecipe);
+            resubmitButton.dataset._id = id;
+        }
+        let _id: string = thisRecipe._id;
+        console.log("id " + _id);
+    }
+
+    async function handleClickResubmitRecipe(_event: Event): Promise<void> {
+        getURL();
+
+        let target: HTMLElement = <HTMLElement>_event.currentTarget;
+        let id: string = target.dataset._id;
+
+        let recipe: Interface.Recipe = getRecipeOutOfForm();
+        recipe._id = id;
+        console.log(recipe._id);
+
+
+        console.log("Resubmit Recipe wurde gedrückt.");
+        url += "/resubmitMyRecipe?" + "_id=" + recipe._id + "&title=" + recipe.title + "&author=" + recipe.author + "&ingredients=" + recipe.ingredients + "&preparation=" + recipe.preparation;
+        console.log("z190: " + url);
+
+        let response: Response = await fetch(url);
+        let resubmitReply: string = await response.text();
+        serverResponseDiv.innerHTML = resubmitReply;
+
+        submitButton.classList.remove("ishidden");
+        resubmitButton.remove();
+        recipeForm.reset();
+        handleShowMyRecipes();
+        cleanUpInputs();
+    }
 
     async function handleClickSubmitRecipe(): Promise<void> {
         scriptResponseDiv.innerHTML = "";
@@ -272,6 +279,16 @@ export namespace Endabgabe {
 
             recipeForm.reset();
             handleShowMyRecipes();
+            cleanUpInputs();
+        }
+    }
+
+    function cleanUpInputs(): void {
+        let size: number = ingredientsDiv.children.length;
+        console.log("Anzahl der Inputs: " + size);
+        for (let i: number = size - 1; i >= 1; i--) {
+            let inputId: string = "ingredient" + i;
+            document.getElementById(inputId).remove();
         }
     }
 }
