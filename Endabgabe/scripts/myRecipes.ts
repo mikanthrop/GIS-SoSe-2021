@@ -21,12 +21,58 @@ export namespace Endabgabe {
     let ingredientCounter: number = 0;
 
     window.addEventListener("load", handleShowMyRecipes);
+    window.addEventListener("load", buildNavbar);
     submitButton.addEventListener("click", handleClickSubmitRecipe);
     addIngButton.addEventListener("click", handleClickAddIngredient);
 
     function getURL(): void {
         //url = "https://gis-server-git-gud.herokuapp.com";
         url = "http://localhost:8100";
+    }
+
+    function buildNavbar(): void {
+        let user: string = localStorage.getItem("user");
+        let navBar: HTMLElement = document.getElementById("navBar");
+    
+        let recipesLink: HTMLAnchorElement = document.createElement("a");
+        recipesLink.setAttribute("href", "../html/recipes.html");
+        navBar.appendChild(recipesLink);
+        let recipesHLine: HTMLElement = document.createElement("h1");
+        recipesHLine.appendChild(document.createTextNode("Rezeptesammlung"));
+        recipesLink.appendChild(recipesHLine);
+        
+        let loggedInOrNot: HTMLDivElement = document.createElement("div");
+        loggedInOrNot.setAttribute("id", "loggedInOrNot");
+        navBar.appendChild(loggedInOrNot);
+        
+        if (user == null) {
+            let loginLink: HTMLAnchorElement = document.createElement("a");
+            loginLink.setAttribute("href", "../html/login.html");
+            loggedInOrNot.appendChild(loginLink);
+            let loginHLine: HTMLElement = document.createElement("h2");
+            loginHLine.appendChild(document.createTextNode("Login"));
+            loginLink.appendChild(loginHLine);
+        
+        } else {
+            let myFavoritesLink: HTMLAnchorElement = document.createElement("a");
+            myFavoritesLink.setAttribute("href", "../html/myFavorites.html");
+            loggedInOrNot.appendChild(myFavoritesLink);
+            let myFavoritesHLine: HTMLElement = document.createElement("h2");
+            myFavoritesHLine.appendChild(document.createTextNode("Meine Favoriten"));
+            myFavoritesLink.appendChild(myFavoritesHLine);
+    
+            let myRecipesLink: HTMLAnchorElement = document.createElement("a");
+            myRecipesLink.setAttribute("href", "../html/myRecipes.html");
+            loggedInOrNot.appendChild(myRecipesLink);
+            let myRecipesHLine: HTMLElement = document.createElement("h2");
+            myRecipesHLine.appendChild(document.createTextNode("Meine Rezepte"));
+            myRecipesLink.appendChild(myRecipesHLine);
+
+            let loggedIn: HTMLElement = document.createElement("h3");
+            loggedIn.innerText = "Eingeloggt als \n" + user;
+            loggedInOrNot.appendChild(loggedIn);
+        }
+    
     }
 
     function createIngredientInput(_ingredientIDCounter: number): HTMLInputElement {
@@ -76,25 +122,25 @@ export namespace Endabgabe {
         return recipe;
     }
 
-    function createPost(_i: number, _serverReply: Interface.Recipe[]): void {
+    function createPost(_serverReply: Interface.Recipe): void {
         // formatting one recipe
         let post: HTMLDivElement = document.createElement("div");
         serverResponseDiv.appendChild(post);
 
         let author: HTMLParagraphElement = document.createElement("p");
-        author.appendChild(document.createTextNode("Verfasser: " + _serverReply[_i].author));
+        author.appendChild(document.createTextNode("Verfasser: " + _serverReply.author));
         post.appendChild(author);
 
         let title: HTMLElement = document.createElement("h3");
-        title.appendChild(document.createTextNode(_serverReply[_i].title));
+        title.appendChild(document.createTextNode(_serverReply.title));
         post.appendChild(title);
 
         let ingredients: HTMLParagraphElement = document.createElement("p");
-        ingredients.appendChild(document.createTextNode("Zutaten: " + _serverReply[_i].ingredients));
+        ingredients.appendChild(document.createTextNode("Zutaten: " + _serverReply.ingredients));
         post.appendChild(ingredients);
 
         let preparation: HTMLParagraphElement = document.createElement("p");
-        preparation.appendChild(document.createTextNode("Zubereitung: " + _serverReply[_i].preparation));
+        preparation.appendChild(document.createTextNode("Zubereitung: " + _serverReply.preparation));
         post.appendChild(preparation);
 
         // adding buttons
@@ -115,8 +161,8 @@ export namespace Endabgabe {
         editButton.addEventListener("click", handleClickEditButton);
         deleteButton.addEventListener("click", handleClickDeleteButton);
 
-        editButton.dataset._id = _serverReply[_i]._id.toString();
-        deleteButton.dataset._id = _serverReply[_i]._id.toString();
+        editButton.dataset._id = _serverReply._id.toString();
+        deleteButton.dataset._id = _serverReply._id.toString();
     }
 
     async function handleShowMyRecipes(): Promise<void> {
@@ -136,7 +182,7 @@ export namespace Endabgabe {
             let showReply: Interface.Recipe[] = await response.json();
 
             for (let i: number = 0; i < showReply.length; i++) {
-                createPost(i, showReply);
+                createPost(showReply[i]);
             }
         }
     }
