@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Endabgabe = void 0;
+//import { GeneralFunctions } from "./general";
 var Endabgabe;
 (function (Endabgabe) {
     let ingredientsDiv = document.getElementById("ingredients");
@@ -65,6 +66,21 @@ var Endabgabe;
             loggedInOrNot.appendChild(loggedIn);
         }
     }
+    function createPost(_serverReply, _parent) {
+        // formatting one recipe
+        let author = document.createElement("p");
+        author.appendChild(document.createTextNode("Verfasser: " + _serverReply.author));
+        _parent.appendChild(author);
+        let title = document.createElement("h3");
+        title.appendChild(document.createTextNode(_serverReply.title));
+        _parent.appendChild(title);
+        let ingredients = document.createElement("p");
+        ingredients.appendChild(document.createTextNode("Zutaten: " + _serverReply.ingredients));
+        _parent.appendChild(ingredients);
+        let preparation = document.createElement("p");
+        preparation.appendChild(document.createTextNode("Zubereitung: " + _serverReply.preparation));
+        _parent.appendChild(preparation);
+    }
     function createIngredientInput(_ingredientIDCounter) {
         let thisIngredientId = "ingredient" + _ingredientIDCounter;
         let nextIngredient = document.createElement("input");
@@ -107,25 +123,10 @@ var Endabgabe;
         console.log("recipe ", recipe);
         return recipe;
     }
-    function createPost(_serverReply) {
-        // formatting one recipe
-        let post = document.createElement("div");
-        serverResponseDiv.appendChild(post);
-        let author = document.createElement("p");
-        author.appendChild(document.createTextNode("Verfasser: " + _serverReply.author));
-        post.appendChild(author);
-        let title = document.createElement("h3");
-        title.appendChild(document.createTextNode(_serverReply.title));
-        post.appendChild(title);
-        let ingredients = document.createElement("p");
-        ingredients.appendChild(document.createTextNode("Zutaten: " + _serverReply.ingredients));
-        post.appendChild(ingredients);
-        let preparation = document.createElement("p");
-        preparation.appendChild(document.createTextNode("Zubereitung: " + _serverReply.preparation));
-        post.appendChild(preparation);
+    function createButtonDiv(_serverReply, _parent) {
         // adding buttons
         let postButtonDiv = document.createElement("div");
-        post.appendChild(postButtonDiv);
+        _parent.appendChild(postButtonDiv);
         let editButton = document.createElement("button");
         editButton.setAttribute("type", "button");
         editButton.appendChild(document.createTextNode("Bearbeiten"));
@@ -156,7 +157,10 @@ var Endabgabe;
             let response = await fetch(url);
             let showReply = await response.json();
             for (let i = 0; i < showReply.length; i++) {
-                createPost(showReply[i]);
+                let post = document.createElement("div");
+                serverResponseDiv.appendChild(post);
+                createPost(showReply[i], post);
+                createButtonDiv(showReply[i], post);
             }
         }
     }
@@ -180,8 +184,8 @@ var Endabgabe;
         url += "/editMyRecipe?" + "_id=" + id;
         console.log(url);
         let response = await fetch(url);
-        let recipeArray = await response.json();
-        let thisRecipe = recipeArray[0];
+        let recipe = await response.json();
+        let thisRecipe = recipe[0];
         // writing values of the recipe in question into recipeForm
         recipeTitle.value = thisRecipe.title;
         console.log("title: " + thisRecipe.title);

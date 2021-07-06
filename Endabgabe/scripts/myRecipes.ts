@@ -1,4 +1,5 @@
 import * as Interface from "../source/interface";
+//import { GeneralFunctions } from "./general";
 
 export namespace Endabgabe {
 
@@ -33,18 +34,18 @@ export namespace Endabgabe {
     function buildNavbar(): void {
         let user: string = localStorage.getItem("user");
         let navBar: HTMLElement = document.getElementById("navBar");
-    
+
         let recipesLink: HTMLAnchorElement = document.createElement("a");
         recipesLink.setAttribute("href", "../html/recipes.html");
         navBar.appendChild(recipesLink);
         let recipesHLine: HTMLElement = document.createElement("h1");
         recipesHLine.appendChild(document.createTextNode("Rezeptesammlung"));
         recipesLink.appendChild(recipesHLine);
-        
+
         let loggedInOrNot: HTMLDivElement = document.createElement("div");
         loggedInOrNot.setAttribute("id", "loggedInOrNot");
         navBar.appendChild(loggedInOrNot);
-        
+
         if (user == null) {
             let loginLink: HTMLAnchorElement = document.createElement("a");
             loginLink.setAttribute("href", "../html/login.html");
@@ -52,7 +53,7 @@ export namespace Endabgabe {
             let loginHLine: HTMLElement = document.createElement("h2");
             loginHLine.appendChild(document.createTextNode("Login"));
             loginLink.appendChild(loginHLine);
-        
+
         } else {
             let myFavoritesLink: HTMLAnchorElement = document.createElement("a");
             myFavoritesLink.setAttribute("href", "../html/myFavorites.html");
@@ -60,7 +61,7 @@ export namespace Endabgabe {
             let myFavoritesHLine: HTMLElement = document.createElement("h2");
             myFavoritesHLine.appendChild(document.createTextNode("Meine Favoriten"));
             myFavoritesLink.appendChild(myFavoritesHLine);
-    
+
             let myRecipesLink: HTMLAnchorElement = document.createElement("a");
             myRecipesLink.setAttribute("href", "../html/myRecipes.html");
             loggedInOrNot.appendChild(myRecipesLink);
@@ -72,7 +73,25 @@ export namespace Endabgabe {
             loggedIn.innerText = "Eingeloggt als \n" + user;
             loggedInOrNot.appendChild(loggedIn);
         }
-    
+    }
+
+    function createPost(_serverReply: Interface.Recipe, _parent: HTMLDivElement): void {
+        // formatting one recipe
+        let author: HTMLParagraphElement = document.createElement("p");
+        author.appendChild(document.createTextNode("Verfasser: " + _serverReply.author));
+        _parent.appendChild(author);
+
+        let title: HTMLElement = document.createElement("h3");
+        title.appendChild(document.createTextNode(_serverReply.title));
+        _parent.appendChild(title);
+
+        let ingredients: HTMLParagraphElement = document.createElement("p");
+        ingredients.appendChild(document.createTextNode("Zutaten: " + _serverReply.ingredients));
+        _parent.appendChild(ingredients);
+
+        let preparation: HTMLParagraphElement = document.createElement("p");
+        preparation.appendChild(document.createTextNode("Zubereitung: " + _serverReply.preparation));
+        _parent.appendChild(preparation);
     }
 
     function createIngredientInput(_ingredientIDCounter: number): HTMLInputElement {
@@ -122,30 +141,10 @@ export namespace Endabgabe {
         return recipe;
     }
 
-    function createPost(_serverReply: Interface.Recipe): void {
-        // formatting one recipe
-        let post: HTMLDivElement = document.createElement("div");
-        serverResponseDiv.appendChild(post);
-
-        let author: HTMLParagraphElement = document.createElement("p");
-        author.appendChild(document.createTextNode("Verfasser: " + _serverReply.author));
-        post.appendChild(author);
-
-        let title: HTMLElement = document.createElement("h3");
-        title.appendChild(document.createTextNode(_serverReply.title));
-        post.appendChild(title);
-
-        let ingredients: HTMLParagraphElement = document.createElement("p");
-        ingredients.appendChild(document.createTextNode("Zutaten: " + _serverReply.ingredients));
-        post.appendChild(ingredients);
-
-        let preparation: HTMLParagraphElement = document.createElement("p");
-        preparation.appendChild(document.createTextNode("Zubereitung: " + _serverReply.preparation));
-        post.appendChild(preparation);
-
+    function createButtonDiv(_serverReply: Interface.Recipe, _parent: HTMLDivElement): void {
         // adding buttons
         let postButtonDiv: HTMLDivElement = document.createElement("div");
-        post.appendChild(postButtonDiv);
+        _parent.appendChild(postButtonDiv);
 
         let editButton: HTMLButtonElement = document.createElement("button");
         editButton.setAttribute("type", "button");
@@ -182,7 +181,10 @@ export namespace Endabgabe {
             let showReply: Interface.Recipe[] = await response.json();
 
             for (let i: number = 0; i < showReply.length; i++) {
-                createPost(showReply[i]);
+                let post: HTMLDivElement = document.createElement("div");
+                serverResponseDiv.appendChild(post);
+                createPost(showReply[i], post);
+                createButtonDiv(showReply[i], post);
             }
         }
     }
@@ -214,8 +216,9 @@ export namespace Endabgabe {
         url += "/editMyRecipe?" + "_id=" + id;
         console.log(url);
         let response: Response = await fetch(url);
-        let recipeArray: Interface.Recipe[] = await response.json();
-        let thisRecipe: Interface.Recipe = recipeArray[0];
+        let recipe: Interface.Recipe[] = await response.json();
+        let thisRecipe: Interface.Recipe = recipe[0];
+        
 
         // writing values of the recipe in question into recipeForm
         recipeTitle.value = thisRecipe.title;
