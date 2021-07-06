@@ -4,7 +4,7 @@ export interface LoginMessage {
 }
 
 export interface User {
-    username: string;
+    user: string;
     password: string;
     myFavs: Recipe[];
 }
