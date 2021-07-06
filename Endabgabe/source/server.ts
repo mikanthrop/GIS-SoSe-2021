@@ -116,33 +116,54 @@ export namespace Endabgabe {
                 _response.setHeader("content-type", "text/html; charset=utf-8");
                 console.log("Request to edit user's recipe received.");
 
-                // request to resubmit edited recipe
                 console.log("url.query: ", url.query);
-                let cursor: Mongo.Cursor = recipes.find({ "_id": new Mongo.ObjectId(url.query._id.toString()) });
-                let result: Interface.Recipe[] = await cursor.toArray();
-                _response.write(JSON.stringify(result));
+                let recipe: Interface.Recipe = await recipes.findOne({ "_id": new Mongo.ObjectId(url.query._id.toString()) });
+                _response.write(JSON.stringify(recipe));
             }
+            // request to resubmit edited recipe
             if (url.pathname == "/resubmitMyRecipe") {
 
                 let doc: Interface.MongoRecipe = { "title": url.query.title.toString(), "author": url.query.author.toString(), "ingredients": url.query.ingredients.toString(), "preparation": url.query.preparation.toString() };
-                console.log("title " + url.query.title.toString());
-                console.log("author " + url.query.author.toString());
-                console.log("ingredients " + url.query.ingredients.toString());
-                console.log("preparation " + url.query.preparation.toString());
-                console.log("_id " + url.query._id.toString());
-                
                 let filter: Mongo.FilterQuery<Mongo.ObjectId> = { "_id": new Mongo.ObjectId(url.query._id.toString()) };
                 console.log(filter);
-                
+
                 recipes.replaceOne(filter, doc);
                 _response.write("Ihr Rezept wurde erfolgreich geändert.");
-            } 
+            }
 
             // request to delete one recipe the user created themselves
             if (url.pathname == "/deleteMyRecipe") {
                 console.log("Request to delete user's recipe received.");
                 recipes.deleteOne({ "_id": new Mongo.ObjectId(url.query._id.toString()) });
                 _response.write("Rezept wurde erfolgreich gelöscht.");
+            }
+
+            //recipe.html
+            // request do show all recipes in the collection recipes
+            if (url.pathname == "/showAll") {
+                console.log("Request to show all recipes received.");
+                let cursor: Mongo.Cursor = recipes.find();
+                let result: Interface.Recipe[] = await cursor.toArray();
+                _response.write(JSON.stringify(result));
+            }
+
+            // request to save a recipe into myFaves on the users profile
+            if (url.pathname == "/likeThis") {
+                console.log("Request to save this recipe to faves received.");
+                let newFaveRecipe: Interface.Recipe = await recipes.findOne({ "_id": new Mongo.ObjectId(url.query._id.toString()) });
+                
+                /*let user: Interface.User = await users.findOneAndUpdate({ "username": url.query.user }, {$set: });
+                */
+
+                let user: Interface.User = await users.findOne({ "user": url.query.user });
+                console.log("User" + user.toString());
+                
+                if (user.myFavs == undefined) {
+                    user.myFavs[0] = newFaveRecipe;
+                } else {
+                user.myFavs.push(newFaveRecipe);
+                }
+                _response.write("Rezept \"" + newFaveRecipe.title + "\" wurde zu Ihren Favoriten hinzugefügt.");
             }
 
         }
