@@ -98,6 +98,7 @@ var Endabgabe;
                 console.log("Request to edit user's recipe received.");
                 console.log("url.query: ", url.query);
                 let recipe = await recipes.findOne({ "_id": new Mongo.ObjectId(url.query._id.toString()) });
+                console.log(recipe);
                 _response.write(JSON.stringify(recipe));
             }
             // request to resubmit edited recipe
@@ -126,16 +127,27 @@ var Endabgabe;
             if (url.pathname == "/likeThis") {
                 console.log("Request to save this recipe to faves received.");
                 let newFaveRecipe = await recipes.findOne({ "_id": new Mongo.ObjectId(url.query._id.toString()) });
-                /*let user: Interface.User = await users.findOneAndUpdate({ "username": url.query.user }, {$set: });
-                */
-                let user = await users.findOne({ "user": url.query.user });
-                console.log("User" + user.toString());
-                if (user.myFavs == undefined) {
-                    user.myFavs[0] = newFaveRecipe;
+                console.log("Recipe: " + JSON.stringify(newFaveRecipe));
+                let oldUser = await users.findOne({ "user": url.query.user });
+                console.log("User: " + JSON.stringify(oldUser));
+                let faves = new Array();
+                console.log(oldUser.myFavs.length);
+                for (let i = 0; i < oldUser.myFavs.length; i++) {
+                    faves.push(oldUser.myFavs[i]);
+                    console.log("Faves an Stelle " + i + ":" + faves);
                 }
-                else {
-                    user.myFavs.push(newFaveRecipe);
+                faves = oldUser.myFavs;
+                console.log("Favorites so far: " + JSON.stringify(oldUser.myFavs) + "\n");
+                let updatedUser;
+                if (faves != undefined) {
+                    faves[faves.length] = newFaveRecipe;
+                    console.log("Favorites now: " + JSON.stringify(faves) + "\n");
+                    console.log(faves[0]);
+                    updatedUser = await users.findOneAndUpdate({ "user": url.query.user }, { $set: { "myFavs": faves } });
                 }
+                else
+                    updatedUser = await users.findOneAndUpdate({ "user": url.query.user }, { $set: { "myFavs": newFaveRecipe } });
+                console.log("updatedUser: " + JSON.stringify(updatedUser));
                 _response.write("Rezept \"" + newFaveRecipe.title + "\" wurde zu Ihren Favoriten hinzugefügt.");
             }
         }
