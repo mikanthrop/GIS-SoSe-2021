@@ -6,7 +6,7 @@ var Endabgabe;
 (function (Endabgabe) {
     window.addEventListener("load", buildNavbar);
     window.addEventListener("load", handleLoadShowAllRecipes);
-    let recipeDiv = document.getElementById("recipeDiv");
+    let recipesDiv = document.getElementById("recipeDiv");
     let serverResponseDiv = document.getElementById("serverReply");
     let url;
     function getURL() {
@@ -59,10 +59,11 @@ var Endabgabe;
         let showReply = await response.json();
         for (let i = 0; i < showReply.length; i++) {
             let post = document.createElement("div");
-            serverResponseDiv.appendChild(post);
+            recipesDiv.appendChild(post);
             let recipeDiv = document.createElement("div");
+            recipeDiv.setAttribute("id", "recipe" + i);
             post.appendChild(recipeDiv);
-            createRecipe(showReply[i], post);
+            createRecipe(showReply[i], recipeDiv);
             if (localStorage.getItem("user") != undefined) {
                 createFavButton(showReply[i], recipeDiv);
             }
@@ -74,17 +75,29 @@ var Endabgabe;
         favButton.appendChild(document.createTextNode("Favorisieren"));
         _parent.appendChild(favButton);
         favButton.dataset._id = _serverReply._id;
+        favButton.dataset.parent = _parent.id;
+        console.log("parent id: " + favButton.dataset.parent);
         favButton.addEventListener("click", handleClickFavButton);
+    }
+    function createNoFavButton(_parent) {
+        let noFavButton = document.createElement("button");
+        noFavButton.setAttribute("type", "button");
+        noFavButton.appendChild(document.createTextNode("Favorisiert"));
+        _parent.appendChild(noFavButton);
     }
     async function handleClickFavButton(_event) {
         getURL();
         let target = _event.currentTarget;
         let id = target.dataset._id;
+        let parentId = target.dataset.parent;
+        let parent = document.getElementById(parentId);
         url += "/likeThis?_id=" + id + "&user=" + localStorage.getItem("user");
         console.log(url);
         let response = await fetch(url);
-        let deleteReply = await response.text();
-        serverResponseDiv.innerHTML = deleteReply;
+        let favReply = await response.text();
+        serverResponseDiv.innerHTML = favReply;
+        target.classList.add("ishidden");
+        createNoFavButton(parent);
     }
     function createRecipe(_serverReply, _parent) {
         // formatting one recipe

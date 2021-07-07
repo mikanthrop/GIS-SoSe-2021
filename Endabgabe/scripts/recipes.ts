@@ -6,7 +6,7 @@ export namespace Endabgabe {
     window.addEventListener("load", buildNavbar);
     window.addEventListener("load", handleLoadShowAllRecipes);
 
-    let recipeDiv: HTMLDivElement = <HTMLDivElement>document.getElementById("recipeDiv");
+    let recipesDiv: HTMLDivElement = <HTMLDivElement>document.getElementById("recipeDiv");
     let serverResponseDiv: HTMLDivElement = <HTMLDivElement>document.getElementById("serverReply");
 
     let url: string;
@@ -72,10 +72,11 @@ export namespace Endabgabe {
 
         for (let i: number = 0; i < showReply.length; i++) {
             let post: HTMLDivElement = document.createElement("div");
-            serverResponseDiv.appendChild(post);
+            recipesDiv.appendChild(post);
             let recipeDiv: HTMLDivElement = document.createElement("div");
+            recipeDiv.setAttribute("id", "recipe" + i);
             post.appendChild(recipeDiv);
-            createRecipe(showReply[i], post);
+            createRecipe(showReply[i], recipeDiv);
             if (localStorage.getItem("user") != undefined) {
                 createFavButton(showReply[i], recipeDiv);
             }
@@ -90,8 +91,17 @@ export namespace Endabgabe {
         _parent.appendChild(favButton);
 
         favButton.dataset._id = _serverReply._id;
-
+        favButton.dataset.parent = _parent.id;
+        console.log("parent id: " + favButton.dataset.parent);
+        
         favButton.addEventListener("click", handleClickFavButton);
+    }
+
+    function createNoFavButton(_parent: HTMLDivElement): void {
+        let noFavButton: HTMLButtonElement = document.createElement("button");
+        noFavButton.setAttribute("type", "button");
+        noFavButton.appendChild(document.createTextNode("Favorisiert"));
+        _parent.appendChild(noFavButton);
     }
 
     async function handleClickFavButton(_event: Event): Promise<void> {
@@ -99,13 +109,18 @@ export namespace Endabgabe {
 
         let target: HTMLElement = <HTMLElement>_event.currentTarget;
         let id: string = target.dataset._id;
+        let parentId: string = target.dataset.parent;
+        let parent: HTMLDivElement = <HTMLDivElement>document.getElementById(parentId);
 
         url += "/likeThis?_id=" + id + "&user=" + localStorage.getItem("user");
         console.log(url);
 
         let response: Response = await fetch(url);
-        let deleteReply: string = await response.text();
-        serverResponseDiv.innerHTML = deleteReply;
+        let favReply: string = await response.text();
+        serverResponseDiv.innerHTML = favReply;
+
+        target.classList.add("ishidden");
+        createNoFavButton(parent);
     }
 
     function createRecipe(_serverReply: Interface.Recipe, _parent: HTMLDivElement): void {
