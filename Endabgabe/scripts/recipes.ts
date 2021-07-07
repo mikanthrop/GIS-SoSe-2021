@@ -78,9 +78,17 @@ export namespace Endabgabe {
             post.appendChild(recipeDiv);
             createRecipe(showReply[i], recipeDiv);
             if (localStorage.getItem("user") != undefined) {
-                createFavButton(showReply[i], recipeDiv);
+                
+                //createFavButton(showReply[i], recipeDiv);
             }
         }
+
+    }
+
+    async function maybeButtons(): Promise<void> {
+        let user: string = localStorage.getItem("user");
+        getURL();
+        url += "/getFavs?" 
 
     }
 

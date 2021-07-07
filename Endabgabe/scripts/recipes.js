@@ -65,9 +65,14 @@ var Endabgabe;
             post.appendChild(recipeDiv);
             createRecipe(showReply[i], recipeDiv);
             if (localStorage.getItem("user") != undefined) {
-                createFavButton(showReply[i], recipeDiv);
+                //createFavButton(showReply[i], recipeDiv);
             }
         }
+    }
+    async function maybeButtons() {
+        let user = localStorage.getItem("user");
+        getURL();
+        url += "/getFavs?";
     }
     function createFavButton(_serverReply, _parent) {
         let favButton = document.createElement("button");
