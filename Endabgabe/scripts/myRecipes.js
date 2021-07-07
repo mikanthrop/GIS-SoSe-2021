@@ -184,8 +184,8 @@ var Endabgabe;
         url += "/editMyRecipe?" + "_id=" + id;
         console.log(url);
         let response = await fetch(url);
-        let recipe = await response.json();
-        let thisRecipe = recipe[0];
+        let thisRecipe = await response.json();
+        console.log(thisRecipe);
         // writing values of the recipe in question into recipeForm
         recipeTitle.value = thisRecipe.title;
         console.log("title: " + thisRecipe.title);

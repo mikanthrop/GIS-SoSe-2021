@@ -216,10 +216,10 @@ export namespace Endabgabe {
         url += "/editMyRecipe?" + "_id=" + id;
         console.log(url);
         let response: Response = await fetch(url);
-        let recipe: Interface.Recipe[] = await response.json();
-        let thisRecipe: Interface.Recipe = recipe[0];
+        let thisRecipe: Interface.Recipe = await response.json();
         
-
+        console.log(thisRecipe);
+        
         // writing values of the recipe in question into recipeForm
         recipeTitle.value = thisRecipe.title;
         console.log("title: " + thisRecipe.title);
