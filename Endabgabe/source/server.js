@@ -126,9 +126,10 @@ var Endabgabe;
             // request to get array of faves of the user
             if (url.pathname == "/getFavs") {
                 console.log("Request to give back Favs received.");
-                let user = await users.findOne({ "_id": new Mongo.ObjectId(url.query._id.toString()) });
+                let user = await users.findOne({ "user": url.query.user.toString() });
                 let favorites = user.myFavs;
                 console.log(user.user + "s Favoriten: " + JSON.stringify(favorites));
+                _response.write(JSON.stringify(favorites));
             }
             // request to save a recipe into myFaves on the users profile
             if (url.pathname == "/likeThis") {
