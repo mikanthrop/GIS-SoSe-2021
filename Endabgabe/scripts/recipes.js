@@ -55,24 +55,44 @@ var Endabgabe;
         getURL();
         url += "/showAll?";
         console.log(url);
-        let response = await fetch(url);
-        let showReply = await response.json();
-        for (let i = 0; i < showReply.length; i++) {
+        let showAllResponse = await fetch(url);
+        let showAllReply = await showAllResponse.json();
+        let user = localStorage.getItem("user");
+        console.log("user: " + user);
+        let favRecipes = await getFavRecipes(user);
+        console.log(favRecipes);
+        for (let i = 0; i < showAllReply.length; i++) {
             let post = document.createElement("div");
             recipesDiv.appendChild(post);
             let recipeDiv = document.createElement("div");
             recipeDiv.setAttribute("id", "recipe" + i);
             post.appendChild(recipeDiv);
-            createRecipe(showReply[i], recipeDiv);
-            if (localStorage.getItem("user") != undefined) {
-                //createFavButton(showReply[i], recipeDiv);
+            createRecipe(showAllReply[i], recipeDiv);
+            if (user != undefined) {
+                createFavNoFavButton(user, showAllReply[i], favRecipes, recipeDiv);
             }
         }
     }
-    async function maybeButtons() {
-        let user = localStorage.getItem("user");
+    async function getFavRecipes(_user) {
         getURL();
-        url += "/getFavs?";
+        url += "/getFavs?user=" + _user;
+        console.log(url);
+        let response = await fetch(url);
+        let favRecipes = await response.json();
+        return favRecipes;
+    }
+    function createFavNoFavButton(_user, _recipe, _favRecipes, _parent) {
+        let notFaveYet = true;
+        for (let i = 0; i < _favRecipes.length; i++) {
+            if (_recipe._id == _favRecipes[i]._id) {
+                createNoFavButton(_parent);
+                notFaveYet = false;
+                break;
+            }
+        }
+        if (notFaveYet == true) {
+            createFavButton(_recipe, _parent);
+        }
     }
     function createFavButton(_serverReply, _parent) {
         let favButton = document.createElement("button");

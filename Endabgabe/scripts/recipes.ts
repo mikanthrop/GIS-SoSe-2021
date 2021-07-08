@@ -58,7 +58,6 @@ export namespace Endabgabe {
             loggedIn.innerText = "Eingeloggt als \n" + user;
             loggedInOrNot.appendChild(loggedIn);
         }
-
     }
 
     async function handleLoadShowAllRecipes(): Promise<void> {
@@ -67,32 +66,55 @@ export namespace Endabgabe {
         url += "/showAll?";
 
         console.log(url);
-        let response: Response = await fetch(url);
-        let showReply: Interface.Recipe[] = await response.json();
-
-        for (let i: number = 0; i < showReply.length; i++) {
+        let showAllResponse: Response = await fetch(url);
+        let showAllReply: Interface.Recipe[] = await showAllResponse.json();
+        let user: string = localStorage.getItem("user");
+        console.log("user: " + user);
+        
+        let favRecipes: Interface.Recipe[] = await getFavRecipes(user);
+        console.log(favRecipes);
+        
+        for (let i: number = 0; i < showAllReply.length; i++) {
             let post: HTMLDivElement = document.createElement("div");
             recipesDiv.appendChild(post);
             let recipeDiv: HTMLDivElement = document.createElement("div");
             recipeDiv.setAttribute("id", "recipe" + i);
             post.appendChild(recipeDiv);
-            createRecipe(showReply[i], recipeDiv);
-            if (localStorage.getItem("user") != undefined) {
-                
-                //createFavButton(showReply[i], recipeDiv);
+            createRecipe(showAllReply[i], recipeDiv);
+            if (user != undefined) {
+                createFavNoFavButton(user, showAllReply[i], favRecipes, recipeDiv);
             }
         }
-
     }
 
-    async function maybeButtons(): Promise<void> {
-        let user: string = localStorage.getItem("user");
+    async function getFavRecipes(_user: string): Promise<Interface.Recipe[]> {
         getURL();
-        url += "/getFavs?" 
 
+        url += "/getFavs?user=" + _user;
+        console.log(url);
+
+        let response: Response = await fetch(url);
+        let favRecipes: Interface.Recipe[] = await response.json();
+        
+        return favRecipes;
     }
 
-    function createFavButton(_serverReply: Interface.Recipe, _parent: HTMLDivElement): void {
+    function createFavNoFavButton(_user: string, _recipe: Interface.Recipe, _favRecipes: Interface.Recipe[], _parent: HTMLElement): void {
+        
+        let notFaveYet: boolean = true;
+        for (let i: number = 0; i < _favRecipes.length; i++) {
+            if (_recipe._id == _favRecipes[i]._id) {
+                createNoFavButton(_parent);
+                notFaveYet = false;
+                break;
+            }
+        }
+        if (notFaveYet == true) {
+            createFavButton(_recipe, _parent);
+        }
+    }
+
+    function createFavButton(_serverReply: Interface.Recipe, _parent: HTMLElement): void {
         let favButton: HTMLButtonElement = document.createElement("button");
         favButton.setAttribute("type", "button");
         favButton.appendChild(document.createTextNode("Favorisieren"));
@@ -101,11 +123,11 @@ export namespace Endabgabe {
         favButton.dataset._id = _serverReply._id;
         favButton.dataset.parent = _parent.id;
         console.log("parent id: " + favButton.dataset.parent);
-        
+
         favButton.addEventListener("click", handleClickFavButton);
     }
 
-    function createNoFavButton(_parent: HTMLDivElement): void {
+    function createNoFavButton(_parent: HTMLElement): void {
         let noFavButton: HTMLButtonElement = document.createElement("button");
         noFavButton.setAttribute("type", "button");
         noFavButton.appendChild(document.createTextNode("Favorisiert"));
