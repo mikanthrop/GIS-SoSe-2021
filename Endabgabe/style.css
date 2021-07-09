@@ -9,17 +9,165 @@
     display: none !important;
 }
 
-nav .flexbox {
+body {
+    background-color: rgb(251, 227, 185);
+}
+
+a {
+    text-decoration: none;
+}
+
+.flexbox {
     display: flex;
     flex-flow: row, nowrap;
-    justify-content: space-between;
-    align-items: flex-end;
+    justify-content: flex-end;
+    align-items: center;
     margin: 10px;
 }
 
-form.flexbox {
+#navBar {
+    margin: 0;
+    padding: 1% 0;
+    background-color: rgb(12, 148, 99);
+}
+
+#navBar a {
+    color: rgb(45, 51, 74);
+    margin: 0 15px;
+}
+
+#navBar a :hover {
+    transition: cubic-bezier(0.47, 0, 0.745, 0.715) 300ms;
+    color: rgb(250, 182, 150);
+}
+
+#navBar h1 {
+    font-size: 30px;
+    margin: 0px 30px;
+    transform: scaleY(1.1);
+}
+
+#navBar div {
+    margin-right: 3%;
+    margin-left: 15px;
+    text-align: center;
+    color: rgb(45, 51, 74);
+}
+
+#navBar div button {
+    margin-top: 5px;
+    border-radius: 3px;
+    border-width: 0.1px;
+    padding: 3px 5px 4px;
+}
+
+#navBar div button:hover {
+    background-color: rgb(45, 51, 74);
+    color: rgb(255, 237, 206);
+    transition: cubic-bezier(0.47, 0, 0.745, 0.715) 200ms;
+}
+
+#serverReply {
+    height: 30px;
+    margin-top: 1%;
+    text-align: center;
+}
+
+.form-padding {
+    margin-top: 8%;
+}
+
+form {
+    padding: 14px 14px;
+    background-color: white;
+    border-radius: 20px;
+    width: 68%;
+    text-align: center;
+    margin: auto;
+    box-shadow: 0 5px 10px black;
+}
+
+.form-inlay {
+    padding: 10px 0 14px;
+    background-color: rgb(250, 182, 150);
+    border-radius: 10px;
+}
+
+form h1 {
+    text-align: left;
+    margin-left: 4%;
+    transform: scaleX(0.9);
+}
+
+form .flexbox {
     display: flex;
     flex-flow: column nowrap;
-    justify-content: left;
-    align-items: stretch;
+    justify-content: space-around;
+    align-items: center;
+    margin: 0;
+}
+
+form fieldset {
+    border: none;
+}
+
+form .div-inputs {
+    width: 100%;
+}
+
+form input {
+    margin: 10px 0;
+    padding: 8px 4px;
+    width: 70%;
+    border-radius: 5px;
+    border-width: 1px;
+    font-size: 15px;
+    transform: scaleX(1.15);
+}
+
+form button {
+    padding: 5px;
+    margin: 5px;
+    border-radius: 5px;
+    border-width: 1px;
+}
+
+form button :hover {
+    background-color: rgb(45, 51, 74);
+    color: rgb(255, 237, 206);
+    transition: cubic-bezier(0.47, 0, 0.745, 0.715) 200ms;
+}
+
+form span {
+    font-size: 15px;
+}
+
+form a {
+    color: rgb(45, 51, 74);
+}
+
+form a :hover {
+    transition: cubic-bezier(0.47, 0, 0.745, 0.715) 300ms;
+    color: rgb(250, 182, 150);
+}
+
+@media screen and (min-width: 900) {
+    #serverReply {
+        margin: 1% 0 0 3%;
+    }
+    .form-padding {
+        margin-top: 12%;
+    }
+    form {
+        width: 44%;
+    }
+    form input {
+        margin: 10px 0;
+        padding: 8px 4px;
+        width: 70%;
+        border-radius: 5px;
+        border-width: 1px;
+        font-size: 15px;
+        transform: scaleX(1.15);
+    }
 }
