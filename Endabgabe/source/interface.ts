@@ -23,3 +23,8 @@ export interface MongoRecipe {
     ingredients: string|string[];
     preparation: string;
 }
+
+export interface FavsResponse {
+    favs: Recipe[];
+    error: string;
+}
