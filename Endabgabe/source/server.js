@@ -123,14 +123,6 @@ var Endabgabe;
                 let result = await cursor.toArray();
                 _response.write(JSON.stringify(result));
             }
-            // request to get array of faves of the user
-            if (url.pathname == "/getFavs") {
-                console.log("Request to give back Favs received.");
-                let user = await users.findOne({ "user": url.query.user.toString() });
-                let favorites = user.myFavs;
-                console.log(user.user + "s Favoriten: " + JSON.stringify(favorites));
-                _response.write(JSON.stringify(favorites));
-            }
             // request to save a recipe into myFaves on the users profile
             if (url.pathname == "/likeThis") {
                 console.log("Request to save this recipe to faves received.");
@@ -148,6 +140,35 @@ var Endabgabe;
                     updatedUser = await users.findOneAndUpdate({ "user": url.query.user }, { $set: { "myFavs": [newFaveRecipe] } });
                 console.log("updatedUser: " + JSON.stringify(updatedUser));
                 _response.write("Rezept \"" + newFaveRecipe.title + "\" wurde zu Ihren Favoriten hinzugefügt.");
+            }
+            //recipe.html and myFavorites.html
+            // request to get array of faves of the user
+            if (url.pathname == "/getFavs") {
+                console.log("Request to give back favs received.");
+                let user = await users.findOne({ "user": url.query.user.toString() });
+                let favorites = user.myFavs;
+                console.log(user.user + "s Favoriten: " + JSON.stringify(favorites));
+                let reply = { favs: undefined, error: undefined };
+                if (favorites != undefined)
+                    reply.favs = favorites;
+                else
+                    reply.error = "not found";
+                _response.write(JSON.stringify(reply));
+            }
+            // myFavorites.html
+            // request to delete a recipe out of fave of the user 
+            if (url.pathname == "/deletemyFav") {
+                console.log("Request to delete a recipe out of favs received.");
+                let user = await users.findOne({ "user": url.query.user.toString() });
+                console.log(url.query);
+                let oldFavs = user.myFavs;
+                for (let i = 0; i < oldFavs.length; i++) {
+                    console.log(url.query._id, oldFavs[i]._id);
+                    if (url.query._id == oldFavs[i]._id) {
+                        oldFavs.splice(i, 1);
+                    }
+                }
+                users.findOneAndUpdate({ "user": url.query.user }, { $set: { "myFavs": oldFavs } });
             }
         }
         _response.end();
