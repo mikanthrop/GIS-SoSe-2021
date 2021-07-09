@@ -21,40 +21,45 @@
         </nav>
     </header>
     <main>
-        <form action="" method="post" id="loginForm">
-            <h1>Login</h1>
-            <fieldset class="flexbox">
-                <div>
-                    <label for="user">Benutzername</label>
-                    <input type="text" name="user" placeholder="Benutzername" required>
-                </div>
-                <div>
-                    <label for="password">Passwort</label>
-                    <input type="password" name="password" placeholder="Passwort" required>
-                </div>
-                <button type="button" id="buttonLogin">Einloggen</button>
-            </fieldset>
-            <span>Noch keinen Account?</span><button type="button" id="switchToSignup">Account erstellen</button>
-        </form>
-        <form action="" method="post" class="ishidden" id="signupForm">
-            <h2>Account erstellen</h2>
-            <fieldset class="flexbox">
-                <div>
-                    <label for="user">Benutzername</label>
-                    <input type="text" name="user" placeholder="Benutzername" required>
-                </div>
-                <div>
-                    <label for="password">Passwort</label>
-                    <input type="password" name="password" placeholder="Passwort" required>
-                </div>
-                <button type="button" id="buttonSignup">Account erstellen</button>
-            </fieldset>
-            <span>Schon einen Account?</span><button type="button" id="switchToLogin">Login</button>
-        </form>
 
-        <div id="serverResponse">
+        <div id="serverReply">
 
         </div>
+        <div class="form-padding">
+            <form action="" method="post" id="loginForm">
+                <div class="form-inlay">
+                    <h1>Login</h1>
+                    <fieldset class="flexbox">
+                        <div class="div-inputs">
+                            <input type="text" name="user" placeholder="Benutzername" required>
+                        </div>
+                        <div class="div-inputs">
+                            <input type="password" name="password" placeholder="Passwort" required>
+                        </div>
+                        <button type="button" id="buttonLogin">Einloggen</button>
+                    </fieldset>
+                    <span>Noch keinen Account? </span><a href="#signupForm" id="switchToSignup">Account erstellen</a>
+                </div>
+            </form>
+        </div>
+        <div class="form-padding">
+            <form action="" method="post" class="ishidden" id="signupForm">
+                <div class="form-inlay">
+                    <h1>Account erstellen</h1>
+                    <fieldset class="flexbox">
+                        <div class="div-inputs">
+                            <input type="text" name="user" placeholder="Benutzername" required>
+                        </div>
+                        <div class="div-inputs">
+                            <input type="password" name="password" placeholder="Passwort" required>
+                        </div>
+                        <button type="button" id="buttonSignup">Account erstellen</button>
+                    </fieldset>
+                    <span>Schon einen Account? </span><a href="#loginForm" id="switchToLogin">Login</a>
+                </div>
+            </form>
+        </div>
+
     </main>
     <footer>
 
