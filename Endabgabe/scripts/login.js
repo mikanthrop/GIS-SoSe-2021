@@ -5,7 +5,7 @@ var Endabgabe;
 (function (Endabgabe) {
     //generally used elements/variables
     let formData;
-    let serverResponseDiv = document.getElementById("serverResponse");
+    let serverResponseDiv = document.getElementById("serverReply");
     let query;
     let url;
     //login.html
@@ -22,16 +22,13 @@ var Endabgabe;
         let recipesLink = document.createElement("a");
         recipesLink.setAttribute("href", "../html/recipes.html");
         navBar.appendChild(recipesLink);
-        let recipesHLine = document.createElement("h1");
-        recipesHLine.appendChild(document.createTextNode("Rezeptesammlung"));
+        let recipesHLine = document.createElement("h2");
+        recipesHLine.appendChild(document.createTextNode("Rezepte"));
         recipesLink.appendChild(recipesHLine);
-        let loggedInOrNot = document.createElement("div");
-        loggedInOrNot.setAttribute("id", "loggedInOrNot");
-        navBar.appendChild(loggedInOrNot);
         if (user == null) {
             let loginLink = document.createElement("a");
             loginLink.setAttribute("href", "../html/login.html");
-            loggedInOrNot.appendChild(loginLink);
+            navBar.appendChild(loginLink);
             let loginHLine = document.createElement("h2");
             loginHLine.appendChild(document.createTextNode("Login"));
             loginLink.appendChild(loginHLine);
@@ -39,20 +36,31 @@ var Endabgabe;
         else {
             let myFavoritesLink = document.createElement("a");
             myFavoritesLink.setAttribute("href", "../html/myFavorites.html");
-            loggedInOrNot.appendChild(myFavoritesLink);
+            navBar.appendChild(myFavoritesLink);
             let myFavoritesHLine = document.createElement("h2");
             myFavoritesHLine.appendChild(document.createTextNode("Meine Favoriten"));
             myFavoritesLink.appendChild(myFavoritesHLine);
             let myRecipesLink = document.createElement("a");
             myRecipesLink.setAttribute("href", "../html/myRecipes.html");
-            loggedInOrNot.appendChild(myRecipesLink);
+            navBar.appendChild(myRecipesLink);
             let myRecipesHLine = document.createElement("h2");
             myRecipesHLine.appendChild(document.createTextNode("Meine Rezepte"));
             myRecipesLink.appendChild(myRecipesHLine);
-            let loggedIn = document.createElement("h3");
-            loggedIn.innerText = "Eingeloggt als \n" + user;
-            loggedInOrNot.appendChild(loggedIn);
+            let userDiv = document.createElement("div");
+            navBar.appendChild(userDiv);
+            let loggedIn = document.createElement("h4");
+            loggedIn.innerText = user;
+            userDiv.appendChild(loggedIn);
+            let logout = document.createElement("button");
+            logout.setAttribute("type", "button");
+            logout.innerText = "Logout";
+            userDiv.appendChild(logout);
+            logout.addEventListener("click", logOut);
         }
+    }
+    function logOut() {
+        localStorage.removeItem("user");
+        window.open("../html/login.html", "_self");
     }
     function getURL() {
         //url = "https://gis-server-git-gud.herokuapp.com";
@@ -87,7 +95,7 @@ var Endabgabe;
         console.log("ButtonLogin wurde gedrückt. Server sieht nach, ob Eingabedaten mit Datenbank übereinstimmen.");
         getURL();
         getFormDataLogin();
-        url += "/login?" + query.toString();
+        url += "/login?" + query.toString() + "&myFavs=";
         console.log(query.toString());
         let response = await fetch(url);
         let text = await response.text();
