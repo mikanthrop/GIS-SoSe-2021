@@ -70,10 +70,15 @@ export namespace Endabgabe {
         let showAllReply: Interface.Recipe[] = await showAllResponse.json();
         let user: string = localStorage.getItem("user");
         console.log("user: " + user);
-        
-        let favRecipes: Interface.Recipe[] = await getFavRecipes(user);
+
+        let favRecipes: Interface.FavsResponse;
+        if (user != null) {
+            console.log("Warum sind wir hier?");
+
+            favRecipes = await getFavRecipes(user);
+        }
         console.log(favRecipes);
-        
+
         for (let i: number = 0; i < showAllReply.length; i++) {
             let post: HTMLDivElement = document.createElement("div");
             recipesDiv.appendChild(post);
@@ -82,25 +87,26 @@ export namespace Endabgabe {
             post.appendChild(recipeDiv);
             createRecipe(showAllReply[i], recipeDiv);
             if (user != undefined) {
-                createFavNoFavButton(user, showAllReply[i], favRecipes, recipeDiv);
+                if (favRecipes.favs != undefined) createFavNoFavButton(user, showAllReply[i], favRecipes.favs, recipeDiv);
+                else createFavButton(showAllReply[i], recipeDiv);
             }
         }
     }
 
-    async function getFavRecipes(_user: string): Promise<Interface.Recipe[]> {
+    async function getFavRecipes(_user: string): Promise<Interface.FavsResponse> {
         getURL();
 
         url += "/getFavs?user=" + _user;
         console.log(url);
 
         let response: Response = await fetch(url);
-        let favRecipes: Interface.Recipe[] = await response.json();
-        
+        let favRecipes: Interface.FavsResponse = await response.json();
+
         return favRecipes;
     }
 
     function createFavNoFavButton(_user: string, _recipe: Interface.Recipe, _favRecipes: Interface.Recipe[], _parent: HTMLElement): void {
-        
+
         let notFaveYet: boolean = true;
         for (let i: number = 0; i < _favRecipes.length; i++) {
             if (_recipe._id == _favRecipes[i]._id) {

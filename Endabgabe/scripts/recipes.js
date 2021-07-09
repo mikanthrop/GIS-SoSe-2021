@@ -59,7 +59,11 @@ var Endabgabe;
         let showAllReply = await showAllResponse.json();
         let user = localStorage.getItem("user");
         console.log("user: " + user);
-        let favRecipes = await getFavRecipes(user);
+        let favRecipes;
+        if (user != null) {
+            console.log("Warum sind wir hier?");
+            favRecipes = await getFavRecipes(user);
+        }
         console.log(favRecipes);
         for (let i = 0; i < showAllReply.length; i++) {
             let post = document.createElement("div");
@@ -69,7 +73,10 @@ var Endabgabe;
             post.appendChild(recipeDiv);
             createRecipe(showAllReply[i], recipeDiv);
             if (user != undefined) {
-                createFavNoFavButton(user, showAllReply[i], favRecipes, recipeDiv);
+                if (favRecipes.favs != undefined)
+                    createFavNoFavButton(user, showAllReply[i], favRecipes.favs, recipeDiv);
+                else
+                    createFavButton(showAllReply[i], recipeDiv);
             }
         }
     }
