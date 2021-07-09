@@ -148,6 +148,7 @@ var Endabgabe;
         if (user == null) {
             loggedInDiv.classList.add("ishidden");
             let notYou = document.createElement("h2");
+            notYou.classList.add("notYou");
             notYou.appendChild(document.createTextNode("Sie müssen angemeldet sein, um dieses Feature nutzen zu können."));
             serverResponseDiv.appendChild(notYou);
         }
