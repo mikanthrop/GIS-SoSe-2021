@@ -4,7 +4,12 @@ exports.Endabgabe = void 0;
 var Endabgabe;
 (function (Endabgabe) {
     window.addEventListener("load", buildNavbar);
-    window.addEventListener("load", showMyFavs);
+    if (localStorage.getItem("user") != undefined) {
+        window.addEventListener("load", showMyFavs);
+    }
+    else {
+        window.addEventListener("load", notYou);
+    }
     let serverReplyDiv = document.getElementById("serverReply");
     let favoritesDiv = document.getElementById("myFavs");
     let url;
@@ -48,7 +53,16 @@ var Endabgabe;
             let loggedIn = document.createElement("h3");
             loggedIn.innerText = "Eingeloggt als \n" + user;
             loggedInOrNot.appendChild(loggedIn);
+            let logout = document.createElement("button");
+            logout.setAttribute("type", "button");
+            logout.innerText = "Logout";
+            loggedInOrNot.appendChild(logout);
+            logout.addEventListener("click", logOut);
         }
+    }
+    function logOut() {
+        localStorage.removeItem("user");
+        window.open("../html/login.html", "_self");
     }
     function createRecipe(_serverReply, _parent) {
         // formatting one recipe
@@ -65,12 +79,19 @@ var Endabgabe;
         preparation.appendChild(document.createTextNode("Zubereitung: " + _serverReply.preparation));
         _parent.appendChild(preparation);
     }
+    function notYou() {
+        let notYou = document.createElement("h2");
+        notYou.classList.add("notYou");
+        notYou.innerText = "Sie müssen angemeldet sein, um dieses Feature nutzen zu können.";
+        favoritesDiv.appendChild(notYou);
+    }
     function createDeleteButton(_serverReply, _parent) {
         let deleteButton = document.createElement("button");
         deleteButton.setAttribute("type", "button");
         deleteButton.appendChild(document.createTextNode("Entfernen"));
         _parent.appendChild(deleteButton);
         deleteButton.dataset._id = _serverReply._id;
+        deleteButton.dataset.title = _serverReply.title;
         deleteButton.addEventListener("click", handleClickDeleteFav);
     }
     async function showMyFavs() {
@@ -78,21 +99,39 @@ var Endabgabe;
         let user = localStorage.getItem("user");
         url += "/getFavs?" + "user=" + user;
         console.log(url);
-        let response = await fetch(url);
-        let favRecipes = await response.json();
-        for (let i = 0; i < favRecipes.length; i++) {
-            let post = document.createElement("div");
-            favoritesDiv.appendChild(post);
-            let recipeDiv = document.createElement("div");
-            recipeDiv.setAttribute("id", "recipe" + i);
-            post.appendChild(recipeDiv);
-            let buttonDiv = document.createElement("div");
-            post.appendChild(buttonDiv);
-            createRecipe(favRecipes[i], recipeDiv);
-            createDeleteButton(favRecipes[i], buttonDiv);
+        let showResponse = await fetch(url);
+        let serverReply = await showResponse.json();
+        if (serverReply.favs != undefined) {
+            let favRecipes = serverReply.favs;
+            for (let i = 0; i < favRecipes.length; i++) {
+                let post = document.createElement("div");
+                favoritesDiv.appendChild(post);
+                let recipeDiv = document.createElement("div");
+                recipeDiv.setAttribute("id", "recipe" + i);
+                post.appendChild(recipeDiv);
+                let buttonDiv = document.createElement("div");
+                post.appendChild(buttonDiv);
+                createRecipe(favRecipes[i], recipeDiv);
+                createDeleteButton(favRecipes[i], buttonDiv);
+            }
+        }
+        else {
+            serverReplyDiv.innerHTML = "Sie haben noch keine Favoriten ausgewählt.";
         }
     }
-    async function handleClickDeleteFav() {
+    async function handleClickDeleteFav(_event) {
+        getURL();
+        console.log("DeleteButton wurde gedrückt.");
+        let target = _event.currentTarget;
+        let id = target.dataset._id;
+        console.log("Titel des Rezepts, welches gelöscht werden soll: " + target.dataset.title);
+        url += "/deletemyFav?" + "user=" + localStorage.getItem("user") + "&_id=" + id;
+        console.log(url);
+        let deleteResponse = await fetch(url);
+        let serverResponse = await deleteResponse.text();
+        serverReplyDiv.innerHTML = serverResponse;
+        favoritesDiv.innerHTML = "";
+        showMyFavs();
     }
 })(Endabgabe = exports.Endabgabe || (exports.Endabgabe = {}));
 //# sourceMappingURL=myFavorites.js.map

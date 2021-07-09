@@ -3,7 +3,11 @@ import * as Interface from "../source/interface";
 export namespace Endabgabe {
 
     window.addEventListener("load", buildNavbar);
+    if (localStorage.getItem("user") != undefined) {
     window.addEventListener("load", showMyFavs);
+    } else {
+        window.addEventListener("load", notYou);
+    }
 
     let serverReplyDiv: HTMLDivElement = <HTMLDivElement>document.getElementById("serverReply");
     let favoritesDiv: HTMLDivElement = <HTMLDivElement>document.getElementById("myFavs");
@@ -56,7 +60,18 @@ export namespace Endabgabe {
             let loggedIn: HTMLElement = document.createElement("h3");
             loggedIn.innerText = "Eingeloggt als \n" + user;
             loggedInOrNot.appendChild(loggedIn);
+
+            let logout: HTMLButtonElement = document.createElement("button");
+            logout.setAttribute("type", "button");
+            logout.innerText = "Logout";
+            loggedInOrNot.appendChild(logout);
+            logout.addEventListener("click", logOut);
         }
+    }
+
+    function logOut(): void {
+        localStorage.removeItem("user");
+        window.open("../html/login.html", "_self");
     }
 
     function createRecipe(_serverReply: Interface.Recipe, _parent: HTMLDivElement): void {
@@ -78,6 +93,13 @@ export namespace Endabgabe {
         _parent.appendChild(preparation);
     }
 
+    function notYou(): void {
+        let notYou: HTMLElement = document.createElement("h2");
+        notYou.classList.add("notYou");
+        notYou.innerText = "Sie müssen angemeldet sein, um dieses Feature nutzen zu können.";
+        favoritesDiv.appendChild(notYou);
+    }
+
     function createDeleteButton(_serverReply: Interface.Recipe, _parent: HTMLDivElement): void {
         let deleteButton: HTMLButtonElement = <HTMLButtonElement>document.createElement("button");
         deleteButton.setAttribute("type", "button");
@@ -85,6 +107,7 @@ export namespace Endabgabe {
         _parent.appendChild(deleteButton);
 
         deleteButton.dataset._id = _serverReply._id;
+        deleteButton.dataset.title = _serverReply.title;
 
         deleteButton.addEventListener("click", handleClickDeleteFav);
     }
@@ -97,23 +120,46 @@ export namespace Endabgabe {
         url += "/getFavs?" + "user=" + user;
         console.log(url);
 
-        let response: Response = await fetch(url);
-        let favRecipes: Interface.Recipe[] = await response.json();
+        let showResponse: Response = await fetch(url);
+        let serverReply: Interface.FavsResponse = await showResponse.json();
+        if (serverReply.favs != undefined) {
+            let favRecipes: Interface.Recipe[] = serverReply.favs;
 
-        for (let i: number = 0; i < favRecipes.length; i++) {
-            let post: HTMLDivElement = document.createElement("div");
-            favoritesDiv.appendChild(post);
-            let recipeDiv: HTMLDivElement = document.createElement("div");
-            recipeDiv.setAttribute("id", "recipe" + i);
-            post.appendChild(recipeDiv);
-            let buttonDiv: HTMLDivElement = document.createElement("div");
-            post.appendChild(buttonDiv);
-            createRecipe(favRecipes[i], recipeDiv);
-            createDeleteButton(favRecipes[i], buttonDiv);
+            for (let i: number = 0; i < favRecipes.length; i++) {
+
+                let post: HTMLDivElement = document.createElement("div");
+                favoritesDiv.appendChild(post);
+                let recipeDiv: HTMLDivElement = document.createElement("div");
+                recipeDiv.setAttribute("id", "recipe" + i);
+                post.appendChild(recipeDiv);
+                let buttonDiv: HTMLDivElement = document.createElement("div");
+                post.appendChild(buttonDiv);
+                createRecipe(favRecipes[i], recipeDiv);
+                createDeleteButton(favRecipes[i], buttonDiv);
+            }
+        } else {
+            serverReplyDiv.innerHTML = "Sie haben noch keine Favoriten ausgewählt.";
         }
     }
 
-    async function handleClickDeleteFav(): Promise<void> {
+    async function handleClickDeleteFav(_event: Event): Promise<void> {
+        getURL();
+        console.log("DeleteButton wurde gedrückt.");
+        
 
+        let target: HTMLElement = <HTMLElement>_event.currentTarget;
+        let id: string = target.dataset._id;
+        console.log("Titel des Rezepts, welches gelöscht werden soll: " + target.dataset.title);
+        
+
+        url += "/deletemyFav?" + "user=" + localStorage.getItem("user") + "&_id=" + id;
+        console.log(url);
+
+        let deleteResponse: Response = await fetch(url);
+        let serverResponse: string = await deleteResponse.text();
+        serverReplyDiv.innerHTML = serverResponse;
+
+        favoritesDiv.innerHTML = "";
+        showMyFavs();
     }
 }
