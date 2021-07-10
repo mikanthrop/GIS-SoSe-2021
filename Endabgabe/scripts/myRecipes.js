@@ -10,11 +10,12 @@ var Endabgabe;
     let recipeTitle = document.getElementById("title");
     let ingredientInput = document.getElementById("ingredient0");
     let recipePreparation = document.getElementById("preparationTextfield");
-    let serverResponseDiv = document.getElementById("serverResponse");
-    let scriptResponseDiv = document.getElementById("scriptResponse");
+    let serverResponseDiv = document.getElementById("serverReply");
+    let scriptResponseDiv = document.getElementById("scriptReply");
     let formButtonDiv = document.getElementById("buttonDiv");
     let submitButton = document.getElementById("submitRecipe");
     let addIngButton = document.getElementById("addIngredient");
+    let myRecipesDiv = document.getElementById("recipeDiv");
     let resubmitButton;
     //let query: URLSearchParams;
     let url;
@@ -24,62 +25,56 @@ var Endabgabe;
     window.addEventListener("load", buildNavbar);
     submitButton.addEventListener("click", handleClickSubmitRecipe);
     addIngButton.addEventListener("click", handleClickAddIngredient);
-    function getURL() {
-        //url = "https://gis-server-git-gud.herokuapp.com";
-        url = "http://localhost:8100";
-    }
     function buildNavbar() {
         let user = localStorage.getItem("user");
         let navBar = document.getElementById("navBar");
         let recipesLink = document.createElement("a");
         recipesLink.setAttribute("href", "../html/recipes.html");
         navBar.appendChild(recipesLink);
-        let recipesHLine = document.createElement("h1");
-        recipesHLine.appendChild(document.createTextNode("Rezeptesammlung"));
+        let recipesHLine = document.createElement("h2");
+        recipesHLine.appendChild(document.createTextNode("Rezepte"));
         recipesLink.appendChild(recipesHLine);
-        let loggedInOrNot = document.createElement("div");
-        loggedInOrNot.setAttribute("id", "loggedInOrNot");
-        navBar.appendChild(loggedInOrNot);
         if (user == null) {
             let loginLink = document.createElement("a");
             loginLink.setAttribute("href", "../html/login.html");
-            loggedInOrNot.appendChild(loginLink);
+            navBar.appendChild(loginLink);
             let loginHLine = document.createElement("h2");
             loginHLine.appendChild(document.createTextNode("Login"));
             loginLink.appendChild(loginHLine);
+            navBar.classList.add("navBar-padding");
         }
         else {
             let myFavoritesLink = document.createElement("a");
             myFavoritesLink.setAttribute("href", "../html/myFavorites.html");
-            loggedInOrNot.appendChild(myFavoritesLink);
+            navBar.appendChild(myFavoritesLink);
             let myFavoritesHLine = document.createElement("h2");
             myFavoritesHLine.appendChild(document.createTextNode("Meine Favoriten"));
             myFavoritesLink.appendChild(myFavoritesHLine);
             let myRecipesLink = document.createElement("a");
             myRecipesLink.setAttribute("href", "../html/myRecipes.html");
-            loggedInOrNot.appendChild(myRecipesLink);
+            navBar.appendChild(myRecipesLink);
             let myRecipesHLine = document.createElement("h2");
             myRecipesHLine.appendChild(document.createTextNode("Meine Rezepte"));
             myRecipesLink.appendChild(myRecipesHLine);
-            let loggedIn = document.createElement("h3");
-            loggedIn.innerText = "Eingeloggt als \n" + user;
-            loggedInOrNot.appendChild(loggedIn);
+            let userDiv = document.createElement("div");
+            navBar.appendChild(userDiv);
+            let loggedIn = document.createElement("h4");
+            loggedIn.innerText = user;
+            userDiv.appendChild(loggedIn);
+            let logout = document.createElement("button");
+            logout.setAttribute("type", "button");
+            logout.innerText = "Logout";
+            userDiv.appendChild(logout);
+            logout.addEventListener("click", logOut);
         }
     }
-    function createPost(_serverReply, _parent) {
-        // formatting one recipe
-        let author = document.createElement("p");
-        author.appendChild(document.createTextNode("Verfasser: " + _serverReply.author));
-        _parent.appendChild(author);
-        let title = document.createElement("h3");
-        title.appendChild(document.createTextNode(_serverReply.title));
-        _parent.appendChild(title);
-        let ingredients = document.createElement("p");
-        ingredients.appendChild(document.createTextNode("Zutaten: " + _serverReply.ingredients));
-        _parent.appendChild(ingredients);
-        let preparation = document.createElement("p");
-        preparation.appendChild(document.createTextNode("Zubereitung: " + _serverReply.preparation));
-        _parent.appendChild(preparation);
+    function logOut() {
+        localStorage.removeItem("user");
+        window.open("../html/login.html", "_self");
+    }
+    function getURL() {
+        //url = "https://gis-server-git-gud.herokuapp.com";
+        url = "http://localhost:8100";
     }
     function createIngredientInput(_ingredientIDCounter) {
         let thisIngredientId = "ingredient" + _ingredientIDCounter;
@@ -125,16 +120,14 @@ var Endabgabe;
     }
     function createButtonDiv(_serverReply, _parent) {
         // adding buttons
-        let postButtonDiv = document.createElement("div");
-        _parent.appendChild(postButtonDiv);
         let editButton = document.createElement("button");
         editButton.setAttribute("type", "button");
         editButton.appendChild(document.createTextNode("Bearbeiten"));
-        postButtonDiv.appendChild(editButton);
+        _parent.appendChild(editButton);
         let deleteButton = document.createElement("button");
         deleteButton.setAttribute("type", "button");
         deleteButton.appendChild(document.createTextNode("Löschen"));
-        postButtonDiv.appendChild(deleteButton);
+        _parent.appendChild(deleteButton);
         // eventListener and their functions
         editButton.addEventListener("click", handleClickEditButton);
         deleteButton.addEventListener("click", handleClickDeleteButton);
@@ -158,12 +151,47 @@ var Endabgabe;
             let response = await fetch(url);
             let showReply = await response.json();
             for (let i = 0; i < showReply.length; i++) {
+                let outlinePost = document.createElement("div");
+                outlinePost.classList.add("recipe-post");
+                myRecipesDiv.appendChild(outlinePost);
                 let post = document.createElement("div");
-                serverResponseDiv.appendChild(post);
-                createPost(showReply[i], post);
-                createButtonDiv(showReply[i], post);
+                post.classList.add("recipe-inlay");
+                post.classList.add("flexbox");
+                outlinePost.appendChild(post);
+                let recipeDiv = document.createElement("div");
+                recipeDiv.setAttribute("id", "recipe" + i);
+                post.appendChild(recipeDiv);
+                let buttonDiv = document.createElement("div");
+                buttonDiv.id = "buttonDiv" + i;
+                buttonDiv.classList.add("flexbox");
+                post.appendChild(buttonDiv);
+                createPost(showReply[i], recipeDiv);
+                createButtonDiv(showReply[i], buttonDiv);
             }
         }
+    }
+    function createPost(_serverReply, _parent) {
+        // formatting one recipe
+        let author = document.createElement("p");
+        let authorBold = document.createElement("b");
+        authorBold.appendChild(document.createTextNode(_serverReply.author));
+        author.appendChild(authorBold);
+        _parent.appendChild(author);
+        let title = document.createElement("h3");
+        title.appendChild(document.createTextNode(_serverReply.title));
+        _parent.appendChild(title);
+        let ingredients = document.createElement("p");
+        let ingBold = document.createElement("b");
+        ingBold.appendChild(document.createTextNode("Zutaten"));
+        ingredients.appendChild(ingBold);
+        ingredients.appendChild(document.createTextNode(" " + _serverReply.ingredients.toString()));
+        _parent.appendChild(ingredients);
+        let preparation = document.createElement("p");
+        let prepBold = document.createElement("b");
+        prepBold.appendChild(document.createTextNode("Zubereitung"));
+        preparation.appendChild(prepBold);
+        preparation.appendChild(document.createTextNode(" " + _serverReply.preparation));
+        _parent.appendChild(preparation);
     }
     async function handleClickDeleteButton(_event) {
         getURL();
@@ -173,7 +201,7 @@ var Endabgabe;
         console.log(url);
         let response = await fetch(url);
         let deleteReply = await response.text();
-        serverResponseDiv.innerHTML = deleteReply;
+        serverResponseDiv.innerText = deleteReply;
         handleShowMyRecipes();
     }
     async function handleClickEditButton(_event) {
@@ -250,7 +278,7 @@ var Endabgabe;
         console.log("z190: " + url);
         let response = await fetch(url);
         let resubmitReply = await response.text();
-        serverResponseDiv.innerHTML = resubmitReply;
+        serverResponseDiv.innerText = resubmitReply;
         submitButton.classList.remove("ishidden");
         resubmitButton.remove();
         recipeForm.reset();
@@ -275,7 +303,7 @@ var Endabgabe;
             console.log(url);
             let response = await fetch(url);
             let displayResponse = await response.text();
-            serverResponseDiv.innerHTML = displayResponse;
+            serverResponseDiv.innerText = displayResponse;
             recipeForm.reset();
             handleShowMyRecipes();
             cleanUpInputs();

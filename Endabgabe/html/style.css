@@ -1,0 +1,359 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Gill Sans', 'Gill Sans MT', "Calibri", 'Trebuchet MS', sans-serif;
+    box-sizing: border-box;
+}
+
+.ishidden {
+    display: none !important;
+}
+
+body {
+    background-color: rgb(251, 227, 185);
+}
+
+a {
+    text-decoration: none;
+}
+
+button {
+    padding: 5px;
+    margin: 5px;
+    border-radius: 5px;
+    box-shadow: 2px 1px rgb(45, 51, 74);
+    background-color: rgb(192, 243, 224);
+}
+
+button:hover {
+    background-color: rgb(45, 51, 74);
+    color: white;
+    transition: cubic-bezier(0.47, 0, 0.745, 0.715) 200ms;
+}
+
+.flexbox {
+    display: flex;
+    flex-flow: row, nowrap;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px;
+}
+
+.notYou {
+    text-align: center;
+    color: rgb(214, 47, 5);
+    text-shadow: 1px 0 rgb(49, 10, 0);
+}
+
+.nopeButton:hover {
+    animation-name: wiggle;
+    animation-duration: 250ms;
+    animation-iteration-count: initial;
+}
+
+@keyframes wiggle {
+    0% {
+        transform: translate(0, 0);
+    }
+    20% {
+        transform: translate(5px, 0);
+    }
+    40% {
+        transform: translate(-5px, 0);
+    }
+    60% {
+        transform: translate(5px, 0);
+    }
+    80% {
+        transform: translate(-5px, 0);
+    }
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+#navBar {
+    margin: 0;
+    padding: 1% 0 1.5%;
+    background-color: rgb(12, 148, 99);
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#navBar.navBar-padding {
+    padding: 16px 0 20px;
+}
+
+#navBar a {
+    margin-right: 3%;
+    margin-left: 3%;
+    color: rgb(45, 51, 74);
+}
+
+#navBar a :hover {
+    transition: cubic-bezier(0.47, 0, 0.745, 0.715) 300ms;
+    color: rgb(250, 182, 150);
+}
+
+#navBar h2 {
+    font-size: 20px;
+}
+
+#navBar div {
+    margin-right: 3%;
+    margin-left: 3%;
+    text-align: center;
+    color: rgb(45, 51, 74);
+}
+
+#navBar div button {
+    margin-top: 5px;
+    border-radius: 3px;
+    border-width: 0.1px;
+    padding: 3px 5px 4px;
+}
+
+#serverReply {
+    height: 30px;
+    margin-top: 1%;
+    text-align: center;
+}
+
+
+/*login.html*/
+
+.form-padding {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 8%;
+    background-color: white;
+    box-shadow: 0 4px 10px black;
+    height: 300px;
+}
+
+.form-inlay {
+    width: 100%;
+    background-color: rgb(250, 182, 150);
+    border-width: 5px;
+    border-bottom: solid;
+    border-top: solid;
+    border-color: rgb(45, 51, 74);
+}
+
+form {
+    padding: 14px 14px;
+    border-radius: 20px;
+    width: 76%;
+    text-align: center;
+    margin: auto;
+}
+
+form h1 {
+    text-align: left;
+    margin-left: 4%;
+    text-shadow: 2px 3px rgb(250, 182, 150);
+}
+
+form .flexbox {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-around;
+    align-items: center;
+    margin: 0;
+}
+
+form fieldset {
+    border: none;
+}
+
+form .div-inputs {
+    width: 100%;
+}
+
+form input {
+    margin: 10px 0;
+    padding: 8px 4px;
+    width: 80%;
+    border-radius: 5px;
+    border-width: 1px;
+    border-color: rgb(45, 51, 74);
+    font-size: 15px;
+    transform: scaleX(1.15);
+}
+
+form span {
+    font-size: 15px;
+}
+
+form a {
+    color: rgb(45, 51, 74);
+    text-decoration: rgb(45, 51, 74);
+}
+
+form a :hover {
+    transition: cubic-bezier(0.47, 0, 0.745, 0.715) 300ms;
+    color: rgb(250, 182, 150);
+}
+
+
+/*recipes.html*/
+
+h1 {
+    font-size: 28px;
+    text-align: center;
+    transform: scaleY(1.1);
+    margin-bottom: 15px;
+    text-shadow: 2px 3px rgb(250, 182, 150);
+}
+
+.recipe-post {
+    margin: 0;
+    margin-bottom: 15px;
+    background-color: white;
+    box-shadow: 0 2px 5px black;
+    height: max-content;
+    padding: 15px 0;
+    display: flex;
+    align-items: center;
+}
+
+.recipe-inlay {
+    background-color: rgb(250, 182, 150);
+    height: 80%;
+    width: 100%;
+    margin: 0;
+    border-width: 3px;
+    border-top: solid;
+    border-bottom: solid;
+    border-color: rgb(45, 51, 74);
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.recipe-inlay * {
+    margin: 0 5px;
+}
+
+.recipe-post p {
+    margin-bottom: 3px;
+    border-bottom: solid;
+    border-width: 2px;
+    border-color: rgb(45, 51, 74);
+}
+
+.recipe-post h3 {
+    margin-bottom: 5px;
+    margin-left: 9px;
+    color: rgb(12, 148, 99);
+    text-shadow: 1px 1px rgb(196, 126, 93);
+}
+
+
+/*myRecipes.html*/
+
+#recipeForm {
+    width: 80%;
+}
+
+#recipeForm * {
+    width: 100%;
+    margin: auto;
+}
+
+#recipeForm input {
+    width: 70%;
+}
+
+#ingredients input {
+    margin: 3px 0;
+}
+
+#addIngredient {
+    width: 13%;
+    font-size: 20px;
+    padding: 3px 0;
+    margin: 3px 0 8px;
+}
+
+textarea {
+    border-width: 1px;
+    border-radius: 5px;
+    border-color: black;
+    width: 250px;
+    height: 90px;
+    resize: none;
+}
+
+#submitRecipe {
+    margin-top: 8px;
+    width: fit-content;
+}
+
+#scriptReply {
+    height: 30px;
+    text-align: center;
+}
+
+.recipe-inlay>.flexbox {
+    flex-flow: column nowrap;
+    align-items: flex-end;
+}
+
+.recipe-inlay>.flexbox button {
+    margin: 6px 8px;
+}
+
+@media screen and (min-width: 600) {
+    #navBar {
+        justify-content: flex-end;
+    }
+    #navBar a {
+        margin: 0 4%;
+    }
+    #navBar h2 {
+        font-size: 25px;
+    }
+    #serverReply {
+        margin: 1% 0 0 3%;
+    }
+    .form-padding {
+        height: 300px;
+        margin-left: 10%;
+        margin-right: 10%;
+        border-radius: 20px;
+        padding: 30px;
+    }
+    .form-inlay {
+        width: 100%;
+        border-radius: 10px;
+        border: solid;
+        border-color: rgb(45, 51, 74);
+    }
+    form {
+        width: 100%;
+    }
+    form h1 {
+        margin-left: 9.5%;
+        font-size: 30px;
+    }
+    form input {
+        margin: 10px 0;
+        padding: 8px 4px;
+        width: 70%;
+        font-size: 16px;
+        transform: scaleX(1.15);
+    }
+    h1 {
+        font-size: 100px;
+    }
+}
+
+@media screen and (min-width: 1000) {
+    h1 {
+        font-size: 200px;
+    }
+}

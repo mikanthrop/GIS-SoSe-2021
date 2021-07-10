@@ -162,13 +162,16 @@ var Endabgabe;
                 let user = await users.findOne({ "user": url.query.user.toString() });
                 console.log(url.query);
                 let oldFavs = user.myFavs;
+                let deletedRecipeName;
                 for (let i = 0; i < oldFavs.length; i++) {
                     console.log(url.query._id, oldFavs[i]._id);
                     if (url.query._id == oldFavs[i]._id) {
+                        deletedRecipeName = oldFavs[i].title;
                         oldFavs.splice(i, 1);
                     }
                 }
                 users.findOneAndUpdate({ "user": url.query.user }, { $set: { "myFavs": oldFavs } });
+                _response.write("Das Rezept \"" + deletedRecipeName + "\" wurde aus Ihren Favoriten entfernt.");
             }
         }
         _response.end();

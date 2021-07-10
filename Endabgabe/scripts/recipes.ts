@@ -11,11 +11,6 @@ export namespace Endabgabe {
 
     let url: string;
 
-    function getURL(): void {
-        //url = "https://gis-server-git-gud.herokuapp.com";
-        url = "http://localhost:8100";
-    }
-
     function buildNavbar(): void {
         let user: string = localStorage.getItem("user");
         let navBar: HTMLElement = document.getElementById("navBar");
@@ -23,41 +18,58 @@ export namespace Endabgabe {
         let recipesLink: HTMLAnchorElement = document.createElement("a");
         recipesLink.setAttribute("href", "../html/recipes.html");
         navBar.appendChild(recipesLink);
-        let recipesHLine: HTMLElement = document.createElement("h1");
-        recipesHLine.appendChild(document.createTextNode("Rezeptesammlung"));
+        let recipesHLine: HTMLElement = document.createElement("h2");
+        recipesHLine.appendChild(document.createTextNode("Rezepte"));
         recipesLink.appendChild(recipesHLine);
-
-        let loggedInOrNot: HTMLDivElement = document.createElement("div");
-        loggedInOrNot.setAttribute("id", "loggedInOrNot");
-        navBar.appendChild(loggedInOrNot);
 
         if (user == null) {
             let loginLink: HTMLAnchorElement = document.createElement("a");
             loginLink.setAttribute("href", "../html/login.html");
-            loggedInOrNot.appendChild(loginLink);
+            navBar.appendChild(loginLink);
             let loginHLine: HTMLElement = document.createElement("h2");
             loginHLine.appendChild(document.createTextNode("Login"));
             loginLink.appendChild(loginHLine);
 
+            navBar.classList.add("navBar-padding");
+
         } else {
             let myFavoritesLink: HTMLAnchorElement = document.createElement("a");
             myFavoritesLink.setAttribute("href", "../html/myFavorites.html");
-            loggedInOrNot.appendChild(myFavoritesLink);
+            navBar.appendChild(myFavoritesLink);
             let myFavoritesHLine: HTMLElement = document.createElement("h2");
             myFavoritesHLine.appendChild(document.createTextNode("Meine Favoriten"));
             myFavoritesLink.appendChild(myFavoritesHLine);
 
             let myRecipesLink: HTMLAnchorElement = document.createElement("a");
             myRecipesLink.setAttribute("href", "../html/myRecipes.html");
-            loggedInOrNot.appendChild(myRecipesLink);
+            navBar.appendChild(myRecipesLink);
             let myRecipesHLine: HTMLElement = document.createElement("h2");
             myRecipesHLine.appendChild(document.createTextNode("Meine Rezepte"));
             myRecipesLink.appendChild(myRecipesHLine);
 
-            let loggedIn: HTMLElement = document.createElement("h3");
-            loggedIn.innerText = "Eingeloggt als \n" + user;
-            loggedInOrNot.appendChild(loggedIn);
+            let userDiv: HTMLDivElement = document.createElement("div");
+            navBar.appendChild(userDiv);
+
+            let loggedIn: HTMLElement = document.createElement("h4");
+            loggedIn.innerText = user;
+            userDiv.appendChild(loggedIn);
+
+            let logout: HTMLButtonElement = document.createElement("button");
+            logout.setAttribute("type", "button");
+            logout.innerText = "Logout";
+            userDiv.appendChild(logout);
+            logout.addEventListener("click", logOut);
         }
+    }
+
+    function logOut(): void {
+        localStorage.removeItem("user");
+        window.open("../html/login.html", "_self");
+    }
+
+    function getURL(): void {
+        //url = "https://gis-server-git-gud.herokuapp.com";
+        url = "http://localhost:8100";
     }
 
     async function handleLoadShowAllRecipes(): Promise<void> {
@@ -73,25 +85,39 @@ export namespace Endabgabe {
 
         let favRecipes: Interface.FavsResponse;
         if (user != null) {
-            console.log("Warum sind wir hier?");
-
             favRecipes = await getFavRecipes(user);
         }
         console.log(favRecipes);
 
         for (let i: number = 0; i < showAllReply.length; i++) {
+
+            let outlinePost: HTMLDivElement = document.createElement("div");
+            outlinePost.classList.add("recipe-post");
+            recipesDiv.appendChild(outlinePost);
+
             let post: HTMLDivElement = document.createElement("div");
-            recipesDiv.appendChild(post);
+            post.classList.add("recipe-inlay");
+            post.classList.add("flexbox");
+            outlinePost.appendChild(post);
+
             let recipeDiv: HTMLDivElement = document.createElement("div");
             recipeDiv.setAttribute("id", "recipe" + i);
             post.appendChild(recipeDiv);
             createRecipe(showAllReply[i], recipeDiv);
+
             if (user != undefined) {
-                if (favRecipes.favs != undefined) createFavNoFavButton(user, showAllReply[i], favRecipes.favs, recipeDiv);
-                else createFavButton(showAllReply[i], recipeDiv);
+                if (favRecipes.favs != undefined) {
+
+                    let buttonDiv: HTMLDivElement = document.createElement("div");
+                    buttonDiv.id = "buttonDiv" + i;
+                    post.appendChild(buttonDiv);
+                    createFavNoFavButton(user, showAllReply[i], favRecipes.favs, buttonDiv);
+
+                } else createFavButton(showAllReply[i], recipeDiv);
             }
         }
     }
+
 
     async function getFavRecipes(_user: string): Promise<Interface.FavsResponse> {
         getURL();
@@ -108,6 +134,7 @@ export namespace Endabgabe {
     function createFavNoFavButton(_user: string, _recipe: Interface.Recipe, _favRecipes: Interface.Recipe[], _parent: HTMLElement): void {
 
         let notFaveYet: boolean = true;
+
         for (let i: number = 0; i < _favRecipes.length; i++) {
             if (_recipe._id == _favRecipes[i]._id) {
                 createNoFavButton(_parent);
@@ -115,12 +142,14 @@ export namespace Endabgabe {
                 break;
             }
         }
+
         if (notFaveYet == true) {
             createFavButton(_recipe, _parent);
         }
     }
 
     function createFavButton(_serverReply: Interface.Recipe, _parent: HTMLElement): void {
+
         let favButton: HTMLButtonElement = document.createElement("button");
         favButton.setAttribute("type", "button");
         favButton.appendChild(document.createTextNode("Favorisieren"));
@@ -128,16 +157,8 @@ export namespace Endabgabe {
 
         favButton.dataset._id = _serverReply._id;
         favButton.dataset.parent = _parent.id;
-        console.log("parent id: " + favButton.dataset.parent);
 
         favButton.addEventListener("click", handleClickFavButton);
-    }
-
-    function createNoFavButton(_parent: HTMLElement): void {
-        let noFavButton: HTMLButtonElement = document.createElement("button");
-        noFavButton.setAttribute("type", "button");
-        noFavButton.appendChild(document.createTextNode("Favorisiert"));
-        _parent.appendChild(noFavButton);
     }
 
     async function handleClickFavButton(_event: Event): Promise<void> {
@@ -159,10 +180,27 @@ export namespace Endabgabe {
         createNoFavButton(parent);
     }
 
+    function createNoFavButton(_parent: HTMLElement): void {
+
+        let noFavButton: HTMLButtonElement = document.createElement("button");
+        noFavButton.setAttribute("type", "button");
+        noFavButton.classList.add("nopeButton");
+        noFavButton.appendChild(document.createTextNode("Favorisiert"));
+        _parent.appendChild(noFavButton);
+
+        noFavButton.addEventListener("click", handleClickNoFavButton);
+    }
+
+    function handleClickNoFavButton(): void {
+        serverResponseDiv.innerText = "Bitte gehen Sie in Meine Favoriten, um ihre Favoriten zu verwalten.";
+    }
+
     function createRecipe(_serverReply: Interface.Recipe, _parent: HTMLDivElement): void {
         // formatting one recipe
         let author: HTMLParagraphElement = document.createElement("p");
-        author.appendChild(document.createTextNode("Verfasser: " + _serverReply.author));
+        let authorBold: HTMLElement = document.createElement("b");
+        authorBold.appendChild(document.createTextNode(_serverReply.author));
+        author.appendChild(authorBold);
         _parent.appendChild(author);
 
         let title: HTMLElement = document.createElement("h3");
@@ -170,11 +208,17 @@ export namespace Endabgabe {
         _parent.appendChild(title);
 
         let ingredients: HTMLParagraphElement = document.createElement("p");
-        ingredients.appendChild(document.createTextNode("Zutaten: " + _serverReply.ingredients));
+        let ingBold: HTMLElement = document.createElement("b");
+        ingBold.appendChild(document.createTextNode("Zutaten"));
+        ingredients.appendChild(ingBold);
+        ingredients.appendChild(document.createTextNode(" " + _serverReply.ingredients.toString()));
         _parent.appendChild(ingredients);
 
         let preparation: HTMLParagraphElement = document.createElement("p");
-        preparation.appendChild(document.createTextNode("Zubereitung: " + _serverReply.preparation));
+        let prepBold: HTMLElement = document.createElement("b");
+        prepBold.appendChild(document.createTextNode("Zubereitung"));
+        preparation.appendChild(prepBold);
+        preparation.appendChild(document.createTextNode(" " + _serverReply.preparation));
         _parent.appendChild(preparation);
     }
 }

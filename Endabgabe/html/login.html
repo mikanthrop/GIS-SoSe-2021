@@ -9,25 +9,23 @@
         var exports = {};
     </script>
     <script src="../scripts/login.js" defer></script>
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="./style.css">
     <title>Login</title>
 </head>
 
 <body>
     <header>
-        <nav id="navBar" class="flexbox">
-
+        <nav id="navBar">
 
         </nav>
     </header>
     <main>
-
         <div id="serverReply">
 
         </div>
-        <div class="form-padding">
-            <form action="" method="post" id="loginForm">
-                <div class="form-inlay">
+        <div class="form-padding" id="loginDiv">
+            <div class="form-inlay">
+                <form action="" method="post" id="loginForm">
                     <h1>Login</h1>
                     <fieldset class="flexbox">
                         <div class="div-inputs">
@@ -38,13 +36,14 @@
                         </div>
                         <button type="button" id="buttonLogin">Einloggen</button>
                     </fieldset>
-                    <span>Noch keinen Account? </span><a href="#signupForm" id="switchToSignup">Account erstellen</a>
-                </div>
-            </form>
+                    <span>Noch keinen Account? <a href="#signupForm" id="switchToSignup">Account erstellen</a></span>
+
+                </form>
+            </div>
         </div>
-        <div class="form-padding">
-            <form action="" method="post" class="ishidden" id="signupForm">
-                <div class="form-inlay">
+        <div class="form-padding ishidden" id="signupDiv">
+            <div class="form-inlay">
+                <form action="" method="post" id="signupForm">
                     <h1>Account erstellen</h1>
                     <fieldset class="flexbox">
                         <div class="div-inputs">
@@ -55,9 +54,9 @@
                         </div>
                         <button type="button" id="buttonSignup">Account erstellen</button>
                     </fieldset>
-                    <span>Schon einen Account? </span><a href="#loginForm" id="switchToLogin">Login</a>
-                </div>
-            </form>
+                    <span>Schon einen Account? <a href="#loginForm" id="switchToLogin">Login</a></span>
+                </form>
+            </div>
         </div>
 
     </main>

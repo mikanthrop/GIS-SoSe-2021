@@ -13,50 +13,46 @@ var Endabgabe;
     let serverReplyDiv = document.getElementById("serverReply");
     let favoritesDiv = document.getElementById("myFavs");
     let url;
-    function getURL() {
-        //url = "https://gis-server-git-gud.herokuapp.com";
-        url = "http://localhost:8100";
-    }
     function buildNavbar() {
         let user = localStorage.getItem("user");
         let navBar = document.getElementById("navBar");
         let recipesLink = document.createElement("a");
         recipesLink.setAttribute("href", "../html/recipes.html");
         navBar.appendChild(recipesLink);
-        let recipesHLine = document.createElement("h1");
-        recipesHLine.appendChild(document.createTextNode("Rezeptesammlung"));
+        let recipesHLine = document.createElement("h2");
+        recipesHLine.appendChild(document.createTextNode("Rezepte"));
         recipesLink.appendChild(recipesHLine);
-        let loggedInOrNot = document.createElement("div");
-        loggedInOrNot.setAttribute("id", "loggedInOrNot");
-        navBar.appendChild(loggedInOrNot);
         if (user == null) {
             let loginLink = document.createElement("a");
             loginLink.setAttribute("href", "../html/login.html");
-            loggedInOrNot.appendChild(loginLink);
+            navBar.appendChild(loginLink);
             let loginHLine = document.createElement("h2");
             loginHLine.appendChild(document.createTextNode("Login"));
             loginLink.appendChild(loginHLine);
+            navBar.classList.add("navBar-padding");
         }
         else {
             let myFavoritesLink = document.createElement("a");
             myFavoritesLink.setAttribute("href", "../html/myFavorites.html");
-            loggedInOrNot.appendChild(myFavoritesLink);
+            navBar.appendChild(myFavoritesLink);
             let myFavoritesHLine = document.createElement("h2");
             myFavoritesHLine.appendChild(document.createTextNode("Meine Favoriten"));
             myFavoritesLink.appendChild(myFavoritesHLine);
             let myRecipesLink = document.createElement("a");
             myRecipesLink.setAttribute("href", "../html/myRecipes.html");
-            loggedInOrNot.appendChild(myRecipesLink);
+            navBar.appendChild(myRecipesLink);
             let myRecipesHLine = document.createElement("h2");
             myRecipesHLine.appendChild(document.createTextNode("Meine Rezepte"));
             myRecipesLink.appendChild(myRecipesHLine);
-            let loggedIn = document.createElement("h3");
-            loggedIn.innerText = "Eingeloggt als \n" + user;
-            loggedInOrNot.appendChild(loggedIn);
+            let userDiv = document.createElement("div");
+            navBar.appendChild(userDiv);
+            let loggedIn = document.createElement("h4");
+            loggedIn.innerText = user;
+            userDiv.appendChild(loggedIn);
             let logout = document.createElement("button");
             logout.setAttribute("type", "button");
             logout.innerText = "Logout";
-            loggedInOrNot.appendChild(logout);
+            userDiv.appendChild(logout);
             logout.addEventListener("click", logOut);
         }
     }
@@ -64,19 +60,31 @@ var Endabgabe;
         localStorage.removeItem("user");
         window.open("../html/login.html", "_self");
     }
+    function getURL() {
+        //url = "https://gis-server-git-gud.herokuapp.com";
+        url = "http://localhost:8100";
+    }
     function createRecipe(_serverReply, _parent) {
         // formatting one recipe
         let author = document.createElement("p");
-        author.appendChild(document.createTextNode("Verfasser: " + _serverReply.author));
+        let authorBold = document.createElement("b");
+        authorBold.appendChild(document.createTextNode(_serverReply.author));
+        author.appendChild(authorBold);
         _parent.appendChild(author);
         let title = document.createElement("h3");
         title.appendChild(document.createTextNode(_serverReply.title));
         _parent.appendChild(title);
         let ingredients = document.createElement("p");
-        ingredients.appendChild(document.createTextNode("Zutaten: " + _serverReply.ingredients));
+        let ingBold = document.createElement("b");
+        ingBold.appendChild(document.createTextNode("Zutaten"));
+        ingredients.appendChild(ingBold);
+        ingredients.appendChild(document.createTextNode(" " + _serverReply.ingredients.toString()));
         _parent.appendChild(ingredients);
         let preparation = document.createElement("p");
-        preparation.appendChild(document.createTextNode("Zubereitung: " + _serverReply.preparation));
+        let prepBold = document.createElement("b");
+        prepBold.appendChild(document.createTextNode("Zubereitung"));
+        preparation.appendChild(prepBold);
+        preparation.appendChild(document.createTextNode(" " + _serverReply.preparation));
         _parent.appendChild(preparation);
     }
     function notYou() {
@@ -101,15 +109,22 @@ var Endabgabe;
         console.log(url);
         let showResponse = await fetch(url);
         let serverReply = await showResponse.json();
+        console.log(serverReply);
         if (serverReply.favs != undefined) {
             let favRecipes = serverReply.favs;
             for (let i = 0; i < favRecipes.length; i++) {
+                let outlinePost = document.createElement("div");
+                outlinePost.classList.add("recipe-post");
+                favoritesDiv.appendChild(outlinePost);
                 let post = document.createElement("div");
-                favoritesDiv.appendChild(post);
+                post.classList.add("recipe-inlay");
+                post.classList.add("flexbox");
+                outlinePost.appendChild(post);
                 let recipeDiv = document.createElement("div");
                 recipeDiv.setAttribute("id", "recipe" + i);
                 post.appendChild(recipeDiv);
                 let buttonDiv = document.createElement("div");
+                buttonDiv.id = "buttonDiv" + i;
                 post.appendChild(buttonDiv);
                 createRecipe(favRecipes[i], recipeDiv);
                 createDeleteButton(favRecipes[i], buttonDiv);

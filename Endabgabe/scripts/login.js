@@ -14,7 +14,9 @@ var Endabgabe;
     document.getElementById("switchToLogin").addEventListener("click", handleClickSwitchToLogin);
     document.getElementById("buttonLogin").addEventListener("click", handleClickButtonLogin);
     document.getElementById("buttonSignup").addEventListener("click", handleClickButtonSignup);
+    let loginDiv = document.getElementById("loginDiv");
     let loginForm = document.getElementById("loginForm");
+    let signupDiv = document.getElementById("signupDiv");
     let signupForm = document.getElementById("signupForm");
     function buildNavbar() {
         let user = localStorage.getItem("user");
@@ -32,6 +34,7 @@ var Endabgabe;
             let loginHLine = document.createElement("h2");
             loginHLine.appendChild(document.createTextNode("Login"));
             loginLink.appendChild(loginHLine);
+            navBar.classList.add("navBar-padding");
         }
         else {
             let myFavoritesLink = document.createElement("a");
@@ -73,22 +76,22 @@ var Endabgabe;
     //makes switching between login and signup form possible
     function handleClickSwitchToLogin() {
         console.log("SwitchToLogin wurde gedrückt.");
-        signupForm.classList.add("ishidden");
-        loginForm.classList.remove("ishidden");
+        signupDiv.classList.add("ishidden");
+        loginDiv.classList.remove("ishidden");
+        serverResponseDiv.innerText = "";
     }
     function handleClickSwitchToSignup() {
         console.log("SwitchToSignup wurde gedrückt.");
-        loginForm.classList.add("ishidden");
-        signupForm.classList.remove("ishidden");
+        loginDiv.classList.add("ishidden");
+        signupDiv.classList.remove("ishidden");
+        serverResponseDiv.innerText = "";
     }
     function getFormDataLogin() {
         formData = new FormData(loginForm);
-        console.log("user: " + formData.get("user"));
         setQuery(formData);
     }
     function getFormDataSignup() {
         formData = new FormData(signupForm);
-        console.log(formData.entries());
         setQuery(formData);
     }
     async function handleClickButtonLogin() {
@@ -96,30 +99,38 @@ var Endabgabe;
         getURL();
         getFormDataLogin();
         url += "/login?" + query.toString() + "&myFavs=";
-        console.log(query.toString());
-        let response = await fetch(url);
-        let text = await response.text();
-        console.log(text);
-        let displayResponse = JSON.parse(text);
-        if (displayResponse.message != undefined) {
-            window.open("../html/recipes.html", "_self");
-            localStorage.setItem("user", formData.get("user").toString());
+        if (query.toString() == "user=&password=")
+            serverResponseDiv.innerText = "Bitte geben Sie etwas ein.";
+        else {
+            console.log(query.toString());
+            let response = await fetch(url);
+            let text = await response.text();
+            console.log(text);
+            let displayResponse = JSON.parse(text);
+            if (displayResponse.message != undefined) {
+                window.open("../html/recipes.html", "_self");
+                localStorage.setItem("user", formData.get("user").toString());
+            }
+            if (displayResponse.error != undefined)
+                serverResponseDiv.innerHTML = "Nutzer konnte nicht gefunden werden.";
         }
-        if (displayResponse.error != undefined)
-            serverResponseDiv.innerHTML = "Nutzer konnte nicht gefunden werden.";
     }
     async function handleClickButtonSignup() {
         console.log("ButtonSignup wurde gedrückt. Server erstellt ein neues Nutzerprofil.");
         getURL();
         getFormDataSignup();
         url += "/signup?" + query.toString();
-        let response = await fetch(url);
-        let displayResponse = await response.text();
-        console.log(displayResponse);
-        if (displayResponse == "Ihr Account wurde erstellt.")
-            window.open("../html/login.html", "_self");
-        else
-            serverResponseDiv.innerHTML = displayResponse;
+        if (query.toString() == "user=&password=")
+            serverResponseDiv.innerText = "Bitte geben Sie etwas ein.";
+        else {
+            let response = await fetch(url);
+            let displayResponse = await response.text();
+            console.log(displayResponse);
+            if (displayResponse == "Ihr Account wurde erstellt.")
+                window.open("../html/login.html", "_self");
+            else
+                serverResponseDiv.innerHTML = displayResponse;
+        }
     }
 })(Endabgabe = exports.Endabgabe || (exports.Endabgabe = {}));
 //# sourceMappingURL=login.js.map

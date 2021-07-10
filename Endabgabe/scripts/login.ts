@@ -14,7 +14,10 @@ export namespace Endabgabe {
     document.getElementById("switchToLogin").addEventListener("click", handleClickSwitchToLogin);
     document.getElementById("buttonLogin").addEventListener("click", handleClickButtonLogin);
     document.getElementById("buttonSignup").addEventListener("click", handleClickButtonSignup);
+
+    let loginDiv: HTMLDivElement = <HTMLDivElement>document.getElementById("loginDiv");
     let loginForm: HTMLFormElement = <HTMLFormElement>document.getElementById("loginForm");
+    let signupDiv: HTMLDivElement = <HTMLDivElement>document.getElementById("signupDiv");
     let signupForm: HTMLFormElement = <HTMLFormElement>document.getElementById("signupForm");
 
     function buildNavbar(): void {
@@ -35,6 +38,8 @@ export namespace Endabgabe {
             let loginHLine: HTMLElement = document.createElement("h2");
             loginHLine.appendChild(document.createTextNode("Login"));
             loginLink.appendChild(loginHLine);
+
+            navBar.classList.add("navBar-padding");
 
         } else {
             let myFavoritesLink: HTMLAnchorElement = document.createElement("a");
@@ -85,26 +90,28 @@ export namespace Endabgabe {
     function handleClickSwitchToLogin(): void {
         console.log("SwitchToLogin wurde gedrückt.");
 
-        signupForm.classList.add("ishidden");
-        loginForm.classList.remove("ishidden");
+        signupDiv.classList.add("ishidden");
+        loginDiv.classList.remove("ishidden");
+
+        serverResponseDiv.innerText = "";
     }
 
     function handleClickSwitchToSignup(): void {
         console.log("SwitchToSignup wurde gedrückt.");
 
-        loginForm.classList.add("ishidden");
-        signupForm.classList.remove("ishidden");
+        loginDiv.classList.add("ishidden");
+        signupDiv.classList.remove("ishidden");
+
+        serverResponseDiv.innerText = "";
     }
 
     function getFormDataLogin(): void {
         formData = new FormData(loginForm);
-        console.log("user: " + formData.get("user"));
         setQuery(formData);
     }
 
     function getFormDataSignup(): void {
         formData = new FormData(signupForm);
-        console.log(formData.entries());
         setQuery(formData);
     }
 
@@ -114,16 +121,19 @@ export namespace Endabgabe {
         getFormDataLogin();
 
         url += "/login?" + query.toString() + "&myFavs=";
-        console.log(query.toString());
-        let response: Response = await fetch(url);
-        let text: string = await response.text();
-        console.log(text);
-        let displayResponse: Interface.LoginMessage = JSON.parse(text);
-        if (displayResponse.message != undefined) {
-            window.open("../html/recipes.html", "_self");
-            localStorage.setItem("user", formData.get("user").toString());
+        if (query.toString() == "user=&password=") serverResponseDiv.innerText = "Bitte geben Sie etwas ein.";
+        else {
+            console.log(query.toString());
+            let response: Response = await fetch(url);
+            let text: string = await response.text();
+            console.log(text);
+            let displayResponse: Interface.LoginMessage = JSON.parse(text);
+            if (displayResponse.message != undefined) {
+                window.open("../html/recipes.html", "_self");
+                localStorage.setItem("user", formData.get("user").toString());
+            }
+            if (displayResponse.error != undefined) serverResponseDiv.innerHTML = "Nutzer konnte nicht gefunden werden.";
         }
-        if (displayResponse.error != undefined) serverResponseDiv.innerHTML = "Nutzer konnte nicht gefunden werden.";
     }
 
     async function handleClickButtonSignup(): Promise<void> {
@@ -132,11 +142,14 @@ export namespace Endabgabe {
         getFormDataSignup();
 
         url += "/signup?" + query.toString();
-        let response: Response = await fetch(url);
-        let displayResponse: string = await response.text();
-        console.log(displayResponse);
-        if (displayResponse == "Ihr Account wurde erstellt.") window.open("../html/login.html", "_self");
-        else
-            serverResponseDiv.innerHTML = displayResponse;
+        if (query.toString() == "user=&password=") serverResponseDiv.innerText = "Bitte geben Sie etwas ein.";
+        else {
+            let response: Response = await fetch(url);
+            let displayResponse: string = await response.text();
+            console.log(displayResponse);
+            if (displayResponse == "Ihr Account wurde erstellt.") window.open("../html/login.html", "_self");
+            else
+                serverResponseDiv.innerHTML = displayResponse;
+        }
     }
 }

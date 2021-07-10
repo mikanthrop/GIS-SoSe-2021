@@ -193,14 +193,18 @@ export namespace Endabgabe {
                 console.log(url.query);
 
                 let oldFavs: Interface.Recipe[] = user.myFavs;
+                let deletedRecipeName: string;
 
                 for (let i: number = 0; i < oldFavs.length; i++) {
                     console.log(url.query._id, oldFavs[i]._id);
                     if (url.query._id == oldFavs[i]._id) {
+                        deletedRecipeName = oldFavs[i].title;
                         oldFavs.splice(i, 1);
+                        
                     }
                 }
                 users.findOneAndUpdate({ "user": url.query.user }, { $set: { "myFavs": oldFavs } });
+                _response.write("Das Rezept \"" + deletedRecipeName + "\" wurde aus Ihren Favoriten entfernt.");
             }
         }
         _response.end();

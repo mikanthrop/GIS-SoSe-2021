@@ -9,11 +9,12 @@ export namespace Endabgabe {
     let recipeTitle: HTMLInputElement = <HTMLInputElement>document.getElementById("title");
     let ingredientInput: HTMLInputElement = <HTMLInputElement>document.getElementById("ingredient0");
     let recipePreparation: HTMLInputElement = <HTMLInputElement>document.getElementById("preparationTextfield");
-    let serverResponseDiv: HTMLDivElement = <HTMLDivElement>document.getElementById("serverResponse");
-    let scriptResponseDiv: HTMLDivElement = <HTMLDivElement>document.getElementById("scriptResponse");
+    let serverResponseDiv: HTMLDivElement = <HTMLDivElement>document.getElementById("serverReply");
+    let scriptResponseDiv: HTMLDivElement = <HTMLDivElement>document.getElementById("scriptReply");
     let formButtonDiv: HTMLDivElement = <HTMLDivElement>document.getElementById("buttonDiv");
     let submitButton: HTMLButtonElement = <HTMLButtonElement>document.getElementById("submitRecipe");
     let addIngButton: HTMLInputElement = <HTMLInputElement>document.getElementById("addIngredient");
+    let myRecipesDiv: HTMLDivElement = <HTMLDivElement>document.getElementById("recipeDiv");
     let resubmitButton: HTMLButtonElement;
 
     //let query: URLSearchParams;
@@ -26,11 +27,6 @@ export namespace Endabgabe {
     submitButton.addEventListener("click", handleClickSubmitRecipe);
     addIngButton.addEventListener("click", handleClickAddIngredient);
 
-    function getURL(): void {
-        //url = "https://gis-server-git-gud.herokuapp.com";
-        url = "http://localhost:8100";
-    }
-
     function buildNavbar(): void {
         let user: string = localStorage.getItem("user");
         let navBar: HTMLElement = document.getElementById("navBar");
@@ -38,60 +34,58 @@ export namespace Endabgabe {
         let recipesLink: HTMLAnchorElement = document.createElement("a");
         recipesLink.setAttribute("href", "../html/recipes.html");
         navBar.appendChild(recipesLink);
-        let recipesHLine: HTMLElement = document.createElement("h1");
-        recipesHLine.appendChild(document.createTextNode("Rezeptesammlung"));
+        let recipesHLine: HTMLElement = document.createElement("h2");
+        recipesHLine.appendChild(document.createTextNode("Rezepte"));
         recipesLink.appendChild(recipesHLine);
-
-        let loggedInOrNot: HTMLDivElement = document.createElement("div");
-        loggedInOrNot.setAttribute("id", "loggedInOrNot");
-        navBar.appendChild(loggedInOrNot);
 
         if (user == null) {
             let loginLink: HTMLAnchorElement = document.createElement("a");
             loginLink.setAttribute("href", "../html/login.html");
-            loggedInOrNot.appendChild(loginLink);
+            navBar.appendChild(loginLink);
             let loginHLine: HTMLElement = document.createElement("h2");
             loginHLine.appendChild(document.createTextNode("Login"));
             loginLink.appendChild(loginHLine);
 
+            navBar.classList.add("navBar-padding");
+
         } else {
             let myFavoritesLink: HTMLAnchorElement = document.createElement("a");
             myFavoritesLink.setAttribute("href", "../html/myFavorites.html");
-            loggedInOrNot.appendChild(myFavoritesLink);
+            navBar.appendChild(myFavoritesLink);
             let myFavoritesHLine: HTMLElement = document.createElement("h2");
             myFavoritesHLine.appendChild(document.createTextNode("Meine Favoriten"));
             myFavoritesLink.appendChild(myFavoritesHLine);
 
             let myRecipesLink: HTMLAnchorElement = document.createElement("a");
             myRecipesLink.setAttribute("href", "../html/myRecipes.html");
-            loggedInOrNot.appendChild(myRecipesLink);
+            navBar.appendChild(myRecipesLink);
             let myRecipesHLine: HTMLElement = document.createElement("h2");
             myRecipesHLine.appendChild(document.createTextNode("Meine Rezepte"));
             myRecipesLink.appendChild(myRecipesHLine);
 
-            let loggedIn: HTMLElement = document.createElement("h3");
-            loggedIn.innerText = "Eingeloggt als \n" + user;
-            loggedInOrNot.appendChild(loggedIn);
+            let userDiv: HTMLDivElement = document.createElement("div");
+            navBar.appendChild(userDiv);
+
+            let loggedIn: HTMLElement = document.createElement("h4");
+            loggedIn.innerText = user;
+            userDiv.appendChild(loggedIn);
+
+            let logout: HTMLButtonElement = document.createElement("button");
+            logout.setAttribute("type", "button");
+            logout.innerText = "Logout";
+            userDiv.appendChild(logout);
+            logout.addEventListener("click", logOut);
         }
     }
 
-    function createPost(_serverReply: Interface.Recipe, _parent: HTMLDivElement): void {
-        // formatting one recipe
-        let author: HTMLParagraphElement = document.createElement("p");
-        author.appendChild(document.createTextNode("Verfasser: " + _serverReply.author));
-        _parent.appendChild(author);
+    function logOut(): void {
+        localStorage.removeItem("user");
+        window.open("../html/login.html", "_self");
+    }
 
-        let title: HTMLElement = document.createElement("h3");
-        title.appendChild(document.createTextNode(_serverReply.title));
-        _parent.appendChild(title);
-
-        let ingredients: HTMLParagraphElement = document.createElement("p");
-        ingredients.appendChild(document.createTextNode("Zutaten: " + _serverReply.ingredients));
-        _parent.appendChild(ingredients);
-
-        let preparation: HTMLParagraphElement = document.createElement("p");
-        preparation.appendChild(document.createTextNode("Zubereitung: " + _serverReply.preparation));
-        _parent.appendChild(preparation);
+    function getURL(): void {
+        //url = "https://gis-server-git-gud.herokuapp.com";
+        url = "http://localhost:8100";
     }
 
     function createIngredientInput(_ingredientIDCounter: number): HTMLInputElement {
@@ -143,18 +137,16 @@ export namespace Endabgabe {
 
     function createButtonDiv(_serverReply: Interface.Recipe, _parent: HTMLDivElement): void {
         // adding buttons
-        let postButtonDiv: HTMLDivElement = document.createElement("div");
-        _parent.appendChild(postButtonDiv);
 
         let editButton: HTMLButtonElement = document.createElement("button");
         editButton.setAttribute("type", "button");
         editButton.appendChild(document.createTextNode("Bearbeiten"));
-        postButtonDiv.appendChild(editButton);
+        _parent.appendChild(editButton);
 
         let deleteButton: HTMLButtonElement = document.createElement("button");
         deleteButton.setAttribute("type", "button");
         deleteButton.appendChild(document.createTextNode("Löschen"));
-        postButtonDiv.appendChild(deleteButton);
+        _parent.appendChild(deleteButton);
 
         // eventListener and their functions
         editButton.addEventListener("click", handleClickEditButton);
@@ -182,12 +174,55 @@ export namespace Endabgabe {
             let showReply: Interface.Recipe[] = await response.json();
 
             for (let i: number = 0; i < showReply.length; i++) {
+                let outlinePost: HTMLDivElement = document.createElement("div");
+                outlinePost.classList.add("recipe-post");
+                myRecipesDiv.appendChild(outlinePost);
+
                 let post: HTMLDivElement = document.createElement("div");
-                serverResponseDiv.appendChild(post);
-                createPost(showReply[i], post);
-                createButtonDiv(showReply[i], post);
+                post.classList.add("recipe-inlay");
+                post.classList.add("flexbox");
+                outlinePost.appendChild(post);
+
+                let recipeDiv: HTMLDivElement = document.createElement("div");
+                recipeDiv.setAttribute("id", "recipe" + i);
+                post.appendChild(recipeDiv);
+
+                let buttonDiv: HTMLDivElement = document.createElement("div");
+                buttonDiv.id = "buttonDiv" + i;
+                buttonDiv.classList.add("flexbox");
+                post.appendChild(buttonDiv);
+
+                createPost(showReply[i], recipeDiv);
+                createButtonDiv(showReply[i], buttonDiv);
             }
         }
+    }
+
+    function createPost(_serverReply: Interface.Recipe, _parent: HTMLDivElement): void {
+        // formatting one recipe
+        let author: HTMLParagraphElement = document.createElement("p");
+        let authorBold: HTMLElement = document.createElement("b");
+        authorBold.appendChild(document.createTextNode(_serverReply.author));
+        author.appendChild(authorBold);
+        _parent.appendChild(author);
+
+        let title: HTMLElement = document.createElement("h3");
+        title.appendChild(document.createTextNode(_serverReply.title));
+        _parent.appendChild(title);
+
+        let ingredients: HTMLParagraphElement = document.createElement("p");
+        let ingBold: HTMLElement = document.createElement("b");
+        ingBold.appendChild(document.createTextNode("Zutaten"));
+        ingredients.appendChild(ingBold);
+        ingredients.appendChild(document.createTextNode(" " + _serverReply.ingredients.toString()));
+        _parent.appendChild(ingredients);
+
+        let preparation: HTMLParagraphElement = document.createElement("p");
+        let prepBold: HTMLElement = document.createElement("b");
+        prepBold.appendChild(document.createTextNode("Zubereitung"));
+        preparation.appendChild(prepBold);
+        preparation.appendChild(document.createTextNode(" " + _serverReply.preparation));
+        _parent.appendChild(preparation);
     }
 
     async function handleClickDeleteButton(_event: Event): Promise<void> {
@@ -201,7 +236,7 @@ export namespace Endabgabe {
 
         let response: Response = await fetch(url);
         let deleteReply: string = await response.text();
-        serverResponseDiv.innerHTML = deleteReply;
+        serverResponseDiv.innerText = deleteReply;
 
         handleShowMyRecipes();
     }
@@ -298,7 +333,7 @@ export namespace Endabgabe {
 
         let response: Response = await fetch(url);
         let resubmitReply: string = await response.text();
-        serverResponseDiv.innerHTML = resubmitReply;
+        serverResponseDiv.innerText = resubmitReply;
 
         submitButton.classList.remove("ishidden");
         resubmitButton.remove();
@@ -325,7 +360,7 @@ export namespace Endabgabe {
             console.log(url);
             let response: Response = await fetch(url);
             let displayResponse: string = await response.text();
-            serverResponseDiv.innerHTML = displayResponse;
+            serverResponseDiv.innerText = displayResponse;
 
             recipeForm.reset();
             handleShowMyRecipes();
