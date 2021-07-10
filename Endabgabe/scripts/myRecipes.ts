@@ -95,6 +95,7 @@ export namespace Endabgabe {
         nextIngredient.type = "text";
         nextIngredient.id = thisIngredientId;
         nextIngredient.name = thisIngredientId;
+        nextIngredient.placeholder = "Zutat " + (_ingredientIDCounter + 1);
         ingredientsDiv.appendChild(nextIngredient);
         return nextIngredient;
     }
@@ -253,9 +254,9 @@ export namespace Endabgabe {
         console.log(url);
         let response: Response = await fetch(url);
         let thisRecipe: Interface.Recipe = await response.json();
-        
+
         console.log(thisRecipe);
-        
+
         // writing values of the recipe in question into recipeForm
         recipeTitle.value = thisRecipe.title;
         console.log("title: " + thisRecipe.title);
@@ -363,6 +364,7 @@ export namespace Endabgabe {
             serverResponseDiv.innerText = displayResponse;
 
             recipeForm.reset();
+            myRecipesDiv.innerHTML = "";
             handleShowMyRecipes();
             cleanUpInputs();
         }

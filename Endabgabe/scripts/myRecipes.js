@@ -82,6 +82,7 @@ var Endabgabe;
         nextIngredient.type = "text";
         nextIngredient.id = thisIngredientId;
         nextIngredient.name = thisIngredientId;
+        nextIngredient.placeholder = "Zutat " + (_ingredientIDCounter + 1);
         ingredientsDiv.appendChild(nextIngredient);
         return nextIngredient;
     }
@@ -305,6 +306,7 @@ var Endabgabe;
             let displayResponse = await response.text();
             serverResponseDiv.innerText = displayResponse;
             recipeForm.reset();
+            myRecipesDiv.innerHTML = "";
             handleShowMyRecipes();
             cleanUpInputs();
         }
