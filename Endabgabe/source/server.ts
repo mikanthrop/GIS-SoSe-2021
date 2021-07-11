@@ -6,8 +6,8 @@ import * as Interface from "./interface";
 export namespace Endabgabe {
     let users: Mongo.Collection;
     let recipes: Mongo.Collection;
-    let databaseURL: string = "mongodb://localhost:27017";
-    //let databaseURL: string = "mongodb+srv://TestUser:3m3vaco2Wrn2Swh4@gis-sose-2021.5ejyi.mongodb.net";
+    //let databaseURL: string = "mongodb://localhost:27017";
+    let databaseURL: string = "mongodb+srv://TestUser:3m3vaco2Wrn2Swh4@gis-sose-2021.5ejyi.mongodb.net";
 
     let port: number = Number(process.env.PORT);
     if (!port) port = 8100;

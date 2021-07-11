@@ -1,5 +1,4 @@
 import * as Interface from "../source/interface";
-//import { GeneralFunctions } from "./general";
 
 export namespace Endabgabe {
 
@@ -17,9 +16,7 @@ export namespace Endabgabe {
     let myRecipesDiv: HTMLDivElement = <HTMLDivElement>document.getElementById("recipeDiv");
     let resubmitButton: HTMLButtonElement;
 
-    //let query: URLSearchParams;
     let url: string;
-    //let recipeData: FormData;
     let ingredientCounter: number = 0;
 
     window.addEventListener("load", handleShowMyRecipes);
@@ -84,8 +81,8 @@ export namespace Endabgabe {
     }
 
     function getURL(): void {
-        //url = "https://gis-server-git-gud.herokuapp.com";
-        url = "http://localhost:8100";
+        url = "https://gis-server-git-gud.herokuapp.com";
+        //url = "http://localhost:8100";
     }
 
     function createIngredientInput(_ingredientIDCounter: number): HTMLInputElement {

@@ -61,8 +61,8 @@ var Endabgabe;
         window.open("../html/login.html", "_self");
     }
     function getURL() {
-        //url = "https://gis-server-git-gud.herokuapp.com";
-        url = "http://localhost:8100";
+        url = "https://gis-server-git-gud.herokuapp.com";
+        //url = "http://localhost:8100";
     }
     function createRecipe(_serverReply, _parent) {
         // formatting one recipe

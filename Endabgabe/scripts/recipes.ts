@@ -1,5 +1,4 @@
 import * as Interface from "../source/interface";
-//import { GeneralFunctions } from "./general";
 
 export namespace Endabgabe {
 
@@ -68,8 +67,8 @@ export namespace Endabgabe {
     }
 
     function getURL(): void {
-        //url = "https://gis-server-git-gud.herokuapp.com";
-        url = "http://localhost:8100";
+        url = "https://gis-server-git-gud.herokuapp.com";
+        //url = "http://localhost:8100";
     }
 
     async function handleLoadShowAllRecipes(): Promise<void> {
@@ -117,7 +116,6 @@ export namespace Endabgabe {
             }
         }
     }
-
 
     async function getFavRecipes(_user: string): Promise<Interface.FavsResponse> {
         getURL();

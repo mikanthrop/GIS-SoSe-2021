@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Endabgabe = void 0;
-//import { GeneralFunctions } from "./general";
 var Endabgabe;
 (function (Endabgabe) {
     window.addEventListener("load", buildNavbar);
@@ -57,8 +56,8 @@ var Endabgabe;
         window.open("../html/login.html", "_self");
     }
     function getURL() {
-        //url = "https://gis-server-git-gud.herokuapp.com";
-        url = "http://localhost:8100";
+        url = "https://gis-server-git-gud.herokuapp.com";
+        //url = "http://localhost:8100";
     }
     async function handleLoadShowAllRecipes() {
         getURL();

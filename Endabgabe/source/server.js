@@ -8,8 +8,8 @@ var Endabgabe;
 (function (Endabgabe) {
     let users;
     let recipes;
-    let databaseURL = "mongodb://localhost:27017";
-    //let databaseURL: string = "mongodb+srv://TestUser:3m3vaco2Wrn2Swh4@gis-sose-2021.5ejyi.mongodb.net";
+    //let databaseURL: string = "mongodb://localhost:27017";
+    let databaseURL = "mongodb+srv://TestUser:3m3vaco2Wrn2Swh4@gis-sose-2021.5ejyi.mongodb.net";
     let port = Number(process.env.PORT);
     if (!port)
         port = 8100;

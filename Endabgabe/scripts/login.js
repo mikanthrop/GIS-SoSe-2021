@@ -3,12 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Endabgabe = void 0;
 var Endabgabe;
 (function (Endabgabe) {
-    //generally used elements/variables
     let formData;
     let serverResponseDiv = document.getElementById("serverReply");
     let query;
     let url;
-    //login.html
     window.addEventListener("load", buildNavbar);
     document.getElementById("switchToSignup").addEventListener("click", handleClickSwitchToSignup);
     document.getElementById("switchToLogin").addEventListener("click", handleClickSwitchToLogin);
@@ -66,8 +64,8 @@ var Endabgabe;
         window.open("../html/login.html", "_self");
     }
     function getURL() {
-        //url = "https://gis-server-git-gud.herokuapp.com";
-        url = "http://localhost:8100";
+        url = "https://gis-server-git-gud.herokuapp.com";
+        //url = "http://localhost:8100";
     }
     function setQuery(_formData) {
         //tslint:disable-next-line: no-any

@@ -71,8 +71,8 @@ export namespace Endabgabe {
     }
 
     function getURL(): void {
-        //url = "https://gis-server-git-gud.herokuapp.com";
-        url = "http://localhost:8100";
+        url = "https://gis-server-git-gud.herokuapp.com";
+        //url = "http://localhost:8100";
     }
 
     function createRecipe(_serverReply: Interface.Recipe, _parent: HTMLDivElement): void {
