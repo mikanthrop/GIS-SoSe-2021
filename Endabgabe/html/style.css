@@ -234,6 +234,10 @@ h1 {
     padding-bottom: 5px;
 }
 
+.recipe-post.flexbox {
+    align-items: flex-start;
+}
+
 .recipe-inlay * {
     margin: 0 5px;
 }
