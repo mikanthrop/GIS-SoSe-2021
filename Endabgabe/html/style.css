@@ -33,7 +33,7 @@ button:hover {
 
 .flexbox {
     display: flex;
-    flex-flow: row, nowrap;
+    flex-flow: row nowrap;
     justify-content: space-between;
     align-items: center;
     margin: 10px;
