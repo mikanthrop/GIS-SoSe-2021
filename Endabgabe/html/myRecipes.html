@@ -23,34 +23,39 @@
         <div id="serverReply">
 
         </div>
-        <div id="loggedIn">
-            <h1>Ein neues Rezept verfassen:</h1>
-            <div class="recipe-post">
-                <div class="form-inlay">
-                    <form id="recipeForm" action="post">
-                        <fieldset class="flexbox">
-                            <div>
-                                <input type="text" name="title" id="title" required placeholder="Rezepttitel">
-                            </div>
-                            <h4>Zutaten</h4>
-                            <div id="ingredients" class="flexbox">
-                                <input type="text" id="ingredient0" name="ingredient0" placeholder="Zutat 1">
-                            </div>
-                            <button id="addIngredient" type="button">+</button>
-                            <textarea name="preparation" id="preparationTextfield" placeholder="Bitte geben Sie hier die Zubereitung des Rezeptes an."></textarea>
-                            <div id="buttonDiv">
-                                <button id="submitRecipe" type="button">Rezept speichern</button>
-                            </div>
-                        </fieldset>
-                    </form>
+        <h1>Ein neues Rezept verfassen:</h1>
+        <div id="theRecipeFlexbox">
+            <div>
+                <div id="loggedIn">
+
+                    <div class="recipe-post">
+                        <div class="form-inlay">
+                            <form id="recipeForm" action="post">
+                                <fieldset class="flexbox">
+                                    <div>
+                                        <input type="text" name="title" id="title" required placeholder="Rezepttitel">
+                                    </div>
+                                    <h4>Zutaten</h4>
+                                    <div id="ingredients" class="flexbox">
+                                        <input type="text" id="ingredient0" name="ingredient0" placeholder="Zutat 1">
+                                    </div>
+                                    <button id="addIngredient" type="button">+</button>
+                                    <textarea name="preparation" id="preparationTextfield" placeholder="Bitte geben Sie hier die Zubereitung des Rezeptes an."></textarea>
+                                    <div id="buttonDiv">
+                                        <button id="submitRecipe" type="button">Rezept speichern</button>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div id="scriptReply">
+
                 </div>
             </div>
-        </div>
-        <div id="scriptReply">
+            <div id="recipeDiv">
 
-        </div>
-        <div id="recipeDiv">
-
+            </div>
         </div>
     </main>
     <footer>
