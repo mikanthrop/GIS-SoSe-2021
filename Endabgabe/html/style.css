@@ -232,14 +232,12 @@ h1 {
     border-color: rgb(45, 51, 74);
     padding-top: 5px;
     padding-bottom: 5px;
+    display: flex;
+    align-items: flex-start;
 }
 
 .recipe-post.flexbox {
     align-items: flex-start;
-}
-
-.recipe-inlay * {
-    margin: 0 5px;
 }
 
 .recipe-post p {
@@ -254,6 +252,14 @@ h1 {
     margin-left: 9px;
     color: rgb(12, 148, 99);
     text-shadow: 1px 1px rgb(196, 126, 93);
+}
+
+.recipe-inlay * {
+    margin: 0 5px;
+}
+
+.recipe-inlay button {
+    margin-top: 10%;
 }
 
 
@@ -499,6 +505,7 @@ textarea {
     #theRecipeFlexbox {
         display: flex;
         flex-flow: row wrap;
+        justify-content: space-between;
     }
     #theRecipeFlexbox #loggedIn .recipe-post {
         width: 500px;
