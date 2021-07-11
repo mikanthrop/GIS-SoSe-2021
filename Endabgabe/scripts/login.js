@@ -103,7 +103,6 @@ var Endabgabe;
             console.log(query.toString());
             let response = await fetch(url);
             let text = await response.text();
-            console.log(text);
             let displayResponse = JSON.parse(text);
             if (displayResponse.message != undefined) {
                 window.open("../html/recipes.html", "_self");
@@ -123,7 +122,6 @@ var Endabgabe;
         else {
             let response = await fetch(url);
             let displayResponse = await response.text();
-            console.log(displayResponse);
             if (displayResponse == "Ihr Account wurde erstellt.")
                 window.open("../html/login.html", "_self");
             else

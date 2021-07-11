@@ -119,13 +119,15 @@ export namespace Endabgabe {
         getFormDataLogin();
 
         url += "/login?" + query.toString() + "&myFavs=";
+       
         if (query.toString() == "user=&password=") serverResponseDiv.innerText = "Bitte geben Sie etwas ein.";
         else {
+
             console.log(query.toString());
             let response: Response = await fetch(url);
             let text: string = await response.text();
-            console.log(text);
             let displayResponse: Interface.LoginMessage = JSON.parse(text);
+            
             if (displayResponse.message != undefined) {
                 window.open("../html/recipes.html", "_self");
                 localStorage.setItem("user", formData.get("user").toString());
@@ -140,14 +142,15 @@ export namespace Endabgabe {
         getFormDataSignup();
 
         url += "/signup?" + query.toString();
+
         if (query.toString() == "user=&password=") serverResponseDiv.innerText = "Bitte geben Sie etwas ein.";
         else {
+
             let response: Response = await fetch(url);
             let displayResponse: string = await response.text();
-            console.log(displayResponse);
+
             if (displayResponse == "Ihr Account wurde erstellt.") window.open("../html/login.html", "_self");
-            else
-                serverResponseDiv.innerHTML = displayResponse;
+            else serverResponseDiv.innerHTML = displayResponse;
         }
     }
 }

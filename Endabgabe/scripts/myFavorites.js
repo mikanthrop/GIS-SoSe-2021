@@ -109,7 +109,6 @@ var Endabgabe;
         console.log(url);
         let showResponse = await fetch(url);
         let serverReply = await showResponse.json();
-        console.log(serverReply);
         if (serverReply.favs != undefined) {
             let favRecipes = serverReply.favs;
             for (let i = 0; i < favRecipes.length; i++) {
@@ -139,7 +138,6 @@ var Endabgabe;
         console.log("DeleteButton wurde gedrückt.");
         let target = _event.currentTarget;
         let id = target.dataset._id;
-        console.log("Titel des Rezepts, welches gelöscht werden soll: " + target.dataset.title);
         url += "/deletemyFav?" + "user=" + localStorage.getItem("user") + "&_id=" + id;
         console.log(url);
         let deleteResponse = await fetch(url);

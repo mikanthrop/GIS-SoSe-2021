@@ -97,23 +97,14 @@ var Endabgabe;
     function getRecipeOutOfForm() {
         let input = document.getElementById("ingredient0");
         let ingredientList = [input.value];
-        console.log("------------allererste Zutatenliste: " + ingredientList + "-------------");
         //appends every ingredient to ingredientList
         for (let i = 1; i < ingredientsDiv.childElementCount; i++) {
-            console.log("----------i'm in------------");
-            console.log("child Elements " + ingredientsDiv.childElementCount);
             ingredientInput = document.getElementById("ingredient" + i);
-            console.log("value " + ingredientInput.value);
-            console.log(!ingredientInput.value);
             if (!ingredientInput.value == false) {
                 ingredientList.push(ingredientInput.value);
             }
-            else
-                console.log("--------------i'm out--------------");
-            console.log("Zutatenliste " + ingredientList);
         }
         let recipe = { _id: "", ingredients: ingredientList, author: localStorage.getItem("user"), title: recipeTitle.value, preparation: recipePreparation.value };
-        console.log("recipe ", recipe);
         return recipe;
     }
     function createButtonDiv(_serverReply, _parent) {
@@ -212,13 +203,9 @@ var Endabgabe;
         console.log(url);
         let response = await fetch(url);
         let thisRecipe = await response.json();
-        console.log(thisRecipe);
         // writing values of the recipe in question into recipeForm
         recipeTitle.value = thisRecipe.title;
-        console.log("title: " + thisRecipe.title);
-        console.log("ingredients: " + thisRecipe.ingredients);
         recipePreparation.value = thisRecipe.preparation;
-        console.log("preparation: " + thisRecipe.preparation);
         let firstChar = 0;
         let lastChar;
         let inputId = 0;
@@ -227,16 +214,10 @@ var Endabgabe;
             let character = thisRecipe.ingredients[i];
             if (i == thisRecipe.ingredients.length || character.includes(",")) {
                 lastChar = i;
-                console.log("Stelle nach der letzten Stelle der Zutat: " + lastChar);
                 // slicing the ingredient out of the ingredient string
                 let inputValue = thisRecipe.ingredients.slice(firstChar, lastChar);
-                console.log("tatsächliche Zutat: " + inputValue.toString());
-                console.log("id des nächsten inputs: " + inputId);
-                // looking for input whom to fill with inputValue
                 let input = document.getElementById("ingredient" + inputId);
-                // if input does not exist
                 if (!input) {
-                    //create the input Element
                     let newInput = createIngredientInput(inputId);
                     newInput.value = inputValue.toString();
                 }
@@ -245,13 +226,11 @@ var Endabgabe;
                 }
                 inputId += 1;
                 firstChar = i + 1;
-                console.log("erste Stelle der nächsten Zutat: " + firstChar);
             }
         }
         //changing submit button to resubmit button and adding the eventlistener onto it
         submitButton.classList.add("ishidden");
         let checkResub = document.getElementById("resubmitButton");
-        console.log("resubmit: ", !checkResub);
         if (!checkResub == true) {
             resubmitButton = document.createElement("button");
             resubmitButton.setAttribute("type", "button");
@@ -261,8 +240,6 @@ var Endabgabe;
             resubmitButton.addEventListener("click", handleClickResubmitRecipe);
             resubmitButton.dataset._id = id;
         }
-        let _id = thisRecipe._id;
-        console.log("id " + _id);
     }
     async function handleClickResubmitRecipe(_event) {
         getURL();
@@ -270,10 +247,9 @@ var Endabgabe;
         let id = target.dataset._id;
         let recipe = getRecipeOutOfForm();
         recipe._id = id;
-        console.log(recipe._id);
         console.log("Resubmit Recipe wurde gedrückt.");
         url += "/resubmitMyRecipe?" + "_id=" + recipe._id + "&title=" + recipe.title + "&author=" + recipe.author + "&ingredients=" + recipe.ingredients + "&preparation=" + recipe.preparation;
-        console.log("z190: " + url);
+        console.log(url);
         let response = await fetch(url);
         let resubmitReply = await response.text();
         serverResponseDiv.innerText = resubmitReply;
@@ -287,7 +263,6 @@ var Endabgabe;
         scriptResponseDiv.innerHTML = "";
         console.log("Submit Recipe wurde gedrückt.");
         getURL();
-        console.log(ingredientsDiv.childElementCount);
         if (!recipeTitle.value)
             scriptResponseDiv.innerHTML = "Bitte geben Sie einen Titel ein.";
         else if (!ingredientInput.value)
@@ -310,7 +285,6 @@ var Endabgabe;
     }
     function cleanUpInputs() {
         let size = ingredientsDiv.children.length;
-        console.log("Anzahl der Inputs: " + size);
         for (let i = size - 1; i >= 1; i--) {
             let inputId = "ingredient" + i;
             document.getElementById(inputId).remove();

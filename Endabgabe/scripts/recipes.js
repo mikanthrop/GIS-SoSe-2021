@@ -66,12 +66,10 @@ var Endabgabe;
         let showAllResponse = await fetch(url);
         let showAllReply = await showAllResponse.json();
         let user = localStorage.getItem("user");
-        console.log("user: " + user);
         let favRecipes;
         if (user != null) {
             favRecipes = await getFavRecipes(user);
         }
-        console.log(favRecipes);
         for (let i = 0; i < showAllReply.length; i++) {
             let outlinePost = document.createElement("div");
             outlinePost.classList.add("recipe-post");

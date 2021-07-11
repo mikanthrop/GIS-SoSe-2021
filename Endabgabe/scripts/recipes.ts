@@ -75,18 +75,17 @@ export namespace Endabgabe {
         getURL();
 
         url += "/showAll?";
-
         console.log(url);
+        
         let showAllResponse: Response = await fetch(url);
         let showAllReply: Interface.Recipe[] = await showAllResponse.json();
         let user: string = localStorage.getItem("user");
-        console.log("user: " + user);
 
         let favRecipes: Interface.FavsResponse;
+
         if (user != null) {
             favRecipes = await getFavRecipes(user);
         }
-        console.log(favRecipes);
 
         for (let i: number = 0; i < showAllReply.length; i++) {
 

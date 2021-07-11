@@ -113,23 +113,16 @@ export namespace Endabgabe {
         let input: HTMLInputElement = <HTMLInputElement>document.getElementById("ingredient0");
         let ingredientList: string[] = [input.value];
 
-        console.log("------------allererste Zutatenliste: " + ingredientList + "-------------");
-
         //appends every ingredient to ingredientList
         for (let i: number = 1; i < ingredientsDiv.childElementCount; i++) {
-            console.log("----------i'm in------------");
-            console.log("child Elements " + ingredientsDiv.childElementCount);
+
             ingredientInput = <HTMLInputElement>document.getElementById("ingredient" + i);
-            console.log("value " + ingredientInput.value);
-            console.log(!ingredientInput.value);
             if (!ingredientInput.value == false) {
                 ingredientList.push(ingredientInput.value);
-            } else console.log("--------------i'm out--------------");
-
-            console.log("Zutatenliste " + ingredientList);
+            } 
         }
+
         let recipe: Interface.Recipe = { _id: "", ingredients: ingredientList, author: localStorage.getItem("user"), title: recipeTitle.value, preparation: recipePreparation.value };
-        console.log("recipe ", recipe);
         return recipe;
     }
 
@@ -252,16 +245,9 @@ export namespace Endabgabe {
         let response: Response = await fetch(url);
         let thisRecipe: Interface.Recipe = await response.json();
 
-        console.log(thisRecipe);
-
         // writing values of the recipe in question into recipeForm
         recipeTitle.value = thisRecipe.title;
-        console.log("title: " + thisRecipe.title);
-
-        console.log("ingredients: " + thisRecipe.ingredients);
-
         recipePreparation.value = thisRecipe.preparation;
-        console.log("preparation: " + thisRecipe.preparation);
 
         let firstChar: number = 0;
         let lastChar: number;
@@ -269,38 +255,34 @@ export namespace Endabgabe {
 
         //ingredients come back as a string, so you have to splice it
         for (let i: number = 0; i <= thisRecipe.ingredients.length; i++) {
+          
             let character: string = thisRecipe.ingredients[i];
+            
             if (i == thisRecipe.ingredients.length || character.includes(",")) {
+                
                 lastChar = i;
-                console.log("Stelle nach der letzten Stelle der Zutat: " + lastChar);
                 // slicing the ingredient out of the ingredient string
                 let inputValue: string | string[] = thisRecipe.ingredients.slice(firstChar, lastChar);
-                console.log("tatsächliche Zutat: " + inputValue.toString());
-
-                console.log("id des nächsten inputs: " + inputId);
-
-                // looking for input whom to fill with inputValue
                 let input: HTMLInputElement = <HTMLInputElement>document.getElementById("ingredient" + inputId);
-                // if input does not exist
+               
                 if (!input) {
-                    //create the input Element
                     let newInput: HTMLInputElement = createIngredientInput(inputId);
                     newInput.value = inputValue.toString();
                 } else {
                     input.value = inputValue.toString();
                 }
+
                 inputId += 1;
                 firstChar = i + 1;
-                console.log("erste Stelle der nächsten Zutat: " + firstChar);
             }
         }
         //changing submit button to resubmit button and adding the eventlistener onto it
         submitButton.classList.add("ishidden");
 
         let checkResub: HTMLButtonElement = <HTMLButtonElement>document.getElementById("resubmitButton");
-        console.log("resubmit: ", !checkResub);
 
         if (!checkResub == true) {
+
             resubmitButton = document.createElement("button");
             resubmitButton.setAttribute("type", "button");
             resubmitButton.setAttribute("id", "resubmitButton");
@@ -310,8 +292,6 @@ export namespace Endabgabe {
             resubmitButton.addEventListener("click", handleClickResubmitRecipe);
             resubmitButton.dataset._id = id;
         }
-        let _id: string = thisRecipe._id;
-        console.log("id " + _id);
     }
 
     async function handleClickResubmitRecipe(_event: Event): Promise<void> {
@@ -322,12 +302,10 @@ export namespace Endabgabe {
 
         let recipe: Interface.Recipe = getRecipeOutOfForm();
         recipe._id = id;
-        console.log(recipe._id);
-
 
         console.log("Resubmit Recipe wurde gedrückt.");
         url += "/resubmitMyRecipe?" + "_id=" + recipe._id + "&title=" + recipe.title + "&author=" + recipe.author + "&ingredients=" + recipe.ingredients + "&preparation=" + recipe.preparation;
-        console.log("z190: " + url);
+        console.log(url);
 
         let response: Response = await fetch(url);
         let resubmitReply: string = await response.text();
@@ -345,12 +323,11 @@ export namespace Endabgabe {
         console.log("Submit Recipe wurde gedrückt.");
         getURL();
 
-        console.log(ingredientsDiv.childElementCount);
-
         if (!recipeTitle.value) scriptResponseDiv.innerHTML = "Bitte geben Sie einen Titel ein.";
         else if (!ingredientInput.value) scriptResponseDiv.innerHTML = "Bitte geben Sie eine Zutat ein.";
         else if (!recipePreparation.value) scriptResponseDiv.innerHTML = "Bitte geben Sie an, wie das Gericht zubereitet wird.";
         else {
+
             let recipe: Interface.Recipe = getRecipeOutOfForm();
 
             // gotta make the query by myself
@@ -369,8 +346,9 @@ export namespace Endabgabe {
 
     function cleanUpInputs(): void {
         let size: number = ingredientsDiv.children.length;
-        console.log("Anzahl der Inputs: " + size);
+
         for (let i: number = size - 1; i >= 1; i--) {
+
             let inputId: string = "ingredient" + i;
             document.getElementById(inputId).remove();
         }
